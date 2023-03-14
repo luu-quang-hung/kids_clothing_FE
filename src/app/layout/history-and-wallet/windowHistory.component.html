@@ -1,0 +1,98 @@
+<style>
+    ::ng-deep kendo-window {
+        padding: 0px;
+    }
+</style>
+<form [formGroup]="formGroup">
+    <kendo-tabstrip>
+        <kendo-tabstrip-tab title="Thông tin đơn hàng" [selected]="true">
+            <ng-template kendoTabContent>
+                <kendo-toolbar *ngIf="showToolBar">
+                    <kendo-toolbar-button text="Hủy đơn" (click)="cancel()" *ngIf="isCancel"></kendo-toolbar-button>
+                    <kendo-toolbar-button text="Hoàn hàng" (click)="refund()" *ngIf="isRefund"></kendo-toolbar-button>
+                </kendo-toolbar>
+                <div class="row">
+                    <div class="col-md-2" style="margin: 10px 0px;">
+                        <label>Mã sản phẩm</label>
+                        <input kendoTextBox readonly style="width: 100%;" formControlName="id"
+                            [(ngModel)]="formGroup.value.id" />
+                    </div>
+                    <div class="col-md-2" style="margin: 10px 0px;">
+                        <label>Phương thức thanh toán</label>
+                        <div style="text-align: center;">
+                            {{ formGroup.value.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="margin: 10px 0px;">
+                        <label>Tên Người nhận</label>
+                        <input kendoTextBox readonly formControlName="fullname" style="width: 100%;"
+                            [(ngModel)]="formGroup.value.fullname" />
+                    </div>
+                    <div class="col-md-4" style="margin: 10px 0px;">
+                        <label>SDT</label>
+                        <input kendoTextBox readonly formControlName="sdt" style="width: 100%;"
+                            [(ngModel)]="formGroup.value.sdt" />
+                    </div>
+                    <div class="col-md-4" style="margin: 10px 0px;">
+                        <label>Trạng thái</label>
+                        <input kendoTextBox readonly formControlName="status" style="width: 100%;"
+                            [(ngModel)]="formGroup.value.status" />
+                    </div>
+                    <div class="col-md-4" style="margin: 10px 0px;">
+                        <label>Tổng tiền (VND)</label> 
+                        <input kendoTextBox readonly formControlName="total" style="width: 100%;"
+                            [(ngModel)]="formGroup.value.total" /> 
+                    </div>
+                    <div class="col-md-4" style="margin: 10px 0px;">
+                        <label>Thanh toán (VND)</label>
+                        <input kendoTextBox readonly formControlName="downtotal" style="width: 100%;"
+                            [(ngModel)]="formGroup.value.downtotal" />
+                    </div>
+                    <div class="col-md-4" style="margin: 10px 0px;">
+                        <label>Giá ship (VND)</label>
+                        <input kendoTextBox readonly formControlName="transportFee" style="width: 100%;"
+                            [(ngModel)]="formGroup.value.transportFee" />
+                    </div>
+                    <div class="col-md-8" style="margin: 10px 0px;">
+                        <label>Địa chỉ</label>
+                        <input kendoTextBox readonly formControlName="address" style="width: 100%;"
+                            [(ngModel)]="formGroup.value.address" />
+                    </div>
+                    <div class="col-md-12" style="padding: 0px;" style="margin: 10px 0px;">
+                        <kendo-grid #grid [kendoGridBinding]="listOrderDetail" style="height: 400px; width: 1100;"
+                            [pageSize]="20" [sortable]="true" [pageable]="true" [navigable]="true">
+                            <kendo-grid-column field="quantity.id" title="Id" [width]="100"></kendo-grid-column>
+                            <kendo-grid-column field="quantitydetail" title="Số lượng" [width]="120">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="quantity.product.name" title="Tên sản phẩm" [width]="250">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="quantity.property.name" title="Thuộc tính" [width]="150">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="quantity.size.name" title="Size" [width]="150">
+                            </kendo-grid-column>
+                            <kendo-grid-column field="price" title="Thành tiền" [width]="150"></kendo-grid-column>
+                            <kendo-grid-column field="downprice" title="Khuyến mại" [width]="150"></kendo-grid-column>
+                        </kendo-grid>
+                    </div>
+                </div>
+            </ng-template>
+        </kendo-tabstrip-tab>
+        <kendo-tabstrip-tab title="Trạng thái vận chuyển">
+            <ng-template kendoTabContent style="padding: 0px;">
+                <kendo-listview [data]="listStatus" containerClass="k-d-flex k-flex-col k-flex-nowrap"
+                    style="border: none;">
+                    <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-index="index">
+                        <div style="margin: 10px;border: 3px solid greenyellow;padding: 10px 15px;border-radius: 5px;
+                        box-shadow: 2px #ddd;">
+                            <p><strong>Thông tin: </strong>{{dataItem.content}}</p>
+                            <p><strong>Ngày/giờ:</strong>
+                                <kendo-datetimepicker [value]="getDate(dataItem.date)" [disabled]="true"
+                                    style="margin: 0px 10px;"> </kendo-datetimepicker>
+                            </p>
+                        </div>
+                    </ng-template>
+                </kendo-listview>
+            </ng-template>
+        </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+</form>

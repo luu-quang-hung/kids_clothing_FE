@@ -1,0 +1,169 @@
+::ng-deep .k-item.k-menu-item.ng-star-inserted{
+    color: rgb(49, 48, 48);
+    font-size: 15px;
+}
+::ng-deep .k-icon.k-menu-expand-arrow.k-i-arrow-60-down{
+    display: none;
+}
+::ng-deep .k-link.k-menu-link{
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+}
+::ng-deep .k-menu:not(.k-context-menu) > .k-item {
+    color: rgba(0, 0, 0, 0.87);
+}
+::ng-deep .k-menu:not(.k-context-menu) > .k-item > .k-state-active{
+    border-bottom: 1px solid;
+}
+::ng-deep .k-menu-group .k-item, .k-menu-group .k-item.k-state-hover,
+.k-menu.k-context-menu .k-item,
+.k-menu.k-context-menu .k-item.k-state-hover {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: rgba(0, 0, 0, 0.04);
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+::ng-deep .k-menu-group .k-item :hover, .k-menu-group .k-item.k-state-hover,
+.k-menu.k-context-menu .k-item :hover,
+.k-menu.k-context-menu .k-item.k-state-hover {
+    color: #ff787f;
+}
+/* css tìm kiếm */
+  .form-control {
+    background: no-repeat center bottom, center calc(100% - 1px);
+    background-size: 0 100%, 100% 100%;
+    border: 0;
+    height: 36px;
+    transition: background 0s ease-out;
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 0;
+    font-size: 14px;
+  }
+  
+  .form-control:focus,
+  .bmd-form-group.is-focused .form-control {
+    background-size: 100% 100%, 100% 100%;
+    transition-duration: 0.3s;
+    box-shadow: none;
+  }
+  
+  
+  .form-control:-ms-input-placeholder {
+    color: #AAAAAA;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  .form-control::-webkit-input-placeholder {
+    color: #AAAAAA;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  [class^='bmd-label'],
+  [class*=' bmd-label'] {
+    color: #999999;
+  }
+  
+  .form-control,
+  .is-focused .form-control {
+    background-image: linear-gradient(to top, #9c27b0 2px, rgba(156, 39, 176, 0) 2px), linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
+  }
+  #dat{
+    outline: none !important;
+  box-shadow: none !important;
+  }
+  /* Đăng nhập */
+  @import url("https://fonts.googleapis.com/css?family=Raleway");
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: Raleway;
+  background-color: #ecf0f1;
+}
+
+.copyright {
+  position: absolute;
+  bottom: 0;
+}
+.copyright a {
+  text-decoration: none;
+  color: #16a085;
+}
+.copyright a:hover {
+  text-decoration: underline;
+}
+.button {
+  width: 120px;
+  height: 40px;
+  position: relative;
+  padding: 0.5em 1.5em;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  font-size: 15px;
+  margin-left: -10px;
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+.button.type1 {
+  color: #566473;
+}
+.button.type1.type1::after, .button.type1.type1::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  border: 2px solid;
+  transition: all 0.6s ease;
+  border-radius: 2px;
+}
+.button.type1.type1::after {
+  bottom: 0;
+  right: 0;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: #566473;
+  border-right-color: #566473;
+}
+.button.type1.type1::before {
+  top: 0;
+  left: 0;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  border-top-color: #566473;
+  border-left-color: #566473;
+}
+.button.type1.type1:hover:after, .button.type1.type1:hover:before {
+  width: 100%;
+  height: 100%;
+}
+::ng-deep .k-link, .k-link:hover {
+  background-color: #ffffff;
+}
+::ng-deep .k-link.k-menu-link {
+  background-color: #ffffff;
+}
+::ng-deep .k-link.k-menu-link {
+  background-color: #ffffff;
+}
+.k-link,.k-link[_ngcontent-yfy-c542]:hover {
+  background-color: #ffffff;
+}
+
+.btn:hover {
+  background-color: #ffffff;
+}

@@ -1,0 +1,30 @@
+<form [formGroup]="formGroup">
+    <div class="row" style="border-bottom: 1px solid #ddd;margin: 15px 0px;">
+        <label class="col-md-5">Họ tên khách hàng:</label>
+        <label class="col-md-7">{{getCustomer.fullname}}</label>
+    </div>
+    <div class="row" style="border-bottom: 1px solid #ddd;margin: 15px 0px;">
+        <label class="col-md-5">Email:</label>
+        <label class="col-md-7">{{getCustomer.account.email}}</label>
+    </div>
+    <div class="row" style="border-bottom: 1px solid #ddd;margin: 15px 0px;">
+        <label class="col-md-5">SDT:</label>
+        <label class="col-md-7">{{getCustomer.account.phone}}</label>
+    </div>
+    <div class="row" style="border-bottom: 1px solid #ddd;margin: 15px 0px;">
+        <label class="col-md-5">Ngân hàng:</label>
+        <div class="col-md-7">
+            <kendo-dropdownlist [defaultItem]="defaultItem" [data]="Dm_Bank" textField="name" valueField="id"
+                formControlName="bankcode" style="width: 100%;">
+            </kendo-dropdownlist>
+        </div>
+    </div>
+    <div class="row" style="border-bottom: 1px solid #ddd;margin: 15px 0px;">
+        <label class="col-md-5">Số tiền nạp:</label>
+        <div class="col-md-7">
+            <kendo-numerictextbox formControlName="amount" [min]="0" [max]="100" format="n0" style="width: 100%;">
+            </kendo-numerictextbox>
+        </div>
+    </div>
+    <button kendoButton (click)="recharge()" style="width: 100%;">Thanh toán</button>
+</form>

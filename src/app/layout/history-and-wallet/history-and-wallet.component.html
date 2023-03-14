@@ -1,0 +1,330 @@
+<style>
+    i {
+        padding: 0px 15px;
+    }
+
+    h4 {
+        margin: 0px;
+    }
+    ::ng-deep .k-content.k-window-content.k-dialog-content{
+        width: 100%;
+    }
+</style>
+<app-header></app-header>
+<div kendoWindowContainer></div>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-3 col-lg-3 col-md-5 ">
+            <form [formGroup]="screen" style="list-style: none;">
+                <li style="padding: 10px 0px;">
+                    <input type="radio" id="isInfoAccount" kendoRadioButton value="isInfoAccount"
+                        formControlName="active" (change)="onChangeScreen($event)" />
+                    <label class="k-radio-label" for="isInfoAccount">Thông tin tài
+                        khoản</label>
+                </li>
+                <li style="padding: 10px 0px;">
+                    <input type="radio" id="isMyWallet" kendoRadioButton value="isMyWallet" formControlName="active"
+                        (change)="onChangeScreen($event)" />
+                    <label class="k-radio-label" for="isMyWallet">
+                        Ví của tôi
+                    </label>
+                </li>
+                <li style="padding: 10px 0px;">
+                    <input type="radio" id="isHistory" kendoRadioButton value="isHistory" formControlName="active"
+                        (change)="onChangeScreen($event)" />
+                    <label class="k-radio-label" for="isHistory">Lịch sử mua và trạng thái đơn hàng</label>
+                </li>
+            </form>
+        </div>
+        <div class="col-xl-9 col-lg-9 col-md-7">
+            <div *ngIf="isInfoAccount">
+                <h3 style="padding: 10px 0px; border-bottom: 2px solid #ddd;margin-bottom: 15px;">Thông tin tài khoản
+                </h3>
+                <form [formGroup]="formAccount">
+                    <div class="row" style="margin: 10px 0px;">
+                        <label class="col-lg-2 col-md-5 col-sm-4 col-4" style="margin: 10px 0px;">Tên Khách
+                            hàng:</label>
+                        <div class="col-lg-5 col-md-7 col-sm-8 col-8">
+                            <kendo-textbox formControlName="fullname" type="text" style="width: 100%;"
+                                ([ngModel])="formAccount.value.fullname"></kendo-textbox>
+                        </div>
+                        <div class="col-lg-5 col-md-12 col-sm-12 col-12"
+                            *ngIf="formAccount.controls['fullname']!.invalid && (formAccount.controls['fullname']!.dirty || formAccount.controls['fullname']!.touched)">
+                            <small class="text-danger" *ngIf="formAccount.get('fullname')!.hasError('required')">
+                                Không được để trống Họ tên
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 10px 0px;">
+                        <label class="col-lg-2 col-md-5 col-sm-4 col-4" style="margin: 10px 0px;">Email: </label>
+                        <div class="col-lg-5 col-md-7 col-sm-8 col-8">
+                            <kendo-textbox formControlName="email" type="text" style="width: 100%;"
+                                ([ngModel])="formAccount.value.email">
+                            </kendo-textbox>
+                        </div>
+                        <div class="col-lg-5 col-md-12 col-sm-12 col-12"
+                            *ngIf="formAccount.controls['email']!.invalid && (formAccount.controls['email']!.dirty || formAccount.controls['email']!.touched)">
+                            <small class="text-danger" *ngIf="formAccount.get('fullname')!.hasError('required')">
+                                Không được để trống email
+                            </small>
+                            <small class="text-danger" *ngIf="formAccount.get('fullname')!.hasError('email')">
+                                Sai định dạng email
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 10px 0px;">
+                        <label class="col-lg-2 col-md-5 col-sm-4 col-4" style="margin: 10px 0px;">Username: </label>
+                        <div class="col-lg-5 col-md-7 col-sm-8 col-8">
+                            <kendo-textbox formControlName="username" type="text" style="width: 100%;"
+                                ([ngModel])="formAccount.value.username">
+                            </kendo-textbox>
+                        </div>
+                        <div class="col-lg-5 col-md-12 col-sm-12 col-12"
+                            *ngIf="formAccount.controls['username']!.invalid && (formAccount.controls['username']!.dirty || formAccount.controls['username']!.touched)">
+                            <small class="text-danger" *ngIf="formAccount.get('username')!.hasError('required')">
+                                Không được để trống Username
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 10px 0px;">
+                        <label class="col-lg-2 col-md-5 col-sm-4 col-4" style="margin: 10px 0px;">SDT: </label>
+                        <div class="col-lg-5 col-md-7 col-sm-8 col-8">
+                            <kendo-textbox formControlName="sdt" type="text" style="width: 100%;"
+                                ([ngModel])="formAccount.value.sdt"></kendo-textbox>
+                        </div>
+                        <div class="col-lg-5 col-md-12 col-sm-12 col-12"
+                            *ngIf="formAccount.controls['sdt']!.invalid && (formAccount.controls['sdt']!.dirty || formAccount.controls['sdt']!.touched)">
+                            <small class="text-danger" *ngIf="formAccount.get('sdt')!.hasError('required')">
+                                Không được để trống SDT
+                            </small>
+                            <small class="text-danger" *ngIf="formAccount.get('sdt')!.hasError('minlength')">
+                                Độ dài phải là 10
+                            </small>
+                            <small class="text-danger" *ngIf="formAccount.get('sdt')!.hasError('pattern')">
+                                Chỉ được nhập từ 0-9
+                            </small>
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 10px 0px;">
+                        <label class="col-lg-2 col-md-5 col-sm-4 col-4" style="margin: 10px 0px;">Địa chỉ: </label>
+                        <div class="col-lg-5 col-md-7 col-sm-8 col-8">
+                            <kendo-textbox formControlName="address" type="text" style="width: 100%;"
+                                ([ngModel])="formAccount.value.address"></kendo-textbox>
+                        </div>
+                        <div class="col-lg-5 col-md-12 col-sm-12 col-12"
+                            *ngIf="formAccount.controls['address']!.invalid && (formAccount.controls['address']!.dirty || formAccount.controls['address']!.touched)">
+                            <small class="text-danger" *ngIf="formAccount.get('address')!.hasError('required')">
+                                Không được để trống địa chỉ
+                            </small>
+                        </div>
+                    </div>
+                    <button kendoButton icon="save" (click)="changeInfoAccount()">Cập nhật thông tin</button>
+                </form>
+            </div>
+            <div *ngIf="isMyWallet">
+                <kendo-tabstrip>
+                    <kendo-tabstrip-tab title="Thông tin ví" [selected]="true">
+                        <ng-template kendoTabContent style="padding: 0px;">
+                            <div class="row" style="border-bottom: 1px solid #ddd;margin: 15px 0px;">
+                                <label class="col-md-5">Họ tên khách hàng:</label>
+                                <label class="col-md-7">{{getCustomer.fullname}}</label>
+                            </div>
+                            <div class="row" style="border-bottom: 1px solid #ddd;margin: 15px 0px;">
+                                <label class="col-md-5">Email:</label>
+                                <label class="col-md-7">{{getCustomer.account.email}}</label>
+                            </div>
+                            <div class="row" style="border-bottom: 1px solid #ddd;margin: 15px 0px;">
+                                <label class="col-md-5">SDT:</label>
+                                <label class="col-md-7">{{getCustomer.account.phone}}</label>
+                            </div>
+                            <div class="row" style="text-align: center;margin: 15px 0px;" *ngIf="!isWallet">
+                                <label>Hiện tại bạn không có ví, vì vậy bạn muốn tạo ví để được nhận ưu đãi khác
+                                    không</label>
+                                <button kendoButton (click)="createWallet()">Tạo ví</button>
+                            </div>
+                            <div class="row" style="border-bottom: 1px solid #ddd;margin: 15px 0px;" *ngIf="isWallet">
+                                <label class="col-md-5">Số dư trong tài khoản:</label>
+                                <label class="col-md-7">{{myWallet.surplus|number :'1.0-3'}} VND</label>
+                            </div>
+                            <div class="row" *ngIf="isWallet">
+                                <div class="col-md-12">
+                                    <button kendoButton (click)="recharge()" style="width: 100%;">Nạp tiền</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </kendo-tabstrip-tab>
+                    <kendo-tabstrip-tab title="Lịch sử giao dịch">
+                        <ng-template kendoTabContent style="padding: 0px;">
+                            <kendo-listview [data]="History.dataSource" [height]="450"
+                                containerClass="k-d-flex k-flex-col k-flex-nowrap" style="border: none;">
+                                <ng-template kendoListViewItemTemplate let-dataItem="dataItem" let-index="index">
+                                    <div style="margin: 10px;border: 3px solid greenyellow;padding: 10px 15px;border-radius: 5px;
+                                box-shadow: 2px #ddd;" class="row" *ngIf="dataItem.content == 'Nap tien vao vi' || dataItem.content == 'Hoàn tiền hóa đơn'">
+                                        <div class="col-md-6">
+                                            <p><strong>Số tiền: </strong> +{{dataItem.amounts|number :'1.0-3'}}</p>
+                                            <p><strong>Thời gian giao dịch:</strong>
+                                                <kendo-datetimepicker [value]="getDate(dataItem.time)" [disabled]="true"
+                                                    style="margin: 0px 10px;"> </kendo-datetimepicker>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Ghi chú: </strong>{{dataItem.description}}</p>
+                                            <p><strong>Trạng thái: </strong>{{dataItem.content}}</p>
+                                        </div>
+                                    </div>
+                                    <div style="margin: 10px;border: 3px solid yellow;padding: 10px 15px;border-radius: 5px;
+                                    box-shadow: 2px #ddd;" class="row"
+                                        *ngIf="dataItem.content == 'Thanh toán hóa đơn'">
+                                        <div class="col-md-6">
+                                            <p><strong>Số tiền: </strong> -{{dataItem.amounts|number :'1.0-3'}}</p>
+                                            <p><strong>Thời gian giao dịch:</strong>
+                                                <kendo-datetimepicker [value]="getDate(dataItem.time)" [disabled]="true"
+                                                    style="margin: 0px 10px;"> </kendo-datetimepicker>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Ghi chú: </strong>{{dataItem.description}}</p>
+                                            <p><strong>Trạng thái: </strong>{{dataItem.content}}</p>
+                                        </div>
+                                    </div>
+                                    <!-- <div style="margin: 10px;border: 3px solid red;padding: 10px 15px;border-radius: 5px;
+                                        box-shadow: 2px #ddd;" class="row"
+                                        *ngIf="dataItem.content == 'Hoàn tiền hóa đơn'">
+                                        <div class="col-md-6">
+                                            <p><strong>Số tiền: </strong> +{{dataItem.amounts|number :'1.0-3'}}</p>
+                                            <p><strong>Thời gian giao dịch:</strong>
+                                                <kendo-datetimepicker [value]="getDate(dataItem.time)" [disabled]="true"
+                                                    style="margin: 0px 10px;"> </kendo-datetimepicker>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Ghi chú: </strong>{{dataItem.description}}</p>
+                                            <p><strong>Trạng thái: </strong>{{dataItem.content}}</p>
+                                        </div>
+                                    </div> -->
+                                </ng-template>
+                            </kendo-listview>
+                        </ng-template>
+                    </kendo-tabstrip-tab>
+                </kendo-tabstrip>
+            </div>
+            <div *ngIf="isHistory">
+                <kendo-tabstrip>
+                    <kendo-tabstrip-tab title=" Đơn hàng mua thành công" [selected]="true">
+                        <ng-template kendoTabContent style="padding: 0px;">
+                            <kendo-grid #grid [kendoGridBinding]="listBillBought" style="height: 450px;" [pageSize]="20"
+                                [sortable]="true" [pageable]="true" [sortable]="true" [navigable]="true"
+                                [resizable]="true" filterable="menu" (edit)="editHandler($event)">
+                                <kendo-grid-command-column title="command" [width]="120" [locked]="true">
+                                    <ng-template kendoGridCellTemplate let-isNew="isNew">
+                                        <button kendoGridEditCommand [primary]="true">Chi tiết</button>
+                                    </ng-template>
+                                </kendo-grid-command-column>
+                                <kendo-grid-column field="payment" title="Phương thức" [width]="220">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="createAt" title="Ngày tạo đơn" [width]="250">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <kendo-datetimepicker [value]="getDate(dataItem.createAt)" [disabled]="true"
+                                            style="margin: 0px 10px;"> </kendo-datetimepicker>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="sdt" title="SĐT" [width]="150"></kendo-grid-column>
+                                <kendo-grid-column field="address" title="Địa chỉ" [width]="300">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="total" title="Tổng tiền" [width]="150"></kendo-grid-column>
+                                <kendo-grid-column field="downtotal" title="Thanh toán" [width]="150">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="transportFee" title="Giá ship" [width]="150">
+                                </kendo-grid-column>
+                            </kendo-grid>
+                        </ng-template>
+                    </kendo-tabstrip-tab>
+                    <kendo-tabstrip-tab title="Đơn hàng đang xử lý">
+                        <ng-template kendoTabContent style="padding: 0px;">
+                            <kendo-grid #grid [kendoGridBinding]="listBillBuying" style="height: 450px;" [pageSize]="20"
+                                [sortable]="true" [pageable]="true" [sortable]="true" [navigable]="true"
+                                [resizable]="true" filterable="menu" (edit)="editHandler($event)">
+                                <kendo-grid-command-column title="command" [width]="120" [locked]="true">
+                                    <ng-template kendoGridCellTemplate let-isNew="isNew">
+                                        <button kendoGridEditCommand [primary]="true">Chi tiết</button>
+                                    </ng-template>
+                                </kendo-grid-command-column>
+                                <kendo-grid-column field="payment" title="Phương thức" [width]="220">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="createAt" title="Ngày tạo đơn" [width]="250">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <kendo-datetimepicker [value]="getDate(dataItem.createAt)" [disabled]="true"
+                                            style="margin: 0px 10px;"> </kendo-datetimepicker>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="sdt" title="SĐT" [width]="150"></kendo-grid-column>
+                                <kendo-grid-column field="address" title="Địa chỉ" [width]="300">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="total" title="Tổng tiền" [width]="150"></kendo-grid-column>
+                                <kendo-grid-column field="downtotal" title="Thanh toán" [width]="150">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="transportFee" title="Giá ship" [width]="150">
+                                </kendo-grid-column>
+                            </kendo-grid>
+                        </ng-template>
+                    </kendo-tabstrip-tab>
+                    <kendo-tabstrip-tab title="Đơn hàng đã hoàn hàng và hủy">
+                        <ng-template kendoTabContent style="padding: 0px;">
+                            <kendo-grid #grid [kendoGridBinding]="listBillRefund" style="height: 450px;" [pageSize]="20"
+                                [sortable]="true" [pageable]="true" [sortable]="true" [navigable]="true"
+                                [resizable]="true" filterable="menu" (edit)="editHandler($event)">
+                                <kendo-grid-command-column title="command" [width]="120" [locked]="true">
+                                    <ng-template kendoGridCellTemplate let-isNew="isNew">
+                                        <button kendoGridEditCommand [primary]="true">Chi tiết</button>
+                                    </ng-template>
+                                </kendo-grid-command-column>
+                                <kendo-grid-column field="payment" title="Phương thức" [width]="220">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="createAt" title="Ngày tạo đơn" [width]="250">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                        <kendo-datetimepicker [value]="getDate(dataItem.createAt)" [disabled]="true"
+                                            style="margin: 0px 10px;"> </kendo-datetimepicker>
+                                    </ng-template>
+                                </kendo-grid-column>
+                                <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="sdt" title="SĐT" [width]="150"></kendo-grid-column>
+                                <kendo-grid-column field="address" title="Địa chỉ" [width]="300">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="total" title="Tổng tiền" [width]="150"></kendo-grid-column>
+                                <kendo-grid-column field="downtotal" title="Thanh toán" [width]="150">
+                                </kendo-grid-column>
+                                <kendo-grid-column field="transportFee" title="Giá ship" [width]="150">
+                                </kendo-grid-column>
+                            </kendo-grid>
+                        </ng-template>
+                    </kendo-tabstrip-tab>
+                </kendo-tabstrip>
+            </div>
+            <div *ngIf="api.loading" class="k-i-loading" style="z-index: 99999;"></div>
+        </div>
+    </div>
+    <kendo-dialog title="Please confirm" *ngIf="opened" (close)="close('no')" [minWidth]="250" [width]="450">
+        <p style="margin: 30px; text-align: center;">
+            Chú ý: Ví chỉ có thể thực hiện để mua hàng không thể rút . Xin cảm ơn quý khách đã tin tưởng mua hàng tại Mami Love
+        </p>
+        <kendo-dialog-actions>
+            <button kendoButton (click)="close('no')">No</button>
+            <button kendoButton (click)="close('yes')" [primary]="true">Yes</button>
+        </kendo-dialog-actions>
+    </kendo-dialog>
+</div>
+<app-footer></app-footer>

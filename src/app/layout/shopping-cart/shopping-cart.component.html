@@ -1,0 +1,336 @@
+<style>
+    kendo-textbox {
+        width: 100%;
+        margin-bottom: 25px;
+    }
+
+    table,
+    th,
+    td {
+        font-family: Arial, Helvetica, sans-serif;
+        border: 1px solid black;
+        font-size: 15px;
+        text-align: center;
+    }
+
+    i {
+        font-size: 25px;
+        color: #ddd;
+        padding-right: 5px;
+    }
+
+    #create_bill {
+        display: block;
+    }
+
+    #create_bill_responsive {
+        display: none;
+    }
+
+    #item_address {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0px;
+        cursor: pointer;
+    }
+
+    #item_address:hover {
+        color: darkorange;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        #create_bill {
+            display: none;
+
+        }
+
+        #create_bill_responsive {
+            display: block;
+        }
+    }
+    ::ng-deep .k-content.k-window-content.k-dialog-content{
+        width: 100%;
+    }
+</style>
+<app-header></app-header>
+<div class="container">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <kendo-stepper [steps]="steps" stepType="full" [(currentStep)]="current" [style.width.px]="570"
+            (activate)="activate($event)">
+        </kendo-stepper>
+    </div>
+    <div class="row">
+        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12" style="margin: 20px 0px;">
+            <div *ngIf="step_1">
+                <h3 style="color: #ef2b2b;font-weight: bold;text-align: center;font-size: 30px;padding: 10px 0px;">
+                    Địa chỉ giao hàng
+                </h3>
+                <form [formGroup]="InfomationCustomer" class="row">
+                    <div class="col-md-6">
+                        <div
+                            *ngIf="InfomationCustomer.controls['FullName']!.invalid && (InfomationCustomer.controls['FullName']!.dirty || InfomationCustomer.controls['FullName']!.touched)">
+                            <small class="text-danger" *ngIf="InfomationCustomer.get('FullName')!.hasError('required')">
+                                Không được để trống Họ tên
+                            </small>
+                        </div>
+                        <kendo-textbox formControlName="FullName" type="text" placeholder="Họ và tên"></kendo-textbox>
+                    </div>
+                    <div class="col-md-6">
+                        <div
+                            *ngIf="InfomationCustomer.controls['PhoneNumber']!.invalid && (InfomationCustomer.controls['PhoneNumber']!.dirty || InfomationCustomer.controls['PhoneNumber']!.touched)">
+                            <small class="text-danger"
+                                *ngIf="InfomationCustomer.get('PhoneNumber')!.hasError('required')">
+                                Không được để trống SDT
+                            </small>
+                            <small class="text-danger"
+                                *ngIf="InfomationCustomer.get('PhoneNumber')!.hasError('minlength')">
+                                Độ dài phải là 10
+                            </small>
+                            <small class="text-danger"
+                                *ngIf="InfomationCustomer.get('PhoneNumber')!.hasError('pattern')">
+                                Chỉ được nhập từ 0-9
+                            </small>
+                        </div>
+                        <kendo-textbox placeholder="Số điện thoại" formControlName="PhoneNumber"></kendo-textbox>
+                    </div>
+                    <div class="col-md-6" style="margin: 10px 0px;">
+                        <div
+                            *ngIf="InfomationCustomer.controls['Province']!.invalid && (InfomationCustomer.controls['Province']!.dirty || InfomationCustomer.controls['Province']!.touched)">
+                            <small class="text-danger" *ngIf="InfomationCustomer.get('Province')!.hasError('required')">
+                                Không được để trống Tỉnh
+                            </small>
+                        </div>
+                        <kendo-dropdownlist [data]="listProvince" textField="Name" valueField="Id"
+                            [defaultItem]="{ Name: 'Tỉnh Thành', Id: null }" (valueChange)="ProvinceChange($event)"
+                            formControlName="Province" [valuePrimitive]="true" style="width: 100%;">
+                        </kendo-dropdownlist>
+                    </div>
+                    <div class="col-md-6" style="margin: 10px 0px;">
+                        <div
+                            *ngIf="InfomationCustomer.controls['District']!.invalid && (InfomationCustomer.controls['District']!.dirty || InfomationCustomer.controls['District']!.touched)">
+                            <small class="text-danger" *ngIf="InfomationCustomer.get('District')!.hasError('required')">
+                                Không được để trống Thành phố
+                            </small>
+                        </div>
+                        <kendo-dropdownlist [data]="listDistrict" textField="Name" valueField="Id"
+                            [defaultItem]="{ Name: 'Quận/Huyện', Id: null }" (valueChange)="DistrictChange($event)"
+                            formControlName="District" [valuePrimitive]="true" style="width: 100%;">
+                        </kendo-dropdownlist>
+                    </div>
+                    <div class="col-md-6" style="margin: 10px 0px;">
+                        <div
+                            *ngIf="InfomationCustomer.controls['Wards']!.invalid && (InfomationCustomer.controls['Wards']!.dirty || InfomationCustomer.controls['Wards']!.touched)">
+                            <small class="text-danger" *ngIf="InfomationCustomer.get('Wards')!.hasError('required')">
+                                Không được để trống Phường/Xã
+                            </small>
+                        </div>
+                        <kendo-dropdownlist [data]="listWards" textField="Name" valueField="Id"
+                            [defaultItem]="{ Name: 'Phường/Xã', Id: null }" (valueChange)="WardsChange($event)"
+                            formControlName="Wards" [valuePrimitive]="true" style="width: 100%;">
+                        </kendo-dropdownlist>
+                    </div>
+                    <div class="col-md-6" style="margin: 10px 0px;">
+                        <div
+                            *ngIf="InfomationCustomer.controls['Hamlet']!.invalid && (InfomationCustomer.controls['Hamlet']!.dirty || InfomationCustomer.controls['Hamlet']!.touched)">
+                            <small class="text-danger" *ngIf="InfomationCustomer.get('Hamlet')!.hasError('required')">
+                                Không được để trống Tổ/Xóm
+                            </small>
+                        </div>
+                        <kendo-textbox placeholder="Tổ/Xóm" formControlName="Hamlet" (change)="HamletChange($event)">
+                        </kendo-textbox>
+                    </div>
+                    <div class="col-md-9">
+                        <div
+                            *ngIf="InfomationCustomer.controls['Address']!.invalid && (InfomationCustomer.controls['Address']!.dirty || InfomationCustomer.controls['Address']!.touched)">
+                            <small class="text-danger" *ngIf="InfomationCustomer.get('Address')!.hasError('required')">
+                                Không được để trống Địa chỉ
+                            </small>
+                        </div>
+                        <kendo-textbox placeholder="Địa chỉ" formControlName="Address"
+                            [(ngModel)]="InfomationCustomer.value.Address" [readonly]="true"></kendo-textbox>
+                    </div>
+                    <div class="col-md-3">
+                        <button kendoButton (click)="open()" style="width: 100%;">Địa chỉ đã
+                            dùng</button>
+                    </div>
+                    <div class="col-md-12">
+                        <kendo-textbox placeholder="Ghi chú" formControlName="Note"></kendo-textbox>
+                    </div>
+                </form>
+            </div>
+            <div *ngIf="step_2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 style="color: #ef2b2b;font-weight: bold;font-size: 30px;padding: 10px 0px;">
+                            Địa chỉ giao hàng
+                        </h3>
+                        <p><i class="fa fa-user" aria-hidden="true"
+                                style="width: 25px;margin-right: 15px;"></i>{{BillObj.fullname}}</p>
+                        <p><i class="fa fa-mobile" aria-hidden="true"
+                                style="width: 25px;margin-right: 15px;"></i>{{BillObj.sdt}}</p>
+                        <p><i class="fa fa-map" aria-hidden="true"
+                                style="width: 25px;margin-right: 15px;"></i>{{BillObj.address}}</p>
+                    </div>
+                    <div class="col-md-12">
+                        <h3 style="color: #ef2b2b;font-weight: bold;font-size: 30px;padding: 10px 0px;">
+                            Chọn phương thức thanh toán
+                        </h3>
+                        <form [formGroup]="Payment">
+                            <div style="font-size: 30px;margin: 20px 0px;" class="row">
+                                <div class="col-md-7">
+                                    <input type="radio" name="payment" value="cash" formControlName="payment"
+                                        kendoRadioButton (change)="PaymentMethodChange($event)" />
+                                    <label style="padding: 0px 20px;">
+                                        <i class="fa fa-truck" aria-hidden="true"></i>
+                                        Ship code toàn quốc
+                                    </label>
+                                </div>
+                                <div class="col-md-5" *ngIf="!isPayment" style="margin: 10px 0px;">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <th>Giá ship</th>
+                                            <th>30.000₫</th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div style="font-size: 30px;margin: 20px 0px;" class="row">
+                                <div class="col-md-7">
+                                    <input type="radio" name="payment" value="transfer" formControlName="payment"
+                                        kendoRadioButton (change)="PaymentMethodChange($event)" />
+                                    <label style="padding: 0px 20px;">
+                                        <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                        Thanh toán qua ví
+                                    </label>
+                                </div>
+                                <div class="col-md-5" *ngIf="isPayment" style="margin: 10px 0px;">
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <th>Số dư hiện tại trong ví</th>
+                                            <th>{{myWallet.surplus|number :'1.0-3'}}₫</th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="step_3"
+                style="border-bottom: 1px solid #ddd;display: flex;flex-direction: column;justify-items: center;align-items: center;padding: 100px;border-top: 1px solid #ddd;margin: 15px">
+                <i class="fa fa-check-circle" aria-hidden="true" style="color: limegreen;font-size: 80px;"></i>
+                <h3 style="margin: 15px 0px;font-weight: 600;">Bạn đã đặt hàng thành công</h3>
+            </div>
+            <div id="create_bill" style="float: right;margin: 10px 0px;" *ngIf="!step_3">
+                <button kendoButton iconClass="fa fa-check" (click)="buyProduct()"
+                    style="background-color: #ef2b2b;color: white;font-size: 20px;">
+                    Thanh toán đơn hàng
+                </button>
+            </div>
+        </div>
+        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12" style="margin: 20px 0px;">
+            <kendo-listview [data]="dataSource" [height]="700">
+                <ng-template kendoListViewHeaderTemplate>
+                    <h3 class="header-title"
+                        style="text-align: center;font-weight: 600;padding: 10px 0px;color: #ef2b2b">Thông tin đơn hàng
+                    </h3>
+                </ng-template>
+                <ng-template kendoListViewItemTemplate let-card="dataItem" let-index="index">
+                    <kendo-card-header class="row k-hbox">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                            <img src="{{card.Product.image}}" width="100%" height="125px">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-6" style="padding: 0px;">
+                            <div *ngIf="card.newPrice != 0">
+                                <span style="color: #ffc045;padding-top: 10px;font-size: 20px;font-weight: 600;"
+                                    *ngIf="card.newPrice != 0">
+                                    {{card.newPrice|number :'1.0-3'}} ₫
+                                </span>
+                                <small
+                                    style="text-decoration-line: line-through;padding: 0px 5px;color: #888888;font-size: 18px;">
+                                    {{card.Product.price}} ₫</small>
+                            </div>
+                            <div *ngIf="card.newPrice == 0">
+                                <span style="color: #ffc045;padding-top: 10px;font-size: 20px;font-weight: 600;"
+                                    *ngIf="card.newPrice == 0">
+                                    {{card.Product.price|number :'1.0-3'}} ₫
+                                </span>
+                            </div>
+                            <a href=""
+                                style="font-size: 1.2857em;color: #333;display: block;text-decoration: none;font-weight: 600;
+                                text-overflow: ellipsis;width: 200px; overflow: hidden;position: relative;white-space: nowrap;">
+                                {{card.Product.name}}
+                            </a>
+                            <div class="form-group row">
+                                <div class="col-lg-6 col-md-6 col-sm-5">
+                                    <span>Size: {{card.Size.name}}</span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-7">
+                                    <span>Size: {{card.Property.name}}</span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-6 col-md-6 col-sm-5">Số lượng: {{card.Quantity}}</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-3"
+                            style="display: flex;justify-content: center;align-items: center;">
+                            <button kendoButton iconClass="fa fa-info-circle fa-fw" look="clear"
+                                style="color: #5ec232;font-size: 20px;"
+                                (click)="infoCardItem($event,card.Id,index)"></button><br />
+                            <button kendoButton iconClass="fa fa-trash fa-fw" look="clear"
+                                (click)="removeCardItem($event,card.Id,index)"
+                                style="color: #ef2b2b;font-size: 20px;"></button>
+                        </div>
+                    </kendo-card-header>
+                </ng-template>
+                <ng-template kendoListViewFooterTemplate>
+                    <div class="row" style="padding: 12px 16px;">
+                        <strong style="font-weight: 400;line-height: 1.68;color: #888;" class="col-md-3 col-4">Chọn
+                            voucher:
+                        </strong>
+                        <div class="col-md-9 col-8">
+                            <kendo-dropdownlist [data]="listVoucher" textField="name" valueField="id"
+                                [disabled]="!isPayment" style="float: right;width: 100%;" [defaultItem]="defaultVoucher"
+                                (valueChange)="selectVoucher($event)" [(ngModel)]="selectedValue">
+                            </kendo-dropdownlist>
+                        </div>
+                    </div>
+                    <div style="padding: 12px 16px;">
+                        <strong style="font-weight: 400;line-height: 1.68;color: #888;">Giá shipping:</strong>
+                        <strong
+                            style="float: right;font-size: 1.2857em;font-weight: bold;margin-bottom: 0;color: #ffc045;">
+                            {{totalShipping|number :'1.0-3'}} VND
+                        </strong>
+                    </div>
+                    <div style="padding: 12px 16px;">
+                        <strong style="font-weight: 400;line-height: 1.68;color: #888;">Tổng cộng :</strong>
+                        <strong
+                            style="float: right;font-size: 1.2857em;font-weight: bold;margin-bottom: 0;color: #ffc045;">
+                            {{total|number :'1.0-3'}} VND
+                        </strong>
+                    </div>
+                    <div style="padding: 12px 16px;">
+                        <strong style="font-weight: 400;line-height: 1.68;color: #888;">Thành tiền: </strong>
+                        <strong
+                            style="float: right;font-size: 1.2857em;font-weight: bold;margin-bottom: 0;color: #ffc045;">
+                            {{toMoney|number :'1.0-3'}} VND
+                        </strong>
+                    </div>
+                </ng-template>
+            </kendo-listview>
+            <div id="create_bill_responsive" style="float: right;margin: 10px 0px;" *ngIf="!step_3">
+                <button kendoButton iconClass="fa fa-check" (click)="buyProduct()"
+                    style="background-color: #ef2b2b;color: white;font-size: 20px;">
+                    Thanh toán đơn hàng
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="api.loading" class="k-i-loading"></div>
+    <kendo-dialog title="Địa chỉ đã từng đặt" *ngIf="opened" (close)="close('cancel')" [minWidth]="250" [width]="450">
+        <label>Chọn địa chỉ: </label>
+        <kendo-dropdownlist [data]="oldAddress" style="width: 100%;" (valueChange)="valueChange($event)"> </kendo-dropdownlist>
+    </kendo-dialog>
+    <div kendoDialogContainer></div>
+</div>
+<app-footer></app-footer>

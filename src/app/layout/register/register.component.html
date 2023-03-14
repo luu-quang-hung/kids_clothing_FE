@@ -1,0 +1,111 @@
+<style>
+    i {
+        color: rgb(255, 37, 37);
+    }
+</style>
+<app-header></app-header>
+<div class="container-fluid">
+    <h3 style="font-weight: 600;border-bottom: 2px solid #ddd;padding: 15px 0px;margin: 3px 0px;">Đăng ký</h3>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;height: 50vh;">
+        <div class="k-loading-panel" *ngIf="loaderVisible">
+            <div class="k-loading-panel-mask"></div>
+            <div class="k-loading-panel-wrapper">
+                <kendo-loader type="infinite-spinner" themeColor="primary" size="large">
+                </kendo-loader>
+            </div>
+        </div>
+        <form [formGroup]="formValue" style="width: 750px;">
+            <div class="row" style="padding: 5px 0px;">
+                <label class="col-md-3 form-label">Fullname: </label>
+                <div class="col-md-6">
+                    <input type="text" kendoTextBox placeholder="Fullname" style="width: 100%"
+                        formControlName="fullname" name="fullname" />
+                </div>
+                <div class="col-md-3">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"
+                        *ngIf="formValue.controls.fullname.invalid && formValue.controls.fullname.touched">
+                        Fullname is required
+                    </i>
+                </div>
+            </div>
+            <div class="row" style="padding: 5px 0px;">
+                <label class="col-md-3 form-label">Email: </label>
+                <div class="col-md-6">
+                    <input type="email" kendoTextBox placeholder="Email" style="width: 100%" formControlName="email"
+                        name="email" />
+                </div>
+                <div class="col-md-3">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"
+                        *ngIf="formValue.controls.email.invalid && formValue.controls.email.touched">
+                        Email is required
+                    </i>
+                </div>
+            </div>
+            <div class="row" style="padding: 5px 0px;">
+                <label class="col-md-3 form-label">Username: </label>
+                <div class="col-md-6">
+                    <input type="text" kendoTextBox placeholder="Username" style="width: 100%"
+                        formControlName="username" name="username">
+                </div>
+                <div class="col-md-3">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"
+                        *ngIf="formValue.controls.username.invalid && formValue.controls.username.touched">
+                        Username is required
+                    </i>
+                </div>
+            </div>
+            <div class="row" style="padding: 5px 0px;">
+                <label class="col-md-3 form-label">Phone: </label>
+                <div class="col-md-6">
+                    <input type="text" kendoTextBox placeholder="Phone number" style="width: 100%"
+                        formControlName="phone" name="phone">
+                </div>
+                <div class="col-md-3">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"
+                        *ngIf="formValue.controls.phone.invalid && formValue.controls.phone.touched">
+                        SDT chưa đủ 10 kí tự
+                    </i>
+                </div>
+            </div>
+            <div class="row" style="padding: 5px 0px;">
+                <label class="col-md-3 form-label">Password: </label>
+                <div class="col-md-6">
+                    <input type="password" kendoTextBox placeholder="Password" style="width: 100%"
+                        formControlName="password" name="password">
+                </div>
+                <div class="col-md-3">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"
+                        *ngIf="formValue.controls.password.invalid && formValue.controls.password.touched">
+                        Mật khẩu chưa hơn 6 kí tự
+                    </i>
+                </div>
+            </div>
+            <div class="row" style="padding: 5px 0px;">
+                <label class="col-md-3 form-label">Confirm Password: </label>
+                <div class="col-md-6">
+                    <input type="password" kendoTextBox placeholder="Password" style="width: 100%"
+                        formControlName="confirm_password" name="confirm_password">
+                </div>
+                <div class="col-md-3">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"
+                        *ngIf="formValue.controls.confirm_password.invalid && formValue.controls.confirm_password.touched">
+                        Mật khẩu chưa hơn 6 kí tự
+                    </i>
+                </div>
+            </div>
+            <div style="margin: 15px 0px;" class="row">
+                <div class="col-md-3" style="padding: 0px;">
+                    <button type="submit" kendoButton iconClass="fa fa-sign-in fa-fw" (click)="register()"
+                        [disabled]="formValue.invalid"
+                        style="color: #fff !important;background-color: #ffc045 !important;border-color: #ffc045 !important;">
+                        Đăng Ký
+                    </button>
+                </div>
+                <div class="col-md-8">
+                    <a href="/login">Bạn đã có tài khoản?</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<app-footer></app-footer>
