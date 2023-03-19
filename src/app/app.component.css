@@ -1,0 +1,122 @@
+::ng-deep .card {
+    border: 0;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    border-radius: 6px;
+    color: #333;
+    background: #fff;
+    width: 100%;
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(244 67 54 / 40%);
+}
+
+::ng-deep .card [class*=card-header-]:not(.card-header-icon):not(.card-header-text):not(.card-header-image) {
+    border-radius: 5px;
+    padding: 15px;
+    margin: -20px 15px 0px 15px;
+}
+
+::ng-deep .card .card-header-danger:not(.card-header-icon):not(.card-header-text) {
+    box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(244 67 54 / 40%);
+}
+
+::ng-deep .card-header-danger:not(.card-header-icon):not(.card-header-text) {
+    background: linear-gradient(60deg, #ef5350, #e53935);
+}
+::ng-deep .fa.fa-user.fa-fw{
+    font-size: 20px;
+}
+::ng-deep .fa.fa-bell{
+    font-size: 20px;
+}
+::ng-deep .k-notification-group{
+    top: 80px !important;
+    right: 10px !important;
+    z-index: 999999;
+}
+::ng-deep .k-loading-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+::ng-deep .k-loading-panel-mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #F5F6F7;
+    opacity: 0.8;
+}
+::ng-deep .k-loading-panel-wrapper {
+    position: relative;
+    z-index: 2;
+}
+
+::ng-deep .k-loading-panel-text {
+    margin-top: 20px;
+    text-align: center;
+    color: #ffffff;
+}
+::ng-deep .popover.fade.ng-star-inserted.show.bs-popover-bottom .arrow{
+    left: 90%;
+}
+::ng-deep .k-drawer-wrapper{
+    position: fixed;
+}
+::ng-deep .k-drawer-item{
+    margin: 0px;
+    padding: 0px !important;
+}
+::ng-deep .k-drawer-item :hover{
+    color: #333;
+}
+::ng-deep .k-drawer-items{
+    margin: 25px 0px !important;
+    height: 600px;
+}
+::ng-deep .k-drawer-item.k-state-selected {
+    color: #ffffff !important;
+    background-color: darkorange;
+}
+::ng-deep ngb-popover-window#ngb-popover-0.popover.fade.ng-star-inserted.show.bs-popover-bottom{
+    left: -80px !important;
+}
+::ng-deep kendo-drawer-container {
+    width: 100%;
+    height: 100%;
+}
+::ng-deep .k-dropdown-wrap .k-input{
+    padding: 8px;
+  }
+/* ::ng-deep .k-grid-header .k-header{
+    text-align: center;
+} */
+::ng-deep .card-body {
+    position: relative !important;
+}
+::ng-deep .k-i-loading {
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    font-size: 64px !important;
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: #ff6757 !important;
+}
+::ng-deep .k-content.k-window-content.k-dialog-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+}
+::ng-deep .k-window-titlebar.k-dialog-titlebar{
+    padding: 0px 15px;
+}
+
