@@ -1,0 +1,65 @@
+<div class="card">
+    <div class="card-header card-header-danger">
+        <h4 class="card-title ">Quản lý đơn hàng</h4>
+        <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+    </div>
+    <div class="card-body">
+        <kendo-grid #grid [kendoGridBinding]="gridData" style="height: 500px; width: 1150px;" [pageSize]="10"
+            (edit)="editHandler($event)" [sortable]="true" [pageable]="true" [sortable]="true" [navigable]="true"
+            [resizable]="true" (cellClose)="cellCloseHandler($event)" (cellClick)="cellClickHandler($event)" 
+            filterable="menu">
+            <ng-template kendoGridToolbarTemplate>
+                <button kendoButton iconClass="fa fa-floppy-o" (click)="Update(grid)">
+                    Lưu
+                </button>
+            </ng-template>
+            <kendo-grid-command-column title="Tùy chỉnh" [width]="150" [locked]="true">
+                <ng-template kendoGridCellTemplate let-isNew="isNew">
+                    <button kendoGridEditCommand [primary]="true">Chi tiết</button>
+                </ng-template>
+            </kendo-grid-command-column>
+            <kendo-grid-column field="statusshipping" title="Mã trạng thái ship" [width]="200" [locked]="true">
+            </kendo-grid-column>
+            <kendo-grid-column field="status" title="Trạng thái" [width]="200" [locked]="true">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <div *ngIf="dataItem.status == 'HUY'">
+                        Hủy
+                    </div>
+                    <div *ngIf="dataItem.status == 'CHUA_XAC_NHAN'">
+                        Chưa xác nhận
+                    </div>
+                    <div *ngIf="dataItem.status == 'DA_XAC_NHAN_VA_DONG_GOI'">
+                        Đã xác nhận và đóng gói
+                    </div>
+                    <div *ngIf="dataItem.status == 'KHACH_DA_NHAN_HANG'">
+                        Khách đã nhận hàng
+                    </div>
+                    <div *ngIf="dataItem.status == 'HOAN_HANG'">
+                        Hoàn hàng
+                    </div>
+                    <div *ngIf="dataItem.status == 'DA_GIAO_BEN_VAN_CHUYEN'">
+                        Đã giao bên vận chuyển
+                    </div>
+                </ng-template>  
+            </kendo-grid-column>
+            <kendo-grid-column field="noterefund" title="Ghi chú hoàn hàng" [width]="200" [locked]="true">
+            </kendo-grid-column>
+            <kendo-grid-column field="id" title="Mã đơn hàng" [width]="150"></kendo-grid-column>
+            <kendo-grid-column field="payment" title="Phương thức" [width]="250">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
+                </ng-template>  
+            </kendo-grid-column>
+            <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200"></kendo-grid-column>
+            <kendo-grid-column field="sdt" title="SĐT" [width]="150"></kendo-grid-column>
+            <kendo-grid-column field="address" title="Địa chỉ" [width]="300"></kendo-grid-column>
+            <kendo-grid-column field="total" title="Tổng hóa đơn" [width]="200">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{ dataItem.total |number :'1.0-3'}}
+                </ng-template>
+            </kendo-grid-column>
+        </kendo-grid>
+        <div *ngIf="Bill.loading" class="k-i-loading"></div>
+        <div kendoWindowContainer></div>
+    </div>
+</div>
