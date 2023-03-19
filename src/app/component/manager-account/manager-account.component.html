@@ -1,0 +1,34 @@
+<div class="card">
+    <div class="card-header card-header-danger">
+        <h4 class="card-title ">Danh sách tài khoản</h4>
+        <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+    </div>
+    <div class="card-body">
+        <kendo-grid [kendoGridBinding]="gridData" kendoGridSelectBy="id" [pageSize]="state.take!" [skip]="state.skip!"
+            [sort]="state.sort!" [group]="state.group!" [pageable]="true" [sortable]="true"
+            style="height: 500px; width: 1150px;" [columnMenu]="{ filter: true }" (edit)="editHandler($event)"
+            (add)="addHanler($event)" (remove)="removeHandler($event)" (dataStateChange)="dataStateChange($event)">
+            <ng-template kendoGridToolbarTemplate>
+                <button kendoGridAddCommand>Thêm mới</button>
+            </ng-template>
+            <kendo-grid-command-column title="Command" [width]="250" [locked]="true">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <button kendoGridEditCommand [primary]="true">Chỉnh sửa</button>
+                    <button kendoGridRemoveCommand>Xóa</button>
+                </ng-template>
+            </kendo-grid-command-column>
+            <kendo-grid-column field="account.email" title="Email" [width]="250">
+            </kendo-grid-column>
+            <kendo-grid-column field="account.username" title="Username" [width]="200"></kendo-grid-column>
+            <kendo-grid-column field="account.phone" title="SDT" [width]="200"></kendo-grid-column>
+            <kendo-grid-command-column field="role.name" title="Phân quyền Admin" [width]="220">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{ Role(dataItem.role.id)?.name }}
+                </ng-template>
+            </kendo-grid-command-column>
+        </kendo-grid>
+        <div *ngIf="api.loading" class="k-i-loading"></div>
+        <div kendoWindowContainer></div>
+        <div kendoDialogContainer></div>
+    </div>
+</div>
