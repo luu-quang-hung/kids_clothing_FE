@@ -1,0 +1,64 @@
+<style>
+    .row {
+        margin: 10px 0px;
+    }
+</style>
+<form [formGroup]="formGroup">
+    <kendo-toolbar>
+        <kendo-toolbar-button text="Thêm" (click)="saveHandler($event)"></kendo-toolbar-button>
+    </kendo-toolbar>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <label class="col-md-3">Tên sản phẩm</label>
+                <div class="col-md-9">
+                    <kendo-multiselect formControlName="product" [data]="listProduct" textField="name" valueField="id"
+                        style="height: 200px;border: 1px solid #ddd">
+                    </kendo-multiselect>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <label class="col-md-3">Thuộc tính</label>
+                <div class="col-md-9">
+                    <kendo-dropdownlist [data]="listProperty" formControlName="property" textField="name"
+                        valueField="idproperty" (selectionChange)="selectProperty($event)" style="width: 100%"
+                        [(ngModel)]="formGroup.value.property">
+                    </kendo-dropdownlist>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <label class="col-md-3">Danh mục loại size</label>
+                <div class="col-md-9">
+                    <kendo-dropdownlist [data]="listTypeSize" formControlName="typesize" textField="name" valueField="id"
+                        [defaultItem]="defaultItem" (selectionChange)="selectTypeSize($event)" style="width: 100%"
+                        [(ngModel)]="dataSource.size.typesize">
+                    </kendo-dropdownlist>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <label class="col-md-3">Danh mục size</label>
+                <div class="col-md-9">
+                    <kendo-dropdownlist [data]="listSizeById" textField="name" valueField="id" [defaultItem]="defaultItem"
+                        [disabled]="disabled" formControlName="size" style="width: 100%"
+                        [(ngModel)]="formGroup.value.size">
+                    </kendo-dropdownlist>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row">
+                <label class="col-md-3">Số lượng</label>
+                <div class="col-md-9">
+                    <input type="text" kendoTextBox style="width: 100%" formControlName="quantity" name="quantity"
+                        [(ngModel)]="formGroup.value.quantity" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
