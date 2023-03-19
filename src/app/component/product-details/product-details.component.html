@@ -1,0 +1,141 @@
+<link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+<style>
+    label {
+        margin: 10px 0px;
+    }
+</style>
+<div>
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-5 col-sm-6 col-12" style="border-color: 2px solid #dee2e6">
+            <swiper style="--swiper-navigation-color: #fff;--swiper-pagination-color: #fff;height: 500px;"
+                [spaceBetween]="10" [navigation]="true" [thumbs]="{ swiper: thumbsSwiper }" class="mySwiper2">
+                <ng-template swiperSlide>
+                    <img src="{{infoProduct.image}}" width="100%" height="500px" />
+                </ng-template>
+
+                <ng-template swiperSlide *ngFor="let image of listImageProduct">
+                    <img class="img" src="{{image.url}}" width="100%" height="550px" />
+                </ng-template>
+            </swiper>
+            <swiper (swiper)="thumbsSwiper = $event" [spaceBetween]="5" [slidesPerView]="4" [freeMode]="true"
+                style="height: 100px;margin: 10px 0px" [watchSlidesProgress]="true" class="mySwiper">
+            
+                    <ng-template swiperSlide >
+                        <img src="{{infoProduct.image}}" width="100%" height="120px" />
+                    </ng-template>
+
+                    <ng-template swiperSlide *ngFor="let image of listImageProduct" swiperSlide >
+                        <img class="img" src="{{image.url}}" width="100%" height="120px" />
+                    </ng-template>          
+            </swiper>
+        </div>
+        <div class="col-md-7 col-sm-6 col-12">
+            <div>
+                <p
+                    style="border-bottom: 2px solid #dee2e6;margin: 0px;padding-bottom: 15px;font-size: 25px;font-weight: 600;">
+                    {{infoProduct.name}}
+                </p>
+                <p style="color: #ffc045;padding-top: 10px;font-size: 25px;font-weight: 600;font-family: Arial, Helvetica, sans-serif;"
+                    *ngIf="isDiscount">
+                    {{newPrice | number :'1.0-3'}} ₫
+                    <small
+                        style="text-decoration-line: line-through;font-size: 16px;padding: 0px 15px;color: #888888;font-family: Arial, Helvetica, sans-serif;font-size: 22px;">
+                        {{infoProduct.price | number :'1.0-3'}} ₫
+                    </small>
+                </p>
+                <div class="row">
+                    <label class="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4">Mô tả: </label>
+                    <div class="col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8" innerHTML="{{infoProduct.description}}"
+                        style="margin: 15px 0px;"></div>
+                </div>
+                <p style="color: #ffc045;padding-top: 10px;font-size: 25px;font-weight: 600;font-family: Arial, Helvetica, sans-serif;
+                " *ngIf="!isDiscount">
+                    {{infoProduct.price | number :'1.0-3'}}₫
+                </p>
+                <div class="row" style="margin: 15px 0px;">
+                    <label class="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4" style="padding: 0px;">Màu sắc</label>
+                    <form [formGroup]="formGroup" class="row col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8">
+                        <div *ngFor="let color of listProperty" class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-6">
+                            <input type="radio" name="property" value="{{color.idproperty}}" #{{color.idproperty}}
+                                formControlName="property" kendoRadioButton (change)="changeProperty(color)" />&nbsp;
+                            <label class="k-label" [for]="color.name">{{color.name}}</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <form [formGroup]="formGroup" style="margin: 20px 0px;">
+                <div class="row">
+                    <label class="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4 k-label">Chọn size: </label>
+                    <div class="col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8">
+                        <kendo-dropdownlist [data]="listSizeByQuantity" textField="name" valueField="id"
+                            formControlName="size" name="size" (valueChange)="changeSize($event)"
+                            [defaultItem]="defaultItem" [filterable]="true">
+                        </kendo-dropdownlist>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <label class="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4">Số lượng: </label>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4 col-4">
+                    <kendo-numerictextbox format="0" [min]="1" [max]="100" (valueChange)="changeQuantity($event)"
+                        [value]="1" style="width: 100%;">
+                    </kendo-numerictextbox>
+                </div>
+                <div class="col-xl-7 col-lg-6 col-md-6 col-sm-12 col-12">
+                    <button kendoButton iconClass="fa fa-cart-plus" (click)="addSoppingCart()"
+                        style="background: #ffc045;color: white;font-size: 15px;width: 100%;">
+                        THÊM VÀO GIỎ HÀNG
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-4">Mô tả chi tiết: </label>
+        <div class="col-xl-10 col-lg-9 col-md-9 col-sm-8 col-8" innerHTML="{{infoProduct.descriptionDetail}}"
+            style="margin: 15px 0px;"></div>
+    </div>
+    <h3 style="margin-top: 0;color: #333;font-weight: bold;line-height: 1.42857;">Sản phẩm cùng loại</h3>
+    <swiper [config]="config" class="mySwiper" id="mySwiper">
+        <ng-template swiperSlide *ngFor="let product of listProductByCategory">
+            <div class="img" class="thu-nghiem-zoom" *ngIf="product.discount > 0">
+                <a href="/list-product/info/{{product.id}}">
+                    <p>
+                        <span class="status-product"
+                            style="width: 48px;height: 50px;position: absolute;top: 10px; right: 20px;">SALE</span>
+                        <img class="img" src="{{product.image}}" width="100%" height="300px" />
+                    </p>
+                </a>
+            </div>
+            <div class="img" class="thu-nghiem-zoom" *ngIf="product.discount == 0 || product.discount == null">
+                <a href="/list-product/info/{{product.id}}">
+                    <p>
+                        <img class="img" src="{{product.image}}" width="100%" height="300px" />
+                    </p>
+                </a>
+            </div>
+            <div style="padding: 15px 0px; margin-left: 15px;">
+                <p class="name"
+                    style="text-overflow: ellipsis;width: 200px; overflow: hidden;position: relative;white-space: nowrap;">
+                    <a href="/list-product/info/{{product.id}}" style="font-weight: bold;font-size: 16px;">
+                        {{product.name}}
+                    </a>
+                </p>
+                <div class="price">
+                    <p style="color: #ffc045;margin: 0;padding-top: 10px;font-family: Arial, Helvetica, sans-serif;"
+                        *ngIf="product.discount == 0 || product.discount == null">
+                        {{product.price|number :'1.0-3'}}₫
+                    </p>
+                    <p style="color: #ffc045;margin: 0;padding-top: 10px;font-family: Arial, Helvetica, sans-serif;"
+                        *ngIf="product.discount > 0">
+                        {{product.price * (1 - product.discount/100)|number :'1.0-3'}} ₫
+                        <small
+                            style="text-decoration-line: line-through;padding: 10px 15px;color: #888888dd;font-family: Arial, Helvetica, sans-serif;font-size: 16px;">
+                            {{product.price | number :'1.0-3'}} ₫
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </ng-template>
+    </swiper>
+</div>
