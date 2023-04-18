@@ -129,6 +129,7 @@ export class ManagerVoucherComponent implements OnInit {
     event.sender.closeRow(event.rowIndex);
   }
   dataStateChange(state: DataStateChangeEvent): void {
+    console.log(state)
     this.state = state;
   }
 }
