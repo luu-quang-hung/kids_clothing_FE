@@ -1,15 +1,11 @@
 <div class="card">
-    <div class="card-header card-header-danger">
-        <h4 class="card-title ">Quản lý số lượng</h4>
-        <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
-    </div>
     <div class="card-body">
         <kendo-grid [kendoGridBinding]="gridData" kendoGridSelectBy="id" [pageSize]="state.take!" [skip]="state.skip!"
-            [sort]="state.sort!" [group]="state.group!" [pageable]="true" [sortable]="true" [height]="500"
+            [sort]="state.sort!" [group]="state.group!" [pageable]="true" [sortable]="true" [height]="768"
             [columnMenu]="{ filter: true }" (dataStateChange)="dataStateChange($event)" (edit)="editHandler($event)"
             (add)="addHanler($event)" (remove)="removeHandler($event)">
             <ng-template kendoGridToolbarTemplate>
-                <button kendoGridAddCommand>Thêm mới</button>
+              <button kendoGridAddCommand class="btn btn-primary" iconClass="fa fa-plus" style="border-radius: 20px;">  Thêm mới</button>
             </ng-template>
             <kendo-grid-column field="product.name" title="Tên sản phẩm" [width]="300" [hidden]=true>
             </kendo-grid-column>
@@ -21,8 +17,8 @@
             </kendo-grid-column>
             <kendo-grid-command-column title="Tùy chỉnh" [width]="220">
                 <ng-template kendoGridCellTemplate>
-                    <button kendoGridEditCommand [primary]="true">Chỉnh sửa</button>
-                    <button kendoGridRemoveCommand>Xóa</button>
+                    <button kendoGridEditCommand class="btn-outline-primary" style="border-radius: 20px;" iconClass="fa fa-pencil"> Chỉnh sửa</button>
+                    <button kendoGridRemoveCommand class="btn-outline-danger" style="border-radius: 20px;" iconClass="fa fa-trash"> Xóa</button>
                 </ng-template>
             </kendo-grid-command-column>
         </kendo-grid>
