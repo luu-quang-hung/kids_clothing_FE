@@ -8,10 +8,11 @@ import { MessageService } from 'src/app/shared/message.service';
 import { DialogInfoProductComponent } from 'src/app/layout/shopping-cart/infoProductDialog.component'
 import { DialogLoginComponent } from './loginDialog.component';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { HttpClient } from '@angular/common/http';
 import { ApiVietNam, BillModel } from './bill.model';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -34,7 +35,6 @@ export class ShoppingCartComponent implements OnInit {
   public isPayment = false;
   public listProvince: Array<any> = ApiVietNam;
   public listDistrict: Array<any> = [];
-  public listWards: Array<any> = [];
   public oldAddress: Array<any> = [];
   public myWallet: any;
   public selectedValue = null;
@@ -59,6 +59,9 @@ export class ShoppingCartComponent implements OnInit {
   public listVoucher: Array<any> = [];
   public QuantityObj: QuanityModel = new QuanityModel();
   public BillObj: BillModel = new BillModel();
+  public provinces!: { ProvinceId: any, ProvinceName: any  }[];
+  public districts: {DistrictID: any,DistrictName: any }[] = [];
+  public wards: {WardCode: any,WardName: any }[] = [];
 
   public formGroup = new FormGroup({
     property: new FormControl(),
@@ -107,6 +110,10 @@ export class ShoppingCartComponent implements OnInit {
     this.Voucher.Controller = "VoucherController";
     this.Customer.Controller = "CustomerController";
 
+    this.getProvinces().subscribe((provinces: { ProvinceId: any, ProvinceName: any }[]) => {
+      this.provinces = provinces;
+    });
+  
     this.Quantity.Read.Execute().subscribe((rs) => {
       this.Quantity.dataSource = rs.data;
     }, (error) => {
@@ -253,24 +260,70 @@ export class ShoppingCartComponent implements OnInit {
     }
     return true;
   }
+
+  
+  getProvinces(): Observable<any[]> {
+    const url = 'https://online-gateway.ghn.vn/shiip/public-api/master-data/province';
+    return this.http.get<any[]>(url, { headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' } })
+    .pipe(
+      map((response: any) => response.data.map((province: any) => ({ ProvinceId: province.ProvinceID, ProvinceName: province.ProvinceName }))));
+  }
+
+  getDistricts(provinceId: any): Observable<any[]> {
+    const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`;
+    return this.http.get<any[]>(url, { headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' } })
+    .pipe(
+      map((response: any) => response.data.map((districts: any) => ({ DistrictID: districts.DistrictID, DistrictName: districts.DistrictName }))));
+  }
+ 
+  getWardService(districtId: any): Observable<any[]> {
+    const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`;
+    return this.http.get<any[]>(url, { headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' } })
+    .pipe(
+      map((response: any) => response.data.map((ward: any) => ({ WardCode: ward.WardCode, WardName: ward.WardName }))));
+  }
+  onProvinceChange(event: Event): void {
+    const provinceId = (event.target as HTMLSelectElement).value;
+    if (provinceId) {
+      this.getDistricts(provinceId).subscribe((districts: any[]) => {
+        this.districts = districts;
+          });
+    } else {
+      this.districts = [];
+    }
+  }
+  onDistrictsChange(event: Event): void {
+    const districtId = (event.target as HTMLSelectElement).value;
+    if (districtId) {
+      console.log(districtId)
+      this.getWardService(districtId).subscribe((ward: any[]) => {
+        this.wards = ward;
+      });
+    } else {
+      this.districts = [];
+    }
+  }
+
+  
   ProvinceChange(event: any) {
     this.InfomationCustomer.value.Address = "";
+    
     this.listDistrict = this.listProvince.find((x) => x.Id == event).Districts;
-    this.Address.value.Province = this.listProvince.find((x) => x.Id == event).Name;
+    this.Address.value.Province = this.listProvince.find((x) => x.Id == event).ProvinceName;
     this.InfomationCustomer.value.Address = ',' + this.Address.value.Province
   }
-  DistrictChange(event: any) {
-    this.InfomationCustomer.value.Address = "";
-    this.listWards = this.listDistrict.find((x) => x.Id == event).Wards;
-    this.Address.value.District = this.listDistrict.find((x) => x.Id == event).Name
-    this.InfomationCustomer.value.Address = ',' + this.Address.value.District + ',' + this.Address.value.Province
-  }
-  WardsChange(event: any) {
-    this.InfomationCustomer.value.Address = "";
-    this.InfomationCustomer.value.Address = this.listWards.find((x) => x.Id == event).Name + ', ' + this.InfomationCustomer.value.Address;
-    this.Address.value.Wards = this.listWards.find((x) => x.Id == event).Name;
-    this.InfomationCustomer.value.Address = this.Address.value.Wards + ',' + this.Address.value.District + ',' + this.Address.value.Province
-  }
+  // DistrictChange(event: any) {
+  //   this.InfomationCustomer.value.Address = "";
+  //   this.listWards = this.listDistrict.find((x) => x.Id == event).Wards;
+  //   this.Address.value.District = this.listDistrict.find((x) => x.Id == event).Name
+  //   this.InfomationCustomer.value.Address = ',' + this.Address.value.District + ',' + this.Address.value.Province
+  // }
+  // WardsChange(event: any) {
+  //   this.InfomationCustomer.value.Address = "";
+  //   this.InfomationCustomer.value.Address = this.listWards.find((x) => x.Id == event).Name + ', ' + this.InfomationCustomer.value.Address;
+  //   this.Address.value.Wards = this.listWards.find((x) => x.Id == event).Name;
+  //   this.InfomationCustomer.value.Address = this.Address.value.Wards + ',' + this.Address.value.District + ',' + this.Address.value.Province
+  // }
   HamletChange(event: any) {
     this.InfomationCustomer.value.Address = "";
     this.Address.value.Hamlet = event.target.value;
