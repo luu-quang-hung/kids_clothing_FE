@@ -13,9 +13,9 @@
               
                 <div>
                 <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" >
-                    <input autocomplete="off" placeholder="Search..." title="Search..." class="k-input">
+                    <input  autocomplete="off" placeholder="Search..." title="Search..." #username class="k-input">
                   </span>
-                  <button class= "btn-outline-primary rounded-pill mr-3" kendoGridSearchCommand>
+                  <button (click)="ngOnInitserch(username.value)" class= "btn-outline-primary rounded-pill mr-3" >
                     <span class="k-icon k-i-search"></span>
                     <span class="k-grid-search-text">Tìm kiếm</span>
                   </button>                  
@@ -23,7 +23,6 @@
                 <div class="d-flex align-items-center ml-auto">
                   <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus" kendoGridAddCommand>
                     <span class="mr-2">Thêm mới</span>
-                   
                   </button>
                 
                 </div>
