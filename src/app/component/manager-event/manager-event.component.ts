@@ -26,6 +26,28 @@ export class ManagerEventComponent implements OnInit {
 
   public api: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
 
+  ngOnInitsearch(name: any ): void {
+    this.api.isManager = true;
+    this.api.Controller = "EventManagerController";
+    this.api.name = name;
+    this.api.Readserch.Execute().subscribe((res) => {
+      this.gridData = res.data;
+      this.api.dataSource = res.data;
+    })
+    this.message.receivedDataAfterUpadte().subscribe((rs) => {
+      this.gridData = rs.data;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    })
+    this.message.receivedDataBehavior().subscribe((rs) => {
+      this.gridData = rs;
+    })
+  } 
   ngOnInit(): void {
     this.api.isManager = true;
     this.api.Controller = "EventManagerController";
