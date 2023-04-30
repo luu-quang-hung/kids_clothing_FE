@@ -105,7 +105,7 @@
                               </small>
                             </div>
                           </div>
-                          
+
                           <div class="form-group">
                             <label>Quận/Huyện</label>
                             <select class="form-control" formControlName="District" (change)="onDistrictsChange($event)">
@@ -118,12 +118,12 @@
                               </small>
                             </div>
                           </div>
-                          
+
                     </div>
                     <div class="col-md-6" style="margin: 10px 0px;">
                         <div class="form-group">
                             <label>Phường/Xã</label>
-                            <select class="form-control" formControlName="Ward">
+                            <select class="form-control" formControlName="Ward"  (change)="onWardChange($event)">
                                 <option value="">Chọn Phường/Xã</option>
                                 <option *ngFor="let ward of wards" [value]="ward.WardCode">{{ ward.WardName }}</option>
                             </select>
@@ -132,7 +132,7 @@
                                     Không được để trống Phường/Xã
                                 </small>
                             </div>
-                        </div> 
+                        </div>
                     </div>
                     <div class="col-md-6" style="margin: 10px 0px;">
                         <div

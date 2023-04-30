@@ -63,6 +63,8 @@ export class ShoppingCartComponent implements OnInit {
   public districts: {DistrictID: any,DistrictName: any }[] = [];
   public wards: {WardCode: any,WardName: any }[] = [];
 
+  public provincesShip:any;
+  public districtsShip:any;
   public formGroup = new FormGroup({
     property: new FormControl(),
     size: new FormControl(),
@@ -113,7 +115,7 @@ export class ShoppingCartComponent implements OnInit {
     this.getProvinces().subscribe((provinces: { ProvinceId: any, ProvinceName: any }[]) => {
       this.provinces = provinces;
     });
-  
+
     this.Quantity.Read.Execute().subscribe((rs) => {
       this.Quantity.dataSource = rs.data;
     }, (error) => {
@@ -261,7 +263,7 @@ export class ShoppingCartComponent implements OnInit {
     return true;
   }
 
-  
+
   getProvinces(): Observable<any[]> {
     const url = 'https://online-gateway.ghn.vn/shiip/public-api/master-data/province';
     return this.http.get<any[]>(url, { headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' } })
@@ -275,7 +277,7 @@ export class ShoppingCartComponent implements OnInit {
     .pipe(
       map((response: any) => response.data.map((districts: any) => ({ DistrictID: districts.DistrictID, DistrictName: districts.DistrictName }))));
   }
- 
+
   getWardService(districtId: any): Observable<any[]> {
     const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`;
     return this.http.get<any[]>(url, { headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' } })
@@ -284,6 +286,13 @@ export class ShoppingCartComponent implements OnInit {
   }
   onProvinceChange(event: Event): void {
     const provinceId = (event.target as HTMLSelectElement).value;
+    this.provincesShip = provinceId;
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
+    const selectedProvinceName = selectedOption.innerText;
+    this.InfomationCustomer.value.Address = "";
+    this.Address.value.Province = selectedProvinceName;
+    this.InfomationCustomer.value.Address = ',' + this.Address.value.Province
     if (provinceId) {
       this.getDistricts(provinceId).subscribe((districts: any[]) => {
         this.districts = districts;
@@ -293,6 +302,13 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
   onDistrictsChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
+    const selectedDistrictName = selectedOption.innerText;
+    console.log(selectedDistrictName); // in ra giá trị district.name
+    this.InfomationCustomer.value.Address = "";
+      this.Address.value.District = selectedDistrictName;
+      this.InfomationCustomer.value.Address = ',' + this.Address.value.District + ',' + this.Address.value.Province
     const districtId = (event.target as HTMLSelectElement).value;
     if (districtId) {
       console.log(districtId)
@@ -304,26 +320,54 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
-  
-  ProvinceChange(event: any) {
+  onWardChange(event: Event): void {
+   const selectElement = event.target as HTMLSelectElement;
+    const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
+    const selectedWardName = selectedOption.innerText;
     this.InfomationCustomer.value.Address = "";
-    
-    this.listDistrict = this.listProvince.find((x) => x.Id == event).Districts;
-    this.Address.value.Province = this.listProvince.find((x) => x.Id == event).ProvinceName;
-    this.InfomationCustomer.value.Address = ',' + this.Address.value.Province
+    this.Address.value.Wards = selectedWardName;
+    this.InfomationCustomer.value.Address = this.Address.value.Wards + ',' + this.Address.value.District + ',' + this.Address.value.Province
+    const toDistrictId = this.InfomationCustomer.controls['District'].value;
+console.log(toDistrictId);
+alert(this.provincesShip)
+alert(this.districtsShip)
   }
-  // DistrictChange(event: any) {
-  //   this.InfomationCustomer.value.Address = "";
-  //   this.listWards = this.listDistrict.find((x) => x.Id == event).Wards;
-  //   this.Address.value.District = this.listDistrict.find((x) => x.Id == event).Name
-  //   this.InfomationCustomer.value.Address = ',' + this.Address.value.District + ',' + this.Address.value.Province
-  // }
-  // WardsChange(event: any) {
-  //   this.InfomationCustomer.value.Address = "";
-  //   this.InfomationCustomer.value.Address = this.listWards.find((x) => x.Id == event).Name + ', ' + this.InfomationCustomer.value.Address;
-  //   this.Address.value.Wards = this.listWards.find((x) => x.Id == event).Name;
-  //   this.InfomationCustomer.value.Address = this.Address.value.Wards + ',' + this.Address.value.District + ',' + this.Address.value.Province
-  // }
+
+  calculateShippingFee() {
+    const url = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee';
+    const token = '1b430556-d481-11ed-9eaf-eac62dba9bd9';
+    const shopId = '4001175';
+    const serviceId = 123; // replace with the actual service ID
+    const toWardCode = this.InfomationCustomer.controls['Ward'].value;
+    const toDistrictId = this.InfomationCustomer.controls['District'].value;
+    const fromDistrictId = 456; // replace with the actual district ID of the sender
+    const weight = 1000; // replace with the actual weight in grams
+    const length = 10; // replace with the actual length in cm
+    const width = 20; // replace with the actual width in cm
+    const height = 30; // replace with the actual height in cm
+
+    const headers = new HttpHeaders()
+      .set('token', token)
+      .set('shop_id', shopId);
+
+    const params = {
+      service_id: serviceId,
+      insurance_value: 0, // replace with the actual value of the product
+      coupon: '',
+      to_ward_code: toWardCode,
+      to_district_id: toDistrictId,
+      from_district_id: fromDistrictId,
+      weight: weight,
+      length: length,
+      width: width,
+      height: height
+    };
+
+    this.http.get(url, { headers, params })
+      .subscribe(response => {
+      console.log(response)
+      });
+  }
   HamletChange(event: any) {
     this.InfomationCustomer.value.Address = "";
     this.Address.value.Hamlet = event.target.value;
