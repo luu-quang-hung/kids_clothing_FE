@@ -31,7 +31,9 @@
                     </a>
                     <button type="button" class="btn btn-outline-secondary " look="clear" kendoButton
                         iconClass="fa fa-user fa-fw" [ngbPopover]="popContent"
-                        style="padding: 0px;margin: 10px 15px 0px 15px;"></button>
+                        style="padding: 0px;margin: 10px 15px 0px 15px;">
+                        <p class="m-0 text-pink font-weight-bold h5">{{ username }}</p>                        
+                    </button>
                     <ng-template #popContent>
                         <li style="border-bottom: 1px solid #DADDE1;padding-bottom: 10px;font-size: 15px;">
                             <a href="/account">Thông tin tài khoản</a>

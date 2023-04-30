@@ -38,7 +38,7 @@ export class ShoppingCartComponent implements OnInit {
   public oldAddress: Array<any> = [];
   public myWallet: any;
   public selectedValue = null;
-  public totalShipping = 30000;
+  public totalShipping :any;
   public steps = [
     { label: "Bước 1", index: 0 },
     { label: "Bước 2", index: 1, disabled: true },
@@ -63,7 +63,7 @@ export class ShoppingCartComponent implements OnInit {
   public districts: {DistrictID: any,DistrictName: any }[] = [];
   public wards: {WardCode: any,WardName: any }[] = [];
 
-  public provincesShip:any;
+  public wardCodeShip:any;
   public districtsShip:any;
   public formGroup = new FormGroup({
     property: new FormControl(),
@@ -191,7 +191,6 @@ export class ShoppingCartComponent implements OnInit {
       this.total = this.total + Number(x.newPrice * x.Quantity);
       this.toMoney = this.toMoney + Number(x.newPrice * x.Quantity);
     })
-    this.toMoney = this.toMoney + this.totalShipping;
 
     this.message.receivedStorageCart().subscribe((res) => {
       this.Voucher.getApi('Customer/' + this.Voucher.Controller + '/findVoucherByAmount').subscribe((rs) => {
@@ -286,7 +285,6 @@ export class ShoppingCartComponent implements OnInit {
   }
   onProvinceChange(event: Event): void {
     const provinceId = (event.target as HTMLSelectElement).value;
-    this.provincesShip = provinceId;
     const selectElement = event.target as HTMLSelectElement;
     const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
     const selectedProvinceName = selectedOption.innerText;
@@ -305,13 +303,12 @@ export class ShoppingCartComponent implements OnInit {
     const selectElement = event.target as HTMLSelectElement;
     const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
     const selectedDistrictName = selectedOption.innerText;
-    console.log(selectedDistrictName); // in ra giá trị district.name
     this.InfomationCustomer.value.Address = "";
       this.Address.value.District = selectedDistrictName;
       this.InfomationCustomer.value.Address = ',' + this.Address.value.District + ',' + this.Address.value.Province
     const districtId = (event.target as HTMLSelectElement).value;
+    this.districtsShip =districtId
     if (districtId) {
-      console.log(districtId)
       this.getWardService(districtId).subscribe((ward: any[]) => {
         this.wards = ward;
       });
@@ -321,31 +318,43 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   onWardChange(event: Event): void {
-   const selectElement = event.target as HTMLSelectElement;
+    const wardCode = (event.target as HTMLSelectElement).value;
+    this.wardCodeShip =wardCode
+    const selectElement = event.target as HTMLSelectElement;
     const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
     const selectedWardName = selectedOption.innerText;
     this.InfomationCustomer.value.Address = "";
     this.Address.value.Wards = selectedWardName;
+
     this.InfomationCustomer.value.Address = this.Address.value.Wards + ',' + this.Address.value.District + ',' + this.Address.value.Province
-    const toDistrictId = this.InfomationCustomer.controls['District'].value;
-console.log(toDistrictId);
-alert(this.provincesShip)
-alert(this.districtsShip)
+    console.log("ward"  +this.wardCodeShip)   
+    this.serviceShipping();
   }
+ serviceShipping(){
+  const url = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services';
+  const headers = new HttpHeaders().set('token', '1b430556-d481-11ed-9eaf-eac62dba9bd9');
+  const params = new HttpParams()
+  .set('shop_id', '4001175')
+  .set('from_district', '3440' )
+  .set('to_district', this.districtsShip);
+  this.http.get(url, { headers, params }).subscribe((res) => {
+  console.log(res);
+  this.calculateShippingFee();
+});
+ }
 
   calculateShippingFee() {
     const url = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee';
     const token = '1b430556-d481-11ed-9eaf-eac62dba9bd9';
     const shopId = '4001175';
-    const serviceId = 123; // replace with the actual service ID
-    const toWardCode = this.InfomationCustomer.controls['Ward'].value;
-    const toDistrictId = this.InfomationCustomer.controls['District'].value;
-    const fromDistrictId = 456; // replace with the actual district ID of the sender
-    const weight = 1000; // replace with the actual weight in grams
-    const length = 10; // replace with the actual length in cm
-    const width = 20; // replace with the actual width in cm
-    const height = 30; // replace with the actual height in cm
-
+    const serviceId = 100039; // replace with the actual service ID
+    const toWardCode = this.wardCodeShip;
+    const toDistrictId = this.districtsShip
+    const fromDistrictId = 3440; // replace with the actual district ID of the sender
+    const weight = 200; // replace with the actual weight in grams
+    const length = 5; // replace with the actual length in cm
+    const width = 5; // replace with the actual width in cm
+    const height = 5; // replace with the actual height in cm
     const headers = new HttpHeaders()
       .set('token', token)
       .set('shop_id', shopId);
@@ -364,8 +373,10 @@ alert(this.districtsShip)
     };
 
     this.http.get(url, { headers, params })
-      .subscribe(response => {
-      console.log(response)
+      .subscribe((res:any) => {
+        this.totalShipping = res.data.total
+        this.toMoney = this.toMoney + this.totalShipping;
+
       });
   }
   HamletChange(event: any) {
@@ -420,7 +431,7 @@ alert(this.districtsShip)
       if (this.Payment.value.payment == "cash") {
         this.isPayment = false;
         this.BillObj.payment = false;
-        this.BillObj.transportFee = 30000;
+        this.BillObj.transportFee = this.totalShipping;
         this.BillObj.total = this.total;
         this.BillObj.downtotal = this.toMoney;
         this.dataSource.map((x) => {
@@ -592,7 +603,6 @@ alert(this.districtsShip)
       this.toMoney = this.total;
       this.selectedValue = null;
       this.isPayment = false;
-      this.totalShipping = 30000;
       this.toMoney = this.total + this.totalShipping
     } else {
       this.listVoucher = this.Voucher.dataSource.filter((x) => x.minimumValue <= this.total);

@@ -20,6 +20,8 @@ import { MessageService } from 'src/app/shared/message.service';
 export class HeaderComponent implements OnInit {
   public expanded = false;
   public autoCollapse = true;
+  public username: any = sessionStorage.getItem('USERNAME');
+
   public pathDrawItems: Array<any> = [];
   public drawItems: Array<any> = [
     {
@@ -82,6 +84,7 @@ export class HeaderComponent implements OnInit {
       icon: "home",
     },
   ];
+  Account: any;
 
   public onExpandModeChange(checked: boolean): void {
     this.expandMode = checked ? "overlay" : "push";
@@ -133,6 +136,9 @@ export class HeaderComponent implements OnInit {
       this.showLogin = false;
     })
     this.setBreadcrumb();
+
+    console.log(sessionStorage.getItem('USERNAME'))
+  
   }
   openLogin(): void {
     window.location.href = '/login';
