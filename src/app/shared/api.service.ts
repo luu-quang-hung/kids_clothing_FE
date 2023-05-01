@@ -313,14 +313,14 @@ export class ApiService {
       if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
         let getHeader = this._.getHeader();
         if (getHeader instanceof HttpHeaders) {
-          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllByIsDeleteFalse', { headers: getHeader })
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findByDayNewCreate', { headers: getHeader })
             .pipe(map((res: any) => {
               return res;
             }), tap(() => {
               this._.loading = false
             }))
         } else {
-          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllByIsDeleteFalse')
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findByDayNewCreate')
             .pipe(map((res: any) => {
               return res;
             }), tap(() => {
@@ -328,7 +328,7 @@ export class ApiService {
             }))
         }
       } else {
-        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findByDayNewCreate')
           .pipe(map((res: any) => {
             return res;
           }))
@@ -570,5 +570,38 @@ export class ApiService {
       }
     }
   }
+  public ReadCate = {
+    _: this,
+    Execute: function() {
+      const role = sessionStorage.getItem('ROLE');
+      const headers = this._.getHeader();
+      const url = 'http://localhost:8080/findAllByIsDeleteFalse';
+
+      if (role === 'STAFF' || role === 'ADMIN') {
+        if (headers instanceof HttpHeaders) {
+          return this._.http.get(url, { headers: headers })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }));
+        } else {
+          return this._.http.get(url)
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }));
+        }
+      } else {
+        return this._.http.get(url)
+          .pipe(map((res: any) => {
+            return res;
+          }));
+      }
+    },
+    After: function() {}
+  };
+
 }
 

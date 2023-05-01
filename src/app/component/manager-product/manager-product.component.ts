@@ -7,6 +7,9 @@ import { ApiService } from 'src/app/shared/api.service';
 import { MessageService } from 'src/app/shared/message.service';
 import { WindowProductComponent } from './windowProduct.component';
 import { WindowUploadComponent } from './windowUpload.component';
+import { NotificationService } from '@progress/kendo-angular-notification';
+import { HttpClient } from '@angular/common/http';
+import { DialogService, WindowService } from '@progress/kendo-angular-dialog';
 
 @Component({
   selector: 'app-manager-product',
@@ -24,10 +27,52 @@ export class ManagerProductComponent implements OnInit {
     filter: undefined,
     skip: 0,
     take: 10,
-    group: [{ field: "categorydetail.category.name" }, { field: "categorydetail.name" },],
+   // group: [{ field: "categorydetail.category.name" }, { field: "categorydetail.name" },],
     sort: [],
   };
-  constructor(public api: ApiService, private message: MessageService, private formBuilder: FormBuilder) {
+  constructor(private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
+    private notificationService: NotificationService, private formBuilder: FormBuilder) { }
+
+  public api: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
+
+  ngOnInitsearch(name: any ): void {
+    this.api.isManager = true;
+    this.api.Controller = "ProductManagerController";
+    this.api.name = name;
+    this.api.Readserch.Execute().subscribe((res) => {
+      this.gridData = res.data;
+      this.api.dataSource = res.data;
+    })
+    this.message.receivedDataAfterUpadte().subscribe((rs) => {
+      this.gridData = rs.data;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    })
+    this.message.receivedDataBehavior().subscribe((rs) => {
+      this.gridData = rs;
+    })
+  }
+  filterByCategory(name: any) {
+    this.api.isManager = true;
+    this.api.Controller = "/Manager/CategoryManagerController";
+    this.api.name = name;
+    this.api.ReadCate.Execute().subscribe((res) => {
+      this.gridData = res.data;
+      this.api.dataSource = res.data;
+      this.message.SendDataAfterUpdate(res.data);
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -90,4 +135,7 @@ export class ManagerProductComponent implements OnInit {
     this.api.OpenWindow.Height = 700;
     this.api.OpenWindow.Execute(WindowUploadComponent, this.gridData.find((x) => x.id == event), null);
   }
+
+
+
 }
