@@ -8,10 +8,11 @@ import { MessageService } from 'src/app/shared/message.service';
 import { DialogInfoProductComponent } from 'src/app/layout/shopping-cart/infoProductDialog.component'
 import { DialogLoginComponent } from './loginDialog.component';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { HttpClient } from '@angular/common/http';
 import { ApiVietNam, BillModel } from './bill.model';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -34,11 +35,10 @@ export class ShoppingCartComponent implements OnInit {
   public isPayment = false;
   public listProvince: Array<any> = ApiVietNam;
   public listDistrict: Array<any> = [];
-  public listWards: Array<any> = [];
   public oldAddress: Array<any> = [];
   public myWallet: any;
   public selectedValue = null;
-  public totalShipping = 30000;
+  public totalShipping :any;
   public steps = [
     { label: "Bước 1", index: 0 },
     { label: "Bước 2", index: 1, disabled: true },
@@ -59,7 +59,12 @@ export class ShoppingCartComponent implements OnInit {
   public listVoucher: Array<any> = [];
   public QuantityObj: QuanityModel = new QuanityModel();
   public BillObj: BillModel = new BillModel();
+  public provinces!: { ProvinceId: any, ProvinceName: any  }[];
+  public districts: {DistrictID: any,DistrictName: any }[] = [];
+  public wards: {WardCode: any,WardName: any }[] = [];
 
+  public wardCodeShip:any;
+  public districtsShip:any;
   public formGroup = new FormGroup({
     property: new FormControl(),
     size: new FormControl(),
@@ -106,6 +111,10 @@ export class ShoppingCartComponent implements OnInit {
     this.Size.Controller = "SizeController";
     this.Voucher.Controller = "VoucherController";
     this.Customer.Controller = "CustomerController";
+
+    this.getProvinces().subscribe((provinces: { ProvinceId: any, ProvinceName: any }[]) => {
+      this.provinces = provinces;
+    });
 
     this.Quantity.Read.Execute().subscribe((rs) => {
       this.Quantity.dataSource = rs.data;
@@ -182,7 +191,6 @@ export class ShoppingCartComponent implements OnInit {
       this.total = this.total + Number(x.newPrice * x.Quantity);
       this.toMoney = this.toMoney + Number(x.newPrice * x.Quantity);
     })
-    this.toMoney = this.toMoney + this.totalShipping;
 
     this.message.receivedStorageCart().subscribe((res) => {
       this.Voucher.getApi('Customer/' + this.Voucher.Controller + '/findVoucherByAmount').subscribe((rs) => {
@@ -253,23 +261,123 @@ export class ShoppingCartComponent implements OnInit {
     }
     return true;
   }
-  ProvinceChange(event: any) {
+
+
+  getProvinces(): Observable<any[]> {
+    const url = 'https://online-gateway.ghn.vn/shiip/public-api/master-data/province';
+    return this.http.get<any[]>(url, { headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' } })
+    .pipe(
+      map((response: any) => response.data.map((province: any) => ({ ProvinceId: province.ProvinceID, ProvinceName: province.ProvinceName }))));
+  }
+
+  getDistricts(provinceId: any): Observable<any[]> {
+    const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`;
+    return this.http.get<any[]>(url, { headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' } })
+    .pipe(
+      map((response: any) => response.data.map((districts: any) => ({ DistrictID: districts.DistrictID, DistrictName: districts.DistrictName }))));
+  }
+
+  getWardService(districtId: any): Observable<any[]> {
+    const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${districtId}`;
+    return this.http.get<any[]>(url, { headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' } })
+    .pipe(
+      map((response: any) => response.data.map((ward: any) => ({ WardCode: ward.WardCode, WardName: ward.WardName }))));
+  }
+  onProvinceChange(event: Event): void {
+    const provinceId = (event.target as HTMLSelectElement).value;
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
+    const selectedProvinceName = selectedOption.innerText;
     this.InfomationCustomer.value.Address = "";
-    this.listDistrict = this.listProvince.find((x) => x.Id == event).Districts;
-    this.Address.value.Province = this.listProvince.find((x) => x.Id == event).Name;
+    this.Address.value.Province = selectedProvinceName;
     this.InfomationCustomer.value.Address = ',' + this.Address.value.Province
+    if (provinceId) {
+      this.getDistricts(provinceId).subscribe((districts: any[]) => {
+        this.districts = districts;
+          });
+    } else {
+      this.districts = [];
+    }
   }
-  DistrictChange(event: any) {
+  onDistrictsChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
+    const selectedDistrictName = selectedOption.innerText;
     this.InfomationCustomer.value.Address = "";
-    this.listWards = this.listDistrict.find((x) => x.Id == event).Wards;
-    this.Address.value.District = this.listDistrict.find((x) => x.Id == event).Name
-    this.InfomationCustomer.value.Address = ',' + this.Address.value.District + ',' + this.Address.value.Province
+      this.Address.value.District = selectedDistrictName;
+      this.InfomationCustomer.value.Address = ',' + this.Address.value.District + ',' + this.Address.value.Province
+    const districtId = (event.target as HTMLSelectElement).value;
+    this.districtsShip =districtId
+    if (districtId) {
+      this.getWardService(districtId).subscribe((ward: any[]) => {
+        this.wards = ward;
+      });
+    } else {
+      this.districts = [];
+    }
   }
-  WardsChange(event: any) {
+
+  onWardChange(event: Event): void {
+    const wardCode = (event.target as HTMLSelectElement).value;
+    this.wardCodeShip =wardCode
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
+    const selectedWardName = selectedOption.innerText;
     this.InfomationCustomer.value.Address = "";
-    this.InfomationCustomer.value.Address = this.listWards.find((x) => x.Id == event).Name + ', ' + this.InfomationCustomer.value.Address;
-    this.Address.value.Wards = this.listWards.find((x) => x.Id == event).Name;
+    this.Address.value.Wards = selectedWardName;
+
     this.InfomationCustomer.value.Address = this.Address.value.Wards + ',' + this.Address.value.District + ',' + this.Address.value.Province
+    console.log("ward"  +this.wardCodeShip)   
+    this.serviceShipping();
+  }
+ serviceShipping(){
+  const url = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services';
+  const headers = new HttpHeaders().set('token', '1b430556-d481-11ed-9eaf-eac62dba9bd9');
+  const params = new HttpParams()
+  .set('shop_id', '4001175')
+  .set('from_district', '3440' )
+  .set('to_district', this.districtsShip);
+  this.http.get(url, { headers, params }).subscribe((res) => {
+  console.log(res);
+  this.calculateShippingFee();
+});
+ }
+
+  calculateShippingFee() {
+    const url = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee';
+    const token = '1b430556-d481-11ed-9eaf-eac62dba9bd9';
+    const shopId = '4001175';
+    const serviceId = 100039; // replace with the actual service ID
+    const toWardCode = this.wardCodeShip;
+    const toDistrictId = this.districtsShip
+    const fromDistrictId = 3440; // replace with the actual district ID of the sender
+    const weight = 200; // replace with the actual weight in grams
+    const length = 5; // replace with the actual length in cm
+    const width = 5; // replace with the actual width in cm
+    const height = 5; // replace with the actual height in cm
+    const headers = new HttpHeaders()
+      .set('token', token)
+      .set('shop_id', shopId);
+
+    const params = {
+      service_id: serviceId,
+      insurance_value: 0, // replace with the actual value of the product
+      coupon: '',
+      to_ward_code: toWardCode,
+      to_district_id: toDistrictId,
+      from_district_id: fromDistrictId,
+      weight: weight,
+      length: length,
+      width: width,
+      height: height
+    };
+
+    this.http.get(url, { headers, params })
+      .subscribe((res:any) => {
+        this.totalShipping = res.data.total
+        this.toMoney = this.toMoney + this.totalShipping;
+
+      });
   }
   HamletChange(event: any) {
     this.InfomationCustomer.value.Address = "";
@@ -323,7 +431,7 @@ export class ShoppingCartComponent implements OnInit {
       if (this.Payment.value.payment == "cash") {
         this.isPayment = false;
         this.BillObj.payment = false;
-        this.BillObj.transportFee = 30000;
+        this.BillObj.transportFee = this.totalShipping;
         this.BillObj.total = this.total;
         this.BillObj.downtotal = this.toMoney;
         this.dataSource.map((x) => {
@@ -495,7 +603,6 @@ export class ShoppingCartComponent implements OnInit {
       this.toMoney = this.total;
       this.selectedValue = null;
       this.isPayment = false;
-      this.totalShipping = 30000;
       this.toMoney = this.total + this.totalShipping
     } else {
       this.listVoucher = this.Voucher.dataSource.filter((x) => x.minimumValue <= this.total);

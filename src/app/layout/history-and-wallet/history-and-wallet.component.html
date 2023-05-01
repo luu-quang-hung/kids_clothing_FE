@@ -9,6 +9,8 @@
     ::ng-deep .k-content.k-window-content.k-dialog-content{
         width: 100%;
     }
+
+
 </style>
 <app-header></app-header>
 <div kendoWindowContainer></div>
@@ -215,32 +217,39 @@
                             <kendo-grid #grid [kendoGridBinding]="listBillBought" style="height: 450px;" [pageSize]="20"
                                 [sortable]="true" [pageable]="true" [sortable]="true" [navigable]="true"
                                 [resizable]="true" filterable="menu" (edit)="editHandler($event)">
-                                <kendo-grid-command-column title="command" [width]="120" [locked]="true">
+                                <kendo-grid-column field="payment" title="Phương thức thanh toán" [width]="200" [filterable]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                      {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
+                                    </ng-template>
+                                  </kendo-grid-column>
+                                  <kendo-grid-column field="createAt" title="Ngày tạo đơn" [width]="200" [filterable]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                      {{ dataItem.createAt | date:'dd/MM/yyyy' }}
+                                    </ng-template>
+                                  </kendo-grid-column>
+                                <kendo-grid-column  field="fullname" title="Tên người nhận" [width]="200" [filterable]="false"></kendo-grid-column>
+                            <kendo-grid-column field="sdt" title="Số điện thoại" [width]="150" [filterable]="false"></kendo-grid-column>
+                            <kendo-grid-column field="address" title="Địa chỉ" [width]="300" [filterable]="false"></kendo-grid-column>
+                            <kendo-grid-column field="total" title="Tổng tiền" [width]="150" [filterable]="false">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.total | number:'1.0-0' }} đ
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="downtotal" title="Tiền đã thanh toán" [width]="150" [filterable]="false">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.downtotal | number:'1.0-0' }} đ
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="transportFee" title="Phí vận chuyển" [width]="150" [filterable]="false">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.transportFee | number:'1.0-0' }} đ
+                              </ng-template>
+                            </kendo-grid-column>
+                                <kendo-grid-command-column title="Hành động" [width]="120" >
                                     <ng-template kendoGridCellTemplate let-isNew="isNew">
                                         <button kendoGridEditCommand [primary]="true">Chi tiết</button>
                                     </ng-template>
                                 </kendo-grid-command-column>
-                                <kendo-grid-column field="payment" title="Phương thức" [width]="220">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="createAt" title="Ngày tạo đơn" [width]="250">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <kendo-datetimepicker [value]="getDate(dataItem.createAt)" [disabled]="true"
-                                            style="margin: 0px 10px;"> </kendo-datetimepicker>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200">
-                                </kendo-grid-column>
-                                <kendo-grid-column field="sdt" title="SĐT" [width]="150"></kendo-grid-column>
-                                <kendo-grid-column field="address" title="Địa chỉ" [width]="300">
-                                </kendo-grid-column>
-                                <kendo-grid-column field="total" title="Tổng tiền" [width]="150"></kendo-grid-column>
-                                <kendo-grid-column field="downtotal" title="Thanh toán" [width]="150">
-                                </kendo-grid-column>
-                                <kendo-grid-column field="transportFee" title="Giá ship" [width]="150">
-                                </kendo-grid-column>
                             </kendo-grid>
                         </ng-template>
                     </kendo-tabstrip-tab>
@@ -249,32 +258,39 @@
                             <kendo-grid #grid [kendoGridBinding]="listBillBuying" style="height: 450px;" [pageSize]="20"
                                 [sortable]="true" [pageable]="true" [sortable]="true" [navigable]="true"
                                 [resizable]="true" filterable="menu" (edit)="editHandler($event)">
-                                <kendo-grid-command-column title="command" [width]="120" [locked]="true">
+                                <kendo-grid-column field="payment" title="Phương thức thanh toán" [width]="200" [filterable]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                      {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
+                                    </ng-template>
+                                  </kendo-grid-column>
+                                  <kendo-grid-column field="createAt" title="Ngày tạo đơn" [width]="200" [filterable]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                      {{ dataItem.createAt | date:'dd/MM/yyyy' }}
+                                    </ng-template>
+                                  </kendo-grid-column>
+                                <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200" [filterable]="false"></kendo-grid-column>
+                            <kendo-grid-column field="sdt" title="Số điện thoại" [width]="150" [filterable]="false"></kendo-grid-column>
+                            <kendo-grid-column field="address" title="Địa chỉ" [width]="300" [filterable]="false"></kendo-grid-column>
+                            <kendo-grid-column field="total" title="Tổng tiền" [width]="150" [filterable]="false">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.total | number:'1.0-0' }} đ
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="downtotal" title="Tiền đã thanh toán" [width]="150" [filterable]="false">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.downtotal | number:'1.0-0' }} đ
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="transportFee" title="Phí vận chuyển" [width]="150" [filterable]="false">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.transportFee | number:'1.0-0' }} đ
+                              </ng-template>
+                            </kendo-grid-column>
+                                <kendo-grid-command-column title="Hành động" [width]="120" >
                                     <ng-template kendoGridCellTemplate let-isNew="isNew">
                                         <button kendoGridEditCommand [primary]="true">Chi tiết</button>
                                     </ng-template>
                                 </kendo-grid-command-column>
-                                <kendo-grid-column field="payment" title="Phương thức" [width]="220">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="createAt" title="Ngày tạo đơn" [width]="250">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <kendo-datetimepicker [value]="getDate(dataItem.createAt)" [disabled]="true"
-                                            style="margin: 0px 10px;"> </kendo-datetimepicker>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200">
-                                </kendo-grid-column>
-                                <kendo-grid-column field="sdt" title="SĐT" [width]="150"></kendo-grid-column>
-                                <kendo-grid-column field="address" title="Địa chỉ" [width]="300">
-                                </kendo-grid-column>
-                                <kendo-grid-column field="total" title="Tổng tiền" [width]="150"></kendo-grid-column>
-                                <kendo-grid-column field="downtotal" title="Thanh toán" [width]="150">
-                                </kendo-grid-column>
-                                <kendo-grid-column field="transportFee" title="Giá ship" [width]="150">
-                                </kendo-grid-column>
                             </kendo-grid>
                         </ng-template>
                     </kendo-tabstrip-tab>
@@ -283,32 +299,39 @@
                             <kendo-grid #grid [kendoGridBinding]="listBillRefund" style="height: 450px;" [pageSize]="20"
                                 [sortable]="true" [pageable]="true" [sortable]="true" [navigable]="true"
                                 [resizable]="true" filterable="menu" (edit)="editHandler($event)">
-                                <kendo-grid-command-column title="command" [width]="120" [locked]="true">
+                                <kendo-grid-column field="payment" title="Phương thức thanh toán" [width]="200" [filterable]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                      {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
+                                    </ng-template>
+                                  </kendo-grid-column>
+                                  <kendo-grid-column field="createAt" title="Ngày tạo đơn" [width]="200" [filterable]="false">
+                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                      {{ dataItem.createAt | date:'dd/MM/yyyy' }}
+                                    </ng-template>
+                                  </kendo-grid-column>
+                                <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200" [filterable]="false"></kendo-grid-column>
+                            <kendo-grid-column field="sdt" title="Số điện thoại" [width]="150" [filterable]="false"></kendo-grid-column>
+                            <kendo-grid-column field="address" title="Địa chỉ" [width]="300" [filterable]="false"></kendo-grid-column>
+                            <kendo-grid-column field="total" title="Tổng tiền" [width]="150" [filterable]="false">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.total | number:'1.0-0' }} đ
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="downtotal" title="Tiền đã thanh toán" [width]="150" [filterable]="false">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.downtotal | number:'1.0-0' }} đ
+                              </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="transportFee" title="Phí vận chuyển" [width]="150" [filterable]="false">
+                              <ng-template kendoGridCellTemplate let-dataItem>
+                                {{ dataItem.transportFee | number:'1.0-0' }} đ
+                              </ng-template>
+                            </kendo-grid-column>
+                                <kendo-grid-command-column title="Hành động" [width]="120" >
                                     <ng-template kendoGridCellTemplate let-isNew="isNew">
                                         <button kendoGridEditCommand [primary]="true">Chi tiết</button>
                                     </ng-template>
                                 </kendo-grid-command-column>
-                                <kendo-grid-column field="payment" title="Phương thức" [width]="220">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="createAt" title="Ngày tạo đơn" [width]="250">
-                                    <ng-template kendoGridCellTemplate let-dataItem>
-                                        <kendo-datetimepicker [value]="getDate(dataItem.createAt)" [disabled]="true"
-                                            style="margin: 0px 10px;"> </kendo-datetimepicker>
-                                    </ng-template>
-                                </kendo-grid-column>
-                                <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200">
-                                </kendo-grid-column>
-                                <kendo-grid-column field="sdt" title="SĐT" [width]="150"></kendo-grid-column>
-                                <kendo-grid-column field="address" title="Địa chỉ" [width]="300">
-                                </kendo-grid-column>
-                                <kendo-grid-column field="total" title="Tổng tiền" [width]="150"></kendo-grid-column>
-                                <kendo-grid-column field="downtotal" title="Thanh toán" [width]="150">
-                                </kendo-grid-column>
-                                <kendo-grid-column field="transportFee" title="Giá ship" [width]="150">
-                                </kendo-grid-column>
                             </kendo-grid>
                         </ng-template>
                     </kendo-tabstrip-tab>

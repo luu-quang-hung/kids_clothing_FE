@@ -93,40 +93,46 @@
                         <kendo-textbox placeholder="Số điện thoại" formControlName="PhoneNumber"></kendo-textbox>
                     </div>
                     <div class="col-md-6" style="margin: 10px 0px;">
-                        <div
-                            *ngIf="InfomationCustomer.controls['Province']!.invalid && (InfomationCustomer.controls['Province']!.dirty || InfomationCustomer.controls['Province']!.touched)">
-                            <small class="text-danger" *ngIf="InfomationCustomer.get('Province')!.hasError('required')">
+                        <div class="form-group">
+                            <label>Tỉnh/Thành phố</label>
+                            <select class="form-control" formControlName="Province" (change)="onProvinceChange($event)">
+                              <option value="">Chọn Tỉnh/Thành phố</option>
+                              <option *ngFor="let province of provinces" [value]="province.ProvinceId">{{ province.ProvinceName }}</option>
+                            </select>
+                            <div *ngIf="InfomationCustomer.controls['Province']!.invalid && (InfomationCustomer.controls['Province']!.dirty || InfomationCustomer.controls['Province']!.touched)">
+                              <small class="text-danger" *ngIf="InfomationCustomer.get('Province')!.hasError('required')">
                                 Không được để trống Tỉnh
-                            </small>
-                        </div>
-                        <kendo-dropdownlist [data]="listProvince" textField="Name" valueField="Id"
-                            [defaultItem]="{ Name: 'Tỉnh Thành', Id: null }" (valueChange)="ProvinceChange($event)"
-                            formControlName="Province" [valuePrimitive]="true" style="width: 100%;">
-                        </kendo-dropdownlist>
+                              </small>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label>Quận/Huyện</label>
+                            <select class="form-control" formControlName="District" (change)="onDistrictsChange($event)">
+                              <option value="">Chọn Quận/Huyện</option>
+                              <option *ngFor="let district of districts" [value]="district.DistrictID">{{ district.DistrictName }}</option>
+                            </select>
+                            <div *ngIf="InfomationCustomer.controls['District']!.invalid && (InfomationCustomer.controls['District']!.dirty || InfomationCustomer.controls['District']!.touched)">
+                              <small class="text-danger" *ngIf="InfomationCustomer.get('District')!.hasError('required')">
+                                Không được để trống Quận/Huyện
+                              </small>
+                            </div>
+                          </div>
+
                     </div>
                     <div class="col-md-6" style="margin: 10px 0px;">
-                        <div
-                            *ngIf="InfomationCustomer.controls['District']!.invalid && (InfomationCustomer.controls['District']!.dirty || InfomationCustomer.controls['District']!.touched)">
-                            <small class="text-danger" *ngIf="InfomationCustomer.get('District')!.hasError('required')">
-                                Không được để trống Thành phố
-                            </small>
+                        <div class="form-group">
+                            <label>Phường/Xã</label>
+                            <select class="form-control" formControlName="Ward"  (change)="onWardChange($event)">
+                                <option value="">Chọn Phường/Xã</option>
+                                <option *ngFor="let ward of wards" [value]="ward.WardCode">{{ ward.WardName }}</option>
+                            </select>
+                            <div *ngIf="InfomationCustomer.controls['Wards']!.invalid && (InfomationCustomer.controls['Wards']!.dirty || InfomationCustomer.controls['Wards']!.touched)">
+                                <small class="text-danger" *ngIf="InfomationCustomer.get('Wards')!.hasError('required')">
+                                    Không được để trống Phường/Xã
+                                </small>
+                            </div>
                         </div>
-                        <kendo-dropdownlist [data]="listDistrict" textField="Name" valueField="Id"
-                            [defaultItem]="{ Name: 'Quận/Huyện', Id: null }" (valueChange)="DistrictChange($event)"
-                            formControlName="District" [valuePrimitive]="true" style="width: 100%;">
-                        </kendo-dropdownlist>
-                    </div>
-                    <div class="col-md-6" style="margin: 10px 0px;">
-                        <div
-                            *ngIf="InfomationCustomer.controls['Wards']!.invalid && (InfomationCustomer.controls['Wards']!.dirty || InfomationCustomer.controls['Wards']!.touched)">
-                            <small class="text-danger" *ngIf="InfomationCustomer.get('Wards')!.hasError('required')">
-                                Không được để trống Phường/Xã
-                            </small>
-                        </div>
-                        <kendo-dropdownlist [data]="listWards" textField="Name" valueField="Id"
-                            [defaultItem]="{ Name: 'Phường/Xã', Id: null }" (valueChange)="WardsChange($event)"
-                            formControlName="Wards" [valuePrimitive]="true" style="width: 100%;">
-                        </kendo-dropdownlist>
                     </div>
                     <div class="col-md-6" style="margin: 10px 0px;">
                         <div
@@ -188,7 +194,7 @@
                                     <table style="width: 100%;">
                                         <tr>
                                             <th>Giá ship</th>
-                                            <th>30.000₫</th>
+                                            <th>Chuyen vao day</th>
                                         </tr>
                                     </table>
                                 </div>

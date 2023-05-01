@@ -1,4 +1,31 @@
 <div class="card">
+<<<<<<< HEAD
+  <div class="card-header card-header-danger">
+      <h4 class="card-title ">Quản lý màu sắc</h4>
+      <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+  </div>
+  <div class="card-body">
+      <kendo-grid #grid [kendoGridBinding]="gridData" [height]="500" [pageSize]="20" [sortable]="true"
+          [pageable]="true" [sortable]="true" (cellClose)="cellCloseHandler($event)"
+          (cellClick)="cellClickHandler($event)" (cancel)="cancelHandler($event)" (save)="saveHandler($event)"
+          (remove)="removeHandler($event)" (add)="addHandler($event)" [navigable]="true">
+          <ng-template kendoGridToolbarTemplate>
+              <button iconClass="fa fa-plus" kendoGridAddCommand>Thêm mới</button>
+              <button kendoButton iconClass="fa fa-floppy-o" (click)="Update(grid)">
+                  LƯU
+              </button>
+          </ng-template>
+          <kendo-grid-column field="name" title="Tên"></kendo-grid-column>
+          <kendo-grid-command-column title="Tùy chỉnh" [width]="220">
+              <ng-template kendoGridCellTemplate let-isNew="isNew">
+                  <button kendoGridRemoveCommand>Xóa</button>
+                  <button kendoGridSaveCommand>Thêm</button>
+                  <button kendoGridCancelCommand>Hủy</button>
+              </ng-template>
+          </kendo-grid-command-column>
+      </kendo-grid>
+      <div *ngIf="api.loading" class="k-i-loading"></div>
+=======
   <div class="card-body">
     <kendo-grid #grid [kendoGridBinding]="gridData" [height]="765" [pageSize]="20" [sortable]="true"
       [pageable]="true" [sortable]="true" (cellClose)="cellCloseHandler($event)"
@@ -24,5 +51,6 @@
       </kendo-grid-command-column>
     </kendo-grid>
     <div *ngIf="api.loading" class="k-i-loading"></div>
+>>>>>>> 8cc3bcca67264b668a917103f03702f8046d7791
   </div>
 </div>
