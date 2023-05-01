@@ -1,0 +1,48 @@
+
+.k-dropdown-button {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .k-dropdown-button:hover {
+    background-color: #f5f5f5;
+    border-color: #aaa;
+    color: #000;
+  }
+
+  .k-dropdown-button .k-icon {
+    margin-right: 5px;
+  }
+
+  .k-dropdown-button:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Tùy chỉnh dropdown menu */
+  .k-list-container {
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .k-item {
+    padding: 5px 10px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .k-item:hover {
+    background-color: #f5f5f5;
+  }
+
+  .k-item.k-state-selected,
+  .k-item.k-state-selected:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
