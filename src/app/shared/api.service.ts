@@ -37,7 +37,7 @@ export class ApiService {
   public windowRef: any;
   public dialogRef!: DialogRef;
   constructor(public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
-    private notificationService: NotificationService, private message: MessageService, private formBuilder: FormBuilder) {
+              private notificationService: NotificationService, private message: MessageService, private formBuilder: FormBuilder) {
   }
 
   getHeader() {
@@ -313,14 +313,14 @@ export class ApiService {
       if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
         let getHeader = this._.getHeader();
         if (getHeader instanceof HttpHeaders) {
-          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findByDayNewCreate', { headers: getHeader })
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllByIsDeleteFalse', { headers: getHeader })
             .pipe(map((res: any) => {
               return res;
             }), tap(() => {
               this._.loading = false
             }))
         } else {
-          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findByDayNewCreate')
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllByIsDeleteFalse')
             .pipe(map((res: any) => {
               return res;
             }), tap(() => {
@@ -328,7 +328,7 @@ export class ApiService {
             }))
         }
       } else {
-        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findByDayNewCreate')
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
           .pipe(map((res: any) => {
             return res;
           }))
@@ -604,4 +604,5 @@ export class ApiService {
   };
 
 }
+
 
