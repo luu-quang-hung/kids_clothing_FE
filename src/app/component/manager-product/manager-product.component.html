@@ -5,17 +5,45 @@
       style="height: 770px; width: 1170px;" [columnMenu]="{ filter: true }" (edit)="editHandler($event)"
       (add)="addHanler($event)" (remove)="removeHandler($event)" (dataStateChange)="dataStateChange($event)">
       <ng-template kendoGridToolbarTemplate>
-        <button kendoGridAddCommand class="btn btn-primary" iconClass="fa fa-plus" style="border-radius: 20px;">  Thêm mới</button>
+        <div>
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
+            <input autocomplete="off" placeholder=" Tìm kiếm theo tên" title="Search..." #username class="k-input">
+          </span>
+          <button (click)="ngOnInitsearch(username.value)" class="btn-outline-primary rounded-pill mr-3">
+            <span class="k-icon k-i-search"></span>
+            <span class="k-grid-search-text">Tìm kiếm</span>
+          </button>
+        </div>
+        <button kendoGridAddCommand class="btn btn-primary" iconClass="fa fa-plus" style="border-radius: 20px; "> Thêm
+          mới</button>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="true">
+              Select a category
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li *ngFor="let value">
+                <a href="#" (click)="filterByCategory(value)"></a>
+              </li>
+            </ul>
+          </div>
+
+
+
       </ng-template>
-      <kendo-grid-command-column  title="Command" [width]="370" [locked]="false" >
+      <kendo-grid-command-column title="Command" [width]="370" [locked]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <button kendoGridEditCommand iconClass="fa fa-pencil" class="btn btn-primary" style="border-radius: 20px;"> Chỉnh sửa</button>
-          <button kendoGridRemoveCommand iconClass="fa fa-trash" class="btn btn-danger"style="border-radius: 20px;"> Xóa</button>
-          <button kendoButton iconClass="fa fa-upload" (click)="UploadImage(dataItem.id)" class="btn btn-secondary"style="border-radius: 20px;">Tải
+          <button kendoGridEditCommand iconClass="fa fa-pencil" class="btn btn-primary" style="border-radius: 20px;">
+            Chỉnh sửa</button>
+          <button kendoGridRemoveCommand iconClass="fa fa-trash" class="btn btn-danger" style="border-radius: 20px;">
+            Xóa</button>
+          <button kendoButton iconClass="fa fa-upload" (click)="UploadImage(dataItem.id)" class="btn btn-secondary"
+            style="border-radius: 20px;">Tải
             ảnh</button>
         </ng-template>
       </kendo-grid-command-column>
-      <kendo-grid-column field="name" title="Tên sản phẩm" [width]="250" ></kendo-grid-column>
+      <kendo-grid-column field="name" title="Tên sản phẩm" [width]="250"></kendo-grid-column>
       <kendo-grid-column field="price" title="Giá" [width]="100">
         <ng-template kendoGridCellTemplate let-dataItem>
           {{ dataItem.price | number :'1.0-3'}}
