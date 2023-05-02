@@ -35,6 +35,16 @@ export class ManagerAccountComponent implements OnInit {
   }
   public Authority: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
   
+  ngOnInitserch(name: any): void {
+    this.api.Controller = "AccountManagerController";
+    this.api.isManager = true;
+    this.api.typeData = "popup"
+    this.api.name = name
+    this.Readserch();
+    this.message.receivedDataAfterUpadte().subscribe((rs) => {
+      this.Readserch();
+    })
+  }
   ngOnInit(): void {
     this.api.Controller = "AccountManagerController";
     this.api.isManager = true;
@@ -64,6 +74,23 @@ export class ManagerAccountComponent implements OnInit {
       this.Authority.dataSource = rs.data;
     })
   }
+  Readserch(): void{
+    this.api.Read.Execute().subscribe((rs) => {
+      this.gridData = rs.data.filter((x:any) => x.role.id == "admin" || x.role.id == "staff");
+      this.api.dataSource = rs.data
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    })
+    this.Authority.getApi('Manager/' + this.api.Controller +'/findby_name?name='+ this.api.name).subscribe((rs)=>{
+      this.Authority.dataSource = rs.data;
+    })
+  }
+ 
   addHanler(event: any) {
     this.api.OpenWindow.top = -115;
     this.api.OpenWindow.left = 200;

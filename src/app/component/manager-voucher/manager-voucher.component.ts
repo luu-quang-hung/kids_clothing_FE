@@ -17,6 +17,7 @@ export class ManagerVoucherComponent implements OnInit {
 
   public listVoucher: Array<any> = [];
   public listEvent: Array<any> = [];
+  public listserch: Array<any> = [];
   public state: State = {
     filter: undefined,
     skip: 0,
@@ -29,6 +30,40 @@ export class ManagerVoucherComponent implements OnInit {
 
   public Voucher: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
   public Event: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
+  ngOnInitserch(name: any): void {
+    this.Voucher.isManager = true;
+    this.Event.isManager = true;
+    this.Event.Controller = "EventManagerController";
+    this.Voucher.name = name;
+    this.Voucher.Controller = "VoucherManagerController";
+    this.Voucher.Readserch.Execute().subscribe((res) => {
+      this.listVoucher = res.data;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.Voucher.Notification.notificationError('');
+      }
+    })
+    this.Event.Read.Execute().subscribe((res) => {
+      this.listEvent = res.data;
+      this.Event.dataSource = res.data;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.Event.Notification.notificationError('');
+      }
+    })
+    this.message.receivedDataAfterUpadte().subscribe((rs) => {
+      this.listVoucher = rs.data;
+    })
+    this.message.receivedDataBehavior().subscribe((rs) => {
+      this.listVoucher = rs;
+    })
+  }
 
   ngOnInit(): void {
     this.Voucher.isManager = true;
@@ -66,6 +101,7 @@ export class ManagerVoucherComponent implements OnInit {
   EventVoucher(id: number): any {
     return this.listEvent.find(x => x.id === id);
   }
+  
   onEventChange(event: any): void{
     this.Voucher.formGroup.markAsDirty({ onlySelf: true });
     this.Voucher.formGroup.value.idevent = event;
@@ -129,6 +165,7 @@ export class ManagerVoucherComponent implements OnInit {
     event.sender.closeRow(event.rowIndex);
   }
   dataStateChange(state: DataStateChangeEvent): void {
+    console.log(state)
     this.state = state;
   }
 }

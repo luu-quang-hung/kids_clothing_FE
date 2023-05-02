@@ -11,11 +11,13 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { GroupDescriptor, State, process, DataResult } from '@progress/kendo-data-query';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   public Controller: String | undefined;
+  public name: String | undefined;
   public formGroup !: FormGroup;
   public status: String | undefined;
   public dataSource: Array<any> = [];
@@ -44,9 +46,13 @@ export class ApiService {
   }
   getApi(url: any) {
     let getHeader = this.getHeader();
+    console.log('stat call')
     if (getHeader instanceof HttpHeaders) {
-      return this.http.get('http://localhost:8080/' + url, { headers: getHeader })
+      console.log('calling',url);
+
+      return this.http.get(`http://localhost:8080/${url}`, { headers: getHeader })
         .pipe(map((res: any) => {
+          console.log('end call')
           return res;
         }))
     } else {
@@ -323,6 +329,35 @@ export class ApiService {
         }
       } else {
         return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public Readserch = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findby_name?name='+ this._.name , { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findby_name')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findby_name')
           .pipe(map((res: any) => {
             return res;
           }))
