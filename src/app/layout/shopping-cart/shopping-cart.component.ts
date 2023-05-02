@@ -54,7 +54,7 @@ export class ShoppingCartComponent implements OnInit {
   public oldAddress: Array<any> = [];
   public myWallet: any;
   public selectedValue = null;
-  public totalShipping = 30000;
+  public totalShipping :any;
   public steps = [
     { label: 'Bước 1', index: 0 },
     { label: 'Bước 2', index: 1, disabled: true },
@@ -81,6 +81,8 @@ export class ShoppingCartComponent implements OnInit {
 
   public provincesShip: any;
   public districtsShip: any;
+  public wardCodeShip:any;
+  public districtsShip:any;
   public formGroup = new FormGroup({
     property: new FormControl(),
     size: new FormControl(),
@@ -182,6 +184,85 @@ export class ShoppingCartComponent implements OnInit {
     this.Voucher.Controller = 'VoucherController';
     this.Customer.Controller = 'CustomerController';
 
+    this.getProvinces().subscribe((provinces: { ProvinceId: any, ProvinceName: any }[]) => {
+      this.provinces = provinces;
+    });
+
+    this.Quantity.Read.Execute().subscribe((rs) => {
+      this.Quantity.dataSource = rs.data;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    })
+    this.Voucher.getApi('Customer/' + this.Voucher.Controller + '/findVoucherByAmount').subscribe((rs) => {
+      this.Voucher.dataSource = rs.data;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    })
+    if (sessionStorage.getItem('Account') != null || sessionStorage.getItem('Account') != undefined) {
+      this.Customer.getApi('Customer/' + this.Customer.Controller + '/' + sessionStorage.getItem('Account')).subscribe((rs) => {
+        let getAddress = rs.data.address.split(',');
+        this.InfomationCustomer.controls.FullName.setValue(rs.data.fullname);
+        this.InfomationCustomer.controls.Address.setValue(rs.data.address);
+        this.Address.controls.Province.setValue(rs.data);
+      }, (error) => {
+        if (error.status == 500) {
+          let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+          window.location.href = "/login/" + id;
+        } else {
+          this.api.Notification.notificationError('');
+        }
+      })
+      this.Account.getApi('api/account/' + sessionStorage.getItem('Account')).subscribe((rs) => {
+        this.InfomationCustomer.controls.PhoneNumber.setValue(rs.data.phone);
+      }, (error) => {
+        if (error.status == 500) {
+          let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+          window.location.href = "/login/" + id;
+        } else {
+          this.api.Notification.notificationError('');
+        }
+      })
+      this.api.getApi('api/bill/get-address').subscribe((rs) => {
+        this.oldAddress = rs.data;
+      }, (error) => {
+        if (error.status == 500) {
+          let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+          window.location.href = "/login/" + id;
+        } else {
+          this.api.Notification.notificationError('');
+        }
+      })
+      this.api.getApi('Customer/MamiPayController/mamipay').subscribe((rs) => {
+        this.myWallet = rs.data;
+      }, (error) => {
+        if (error.status == 500) {
+          let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+          window.location.href = "/login/" + id;
+        } else {
+          this.api.Notification.notificationError('');
+        }
+      })
+    }
+
+    this.key.map((x: any) => {
+      let data: any = localStorage.getItem(x);
+      let value = JSON.parse(data);
+      this.dataSource.push(value);
+    })
+    this.dataSource.map((x) => {
+      this.total = this.total + Number(x.newPrice * x.Quantity);
+      this.toMoney = this.toMoney + Number(x.newPrice * x.Quantity);
+    })
     this.getProvinces().subscribe(
       (provinces: { ProvinceId: any; ProvinceName: any }[]) => {
         this.provinces = provinces;
@@ -522,18 +603,9 @@ export class ShoppingCartComponent implements OnInit {
 
   getDistricts(provinceId: any): Observable<any[]> {
     const url = `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${provinceId}`;
-    return this.http
-      .get<any[]>(url, {
-        headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' },
-      })
-      .pipe(
-        map((response: any) =>
-          response.data.map((districts: any) => ({
-            DistrictID: districts.DistrictID,
-            DistrictName: districts.DistrictName,
-          }))
-        )
-      );
+    return this.http.get<any[]>(url, { headers: { token: '1b430556-d481-11ed-9eaf-eac62dba9bd9' } })
+    .pipe(
+      map((response: any) => response.data.map((districts: any) => ({ DistrictID: districts.DistrictID, DistrictName: districts.DistrictName }))));
   }
 
   getWardService(districtId: any): Observable<any[]> {
@@ -553,7 +625,6 @@ export class ShoppingCartComponent implements OnInit {
   }
   onProvinceChange(event: Event): void {
     const provinceId = (event.target as HTMLSelectElement).value;
-    this.provincesShip = provinceId;
     const selectElement = event.target as HTMLSelectElement;
     const selectedOption = selectElement.options.item(
       selectElement.selectedIndex
@@ -576,12 +647,16 @@ export class ShoppingCartComponent implements OnInit {
       selectElement.selectedIndex
     ) as HTMLOptionElement;
     const selectedDistrictName = selectedOption.innerText;
+    this.InfomationCustomer.value.Address = "";
+      this.Address.value.District = selectedDistrictName;
+      this.InfomationCustomer.value.Address = ',' + this.Address.value.District + ',' + this.Address.value.Province
     console.log(selectedDistrictName); // in ra giá trị district.name
     this.InfomationCustomer.value.Address = '';
     this.Address.value.District = selectedDistrictName;
     this.InfomationCustomer.value.Address =
       ',' + this.Address.value.District + ',' + this.Address.value.Province;
     const districtId = (event.target as HTMLSelectElement).value;
+    this.districtsShip =districtId
     if (districtId) {
       console.log(districtId);
       this.getWardService(districtId).subscribe((ward: any[]) => {
@@ -597,9 +672,17 @@ export class ShoppingCartComponent implements OnInit {
     const selectedOption = selectElement.options.item(
       selectElement.selectedIndex
     ) as HTMLOptionElement;
+    const wardCode = (event.target as HTMLSelectElement).value;
+    this.wardCodeShip =wardCode
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedOption = selectElement.options.item(selectElement.selectedIndex) as HTMLOptionElement;
     const selectedWardName = selectedOption.innerText;
     this.InfomationCustomer.value.Address = '';
     this.Address.value.Wards = selectedWardName;
+
+    this.InfomationCustomer.value.Address = this.Address.value.Wards + ',' + this.Address.value.District + ',' + this.Address.value.Province
+    console.log("ward"  +this.wardCodeShip)
+    this.serviceShipping();
     this.InfomationCustomer.value.Address =
       this.Address.value.Wards +
       ',' +
@@ -611,21 +694,32 @@ export class ShoppingCartComponent implements OnInit {
     alert(this.provincesShip);
     alert(this.districtsShip);
   }
+ serviceShipping(){
+  const url = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services';
+  const headers = new HttpHeaders().set('token', '1b430556-d481-11ed-9eaf-eac62dba9bd9');
+  const params = new HttpParams()
+  .set('shop_id', '4001175')
+  .set('from_district', '3440' )
+  .set('to_district', this.districtsShip);
+  this.http.get(url, { headers, params }).subscribe((res) => {
+  console.log(res);
+  this.calculateShippingFee();
+});
+ }
 
   calculateShippingFee() {
     const url =
       'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee';
     const token = '1b430556-d481-11ed-9eaf-eac62dba9bd9';
     const shopId = '4001175';
-    const serviceId = 123; // replace with the actual service ID
-    const toWardCode = this.InfomationCustomer.controls['Ward'].value;
-    const toDistrictId = this.InfomationCustomer.controls['District'].value;
-    const fromDistrictId = 456; // replace with the actual district ID of the sender
-    const weight = 1000; // replace with the actual weight in grams
-    const length = 10; // replace with the actual length in cm
-    const width = 20; // replace with the actual width in cm
-    const height = 30; // replace with the actual height in cm
-
+    const serviceId = 100039; // replace with the actual service ID
+    const toWardCode = this.wardCodeShip;
+    const toDistrictId = this.districtsShip
+    const fromDistrictId = 3440; // replace with the actual district ID of the sender
+    const weight = 200; // replace with the actual weight in grams
+    const length = 5; // replace with the actual length in cm
+    const width = 5; // replace with the actual width in cm
+    const height = 5; // replace with the actual height in cm
     const headers = new HttpHeaders()
       .set('token', token)
       .set('shop_id', shopId);
@@ -646,6 +740,12 @@ export class ShoppingCartComponent implements OnInit {
     this.http.get(url, { headers, params }).subscribe((response) => {
       console.log(response);
     });
+    this.http.get(url, { headers, params })
+      .subscribe((res:any) => {
+        this.totalShipping = res.data.total
+        this.toMoney = this.toMoney + this.totalShipping;
+
+      });
   }
   HamletChange(event: any) {
     this.InfomationCustomer.value.Address = '';
@@ -669,6 +769,89 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
   buyProduct(): void {
+    if (sessionStorage.getItem('TOKEN') == null) {
+      this.dialog = this.dialogService.open({
+        title: "Đăng nhập",
+        content: DialogLoginComponent,
+        width: 600,
+        height: 400,
+      });
+      const getInfoWindow = this.dialog.content.instance;
+      getInfoWindow.dialog = this.dialog;
+    } else if (this.dataSource.length == 0) {
+      this.api.Notification.notificationError('Trong giỏ hàng không có sản phẩm')
+    } else if (this.step_1) {
+      if (!this.Rules()) { return; }
+      else {
+        this.step_1 = false;
+        this.step_2 = true;
+        this.BillObj.fullname = this.InfomationCustomer.value.FullName;
+        this.BillObj.sdt = this.InfomationCustomer.value.PhoneNumber;
+        this.BillObj.address = this.InfomationCustomer.value.Address;
+        this.BillObj.note = this.InfomationCustomer.value.Note;
+        this.current += 1;
+        this.steps.map((x) => {
+          if (x.index == this.current) {
+            x.disabled = false;
+          }
+        })
+      }
+    } else if (this.step_2) {
+      this.BillObj.statusshipping = "Đang xử lý";
+      this.BillObj.username = String(sessionStorage.getItem('USERNAME'));
+      if (this.isPayment == true && this.myWallet.surplus < this.toMoney) {
+        return this.api.Notification.notificationWarning('Số dư trong ví không đủ để thanh toán đơn')
+      }
+      if (this.Payment.value.payment == "cash") {
+        this.isPayment = false;
+        this.BillObj.payment = false;
+        this.BillObj.transportFee = this.totalShipping;
+        this.BillObj.total = this.total;
+        this.BillObj.downtotal = this.toMoney;
+        this.dataSource.map((x) => {
+          let sendRequest = {
+            id_quantity: x.IdQuantity,
+            bill_quantity: x.Quantity
+          }
+          this.BillObj.list_quantity.push(sendRequest);
+        })
+      } else {
+        this.isPayment = true;
+        this.BillObj.payment = true;
+        this.BillObj.transportFee = 0;
+        this.BillObj.total = this.total;
+        this.BillObj.downtotal = this.toMoney;
+        this.dataSource.map((x) => {
+          let sendRequest = {
+            id_quantity: x.IdQuantity,
+            bill_quantity: x.Quantity
+          }
+          this.BillObj.list_quantity.push(sendRequest);
+        })
+      }
+      this.api.postApi('api/bill/creat', this.BillObj).subscribe((rs) => {
+        if (rs.status) {
+          this.dataSource.map((x) => {
+            localStorage.removeItem(x.Id);
+          })
+          this.dataSource = [];
+          this.total = 0;
+          this.toMoney = 0;
+          this.totalShipping = 0;
+          this.step_2 = false;
+          this.step_3 = true;
+          this.current += 1;
+          this.message.SendBadgeCart(localStorage.length);
+        }
+      }, (error) => {
+        if (error.status == 500) {
+          let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+          // window.location.href = "/login/" + id;
+        } else {
+          this.api.Notification.notificationError(error.error.message);
+        }
+        this.api.loading = false;
+      })
     if (sessionStorage.getItem('USERNAME') != null) {
       if (sessionStorage.getItem('TOKEN') == null) {
         this.dialog = this.dialogService.open({
@@ -969,6 +1152,7 @@ export class ShoppingCartComponent implements OnInit {
       this.isPayment = false;
       this.totalShipping = 30000;
       this.toMoney = this.total + this.totalShipping;
+      this.toMoney = this.total + this.totalShipping
     } else {
       this.listVoucher = this.Voucher.dataSource.filter(
         (x) => x.minimumValue <= this.total

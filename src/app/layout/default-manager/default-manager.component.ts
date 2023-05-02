@@ -12,6 +12,7 @@ export class DefaultManagerComponent implements OnInit {
   public expanded = true;
   public item: any = {};
   public drawItems = this.resetItems();
+  public username: any = sessionStorage.getItem('USERNAME');
 
   constructor(private router: Router) { }
 

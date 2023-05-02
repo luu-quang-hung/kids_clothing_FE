@@ -57,7 +57,7 @@
 <div class="container">
   <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
     <kendo-stepper [steps]="steps" stepType="full" [(currentStep)]="current" [style.width.px]="570"
-      (activate)="activate($event)">
+                   (activate)="activate($event)">
     </kendo-stepper>
   </div>
   <div class="row">
@@ -156,7 +156,7 @@
               </small>
             </div>
             <kendo-textbox placeholder="Địa chỉ" formControlName="Address"
-              [(ngModel)]="InfomationCustomer.value.Address" [readonly]="true"></kendo-textbox>
+                           [(ngModel)]="InfomationCustomer.value.Address" [readonly]="true"></kendo-textbox>
           </div>
           <div class="col-md-3" *ngIf="USERNAME != null">
             <button kendoButton (click)="open()" style="width: 100%;">Địa chỉ đã
@@ -174,7 +174,7 @@
             <div style="font-size: 30px;margin: 20px 0px;" class="row">
               <div class="col-md-7">
                 <input type="radio" name="payment" value="cash" formControlName="payment" kendoRadioButton
-                  (change)="PaymentMethodChange($event)" />
+                       (change)="PaymentMethodChange($event)" />
                 <label style="padding: 0px 20px;">
                   <i class="fa fa-truck" aria-hidden="true"></i>
                   Ship code toàn quốc
@@ -215,7 +215,7 @@
               <div style="font-size: 30px;margin: 20px 0px;" class="row">
                 <div class="col-md-7">
                   <input type="radio" name="payment" value="cash" formControlName="payment" kendoRadioButton
-                    (change)="PaymentMethodChange($event)" />
+                         (change)="PaymentMethodChange($event)" />
                   <label style="padding: 0px 20px;">
                     <i class="fa fa-truck" aria-hidden="true"></i>
                     Ship code toàn quốc
@@ -233,7 +233,7 @@
               <div style="font-size: 30px;margin: 20px 0px;" class="row">
                 <div class="col-md-7">
                   <input type="radio" name="payment" value="transfer" formControlName="payment" kendoRadioButton
-                    (change)="PaymentMethodChange($event)" />
+                         (change)="PaymentMethodChange($event)" />
                   <label style="padding: 0px 20px;">
                     <i class="fa fa-credit-card" aria-hidden="true"></i>
                     Thanh toán qua ví
@@ -252,19 +252,19 @@
           </div>
         </div>
         <div class="row" *ngIf="USERNAME == null">
-            <h3>
-                Chúng tôi sẽ XÁC NHẬN đơn hàng bằng TIN NHẮN SMS hoặc GỌI ĐIỆN. Bạn vui lòng kiểm tra TIN NHẮN hoặc NGHE MÁY ngay khi đặt hàng thành công và CHỜ NHẬN HÀNG
-            </h3>
+          <h3>
+            Chúng tôi sẽ XÁC NHẬN đơn hàng bằng TIN NHẮN SMS hoặc GỌI ĐIỆN. Bạn vui lòng kiểm tra TIN NHẮN hoặc NGHE MÁY ngay khi đặt hàng thành công và CHỜ NHẬN HÀNG
+          </h3>
         </div>
       </div>
       <div *ngIf="step_3"
-        style="border-bottom: 1px solid #ddd;display: flex;flex-direction: column;justify-items: center;align-items: center;padding: 100px;border-top: 1px solid #ddd;margin: 15px">
+           style="border-bottom: 1px solid #ddd;display: flex;flex-direction: column;justify-items: center;align-items: center;padding: 100px;border-top: 1px solid #ddd;margin: 15px">
         <i class="fa fa-check-circle" aria-hidden="true" style="color: limegreen;font-size: 80px;"></i>
         <h3 style="margin: 15px 0px;font-weight: 600;">Bạn đã đặt hàng thành công</h3>
       </div>
       <div id="create_bill" style="float: right;margin: 10px 0px;" *ngIf="!step_3">
         <button kendoButton iconClass="fa fa-check" (click)="buyProduct()"
-          style="background-color: #ef2b2b;color: white;font-size: 20px;">
+                style="background-color: #ef2b2b;color: white;font-size: 20px;">
           Thanh toán đơn hàng
         </button>
       </div>
@@ -284,7 +284,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-6" style="padding: 0px;">
               <div *ngIf="card.newPrice != 0">
                 <span style="color: #ffc045;padding-top: 10px;font-size: 20px;font-weight: 600;"
-                  *ngIf="card.newPrice != 0">
+                      *ngIf="card.newPrice != 0">
                   {{card.newPrice|number :'1.0-3'}} ₫
                 </span>
                 <small style="text-decoration-line: line-through;padding: 0px 5px;color: #888888;font-size: 18px;">
@@ -292,12 +292,12 @@
               </div>
               <div *ngIf="card.newPrice == 0">
                 <span style="color: #ffc045;padding-top: 10px;font-size: 20px;font-weight: 600;"
-                  *ngIf="card.newPrice == 0">
+                      *ngIf="card.newPrice == 0">
                   {{card.Product.price|number :'1.0-3'}} ₫
                 </span>
               </div>
               <a href=""
-                style="font-size: 1.2857em;color: #333;display: block;text-decoration: none;font-weight: 600;
+                 style="font-size: 1.2857em;color: #333;display: block;text-decoration: none;font-weight: 600;
                                 text-overflow: ellipsis;width: 200px; overflow: hidden;position: relative;white-space: nowrap;">
                 {{card.Product.name}}
               </a>
@@ -314,11 +314,11 @@
               </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-3 col-3"
-              style="display: flex;justify-content: center;align-items: center;">
+                 style="display: flex;justify-content: center;align-items: center;">
               <button kendoButton iconClass="fa fa-info-circle fa-fw" look="clear"
-                style="color: #5ec232;font-size: 20px;" (click)="infoCardItem($event,card.Id,index)"></button><br />
+                      style="color: #5ec232;font-size: 20px;" (click)="infoCardItem($event,card.Id,index)"></button><br />
               <button kendoButton iconClass="fa fa-trash fa-fw" look="clear"
-                (click)="removeCardItem($event,card.Id,index)" style="color: #ef2b2b;font-size: 20px;"></button>
+                      (click)="removeCardItem($event,card.Id,index)" style="color: #ef2b2b;font-size: 20px;"></button>
             </div>
           </kendo-card-header>
         </ng-template>
@@ -329,8 +329,8 @@
             </strong>
             <div class="col-md-9 col-8">
               <kendo-dropdownlist [data]="listVoucher" textField="name" valueField="id" [disabled]="!isPayment"
-                style="float: right;width: 100%;" [defaultItem]="defaultVoucher" (valueChange)="selectVoucher($event)"
-                [(ngModel)]="selectedValue">
+                                  style="float: right;width: 100%;" [defaultItem]="defaultVoucher" (valueChange)="selectVoucher($event)"
+                                  [(ngModel)]="selectedValue">
               </kendo-dropdownlist>
             </div>
           </div>
@@ -357,7 +357,7 @@
       </kendo-listview>
       <div id="create_bill_responsive" style="float: right;margin: 10px 0px;" *ngIf="!step_3">
         <button kendoButton iconClass="fa fa-check" (click)="buyProduct()"
-          style="background-color: #ef2b2b;color: white;font-size: 20px;">
+                style="background-color: #ef2b2b;color: white;font-size: 20px;">
           Thanh toán đơn hàng
         </button>
       </div>
