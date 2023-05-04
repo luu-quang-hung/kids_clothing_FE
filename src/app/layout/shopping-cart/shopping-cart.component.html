@@ -144,7 +144,7 @@
                         <kendo-textbox placeholder="Tổ/Xóm" formControlName="Hamlet" (change)="HamletChange($event)">
                         </kendo-textbox>
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-9" *ngIf="USERNAME != null">
                         <div
                             *ngIf="InfomationCustomer.controls['Address']!.invalid && (InfomationCustomer.controls['Address']!.dirty || InfomationCustomer.controls['Address']!.touched)">
                             <small class="text-danger" *ngIf="InfomationCustomer.get('Address')!.hasError('required')">
@@ -154,7 +154,7 @@
                         <kendo-textbox placeholder="Địa chỉ" formControlName="Address"
                             [(ngModel)]="InfomationCustomer.value.Address" [readonly]="true"></kendo-textbox>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" *ngIf="USERNAME != null">
                         <button kendoButton (click)="open()" style="width: 100%;">Địa chỉ đã
                             dùng</button>
                     </div>
@@ -162,9 +162,34 @@
                         <kendo-textbox placeholder="Ghi chú" formControlName="Note"></kendo-textbox>
                     </div>
                 </form>
+                <div class="col-md-12" *ngIf="USERNAME == null">
+                    <h3 style="color: #ef2b2b;font-weight: bold;font-size: 30px;padding: 10px 0px;">
+                      Phương thức thanh toán
+                    </h3>
+                    <form [formGroup]="Payment">
+                      <div style="font-size: 30px;margin: 20px 0px;" class="row">
+                        <div class="col-md-7">
+                          <input type="radio" name="payment" value="cash" formControlName="payment" kendoRadioButton
+                            (change)="PaymentMethodChange($event)" />
+                          <label style="padding: 0px 20px;">
+                            <i class="fa fa-truck" aria-hidden="true"></i>
+                            Ship code toàn quốc
+                          </label>
+                        </div>
+                        <div class="col-md-5" *ngIf="!isPayment" style="margin: 10px 0px;">
+                          <table style="width: 100%;">
+                            <tr>
+                              <th>Giá ship</th>
+                              <th>Chuyen vao day</th>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
             </div>
             <div *ngIf="step_2">
-                <div class="row">
+                <div class="row" *ngIf="USERNAME != null">
                     <div class="col-md-12">
                         <h3 style="color: #ef2b2b;font-weight: bold;font-size: 30px;padding: 10px 0px;">
                             Địa chỉ giao hàng
@@ -219,6 +244,11 @@
                             </div>
                         </form>
                     </div>
+                </div>
+                <div class="row" *ngIf="USERNAME == null">
+                    <h3>
+                        Chúng tôi sẽ XÁC NHẬN đơn hàng bằng TIN NHẮN SMS hoặc GỌI ĐIỆN. Bạn vui lòng kiểm tra TIN NHẮN hoặc NGHE MÁY ngay khi đặt hàng thành công và CHỜ NHẬN HÀNG
+                    </h3>
                 </div>
             </div>
             <div *ngIf="step_3"
