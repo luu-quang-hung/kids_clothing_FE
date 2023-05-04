@@ -338,6 +338,7 @@ export class ShoppingCartComponent implements OnInit {
     });
     }
   }
+  // 
   public USERNAME = sessionStorage.getItem('USERNAME');
   Rules(): boolean {
     if (this.InfomationCustomer.controls.FullName.errors != null) {
