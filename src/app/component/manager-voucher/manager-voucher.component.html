@@ -1,68 +1,74 @@
 <div class="card">
-  
-  
-    <div class="card-body">
-        <kendo-grid #grid [kendoGridBinding]="listVoucher" [height]="700" [pageSize]="20" [sortable]="true"
-            [pageable]="true" [sortable]="true" (cellClose)="cellCloseHandler($event)"
-            (dataStateChange)="dataStateChange($event)" (cellClick)="cellClickHandler($event)"
-            (cancel)="cancelHandler($event)" (save)="saveHandler($event)" (remove)="removeHandler($event)"
-            (add)="addHandler($event)" [navigable]="true">
-        
 
-            <ng-template kendoGridToolbarTemplate >
-              
-                <div>
-                <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" >
-                    <input  autocomplete="off" placeholder="Search..." title="Search..." #username class="k-input">
-                  </span>
-                  <button (click)="ngOnInitserch(username.value)" class= "btn-outline-primary rounded-pill mr-3" >
-                    <span class="k-icon k-i-search"></span>
-                    <span class="k-grid-search-text">Tìm kiếm</span>
-                  </button>                  
-                </div>
-                <div class="d-flex align-items-center ml-auto">
-                  <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus" kendoGridAddCommand>
-                    <span class="mr-2">Thêm mới</span>
-                  </button>
-                
-                </div>
-                <div class="d-flex align-items-center" >
-              
-                </div>
 
-              </ng-template>
-    
-            <kendo-grid-column field="name" title="Tên voucher"></kendo-grid-column>
-            <kendo-grid-column field="amount" title="Số lượng"></kendo-grid-column>
-            <kendo-grid-column field="discount" title="Phần trăm giảm"></kendo-grid-column>
-            <kendo-grid-column field="minimumValue" title="Gía trị tối thiểu"></kendo-grid-column>
-            <kendo-grid-column field="event.name" title="Sự kiện"  [width]="300">
-              
-                <ng-template kendoGridGroupHeaderTemplate let-value="value">
-                    {{ value }}
-                </ng-template>
-                <ng-template kendoGridCellTemplate let-dataItem>
-                    {{ EventVoucher(dataItem.event.id)?.name }}
-                </ng-template>
-                <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                    <kendo-dropdownlist [data]="listEvent" textField="name" valueField="id" [valuePrimitive]="true"
-                        (valueChange)="onEventChange($event)">
-                    </kendo-dropdownlist>
-                </ng-template>
-            </kendo-grid-column>
-            <kendo-grid-command-column title="Tùy chỉnh" [width]="300">
-              
-                <ng-template kendoGridCellTemplate let-isNew="isNew">
-                  <button *ngIf="!isNew" class=" btn-outline-success rounded-pill mr-3" kendoButton  iconClass="fa fa-floppy-o" (click)="Update(grid)">
-                    <span class="mr-2">LƯU</span>
-                  </button>
-                 
-                    <button  class=" btn-outline-danger rounded-pill"  iconClass="fa fa-trash" kendoGridRemoveCommand>Xóa</button>
-                    <button  iconClass="fa fa-plus" class="btn-outline-primary rounded-pill mr-3" kendoGridSaveCommand>Thêm</button>
-                    <button class=" btn-outline-danger rounded-pill"  iconClass="fa fa-ban" kendoGridCancelCommand>Hủy</button>
-                </ng-template>
-            </kendo-grid-command-column>
-        </kendo-grid>
-        <div *ngIf="Voucher.loading" class="k-i-loading"></div>
-    </div>
+  <div class="card-body">
+    <kendo-grid #grid [kendoGridBinding]="listVoucher" [height]="700" [pageSize]="20" [sortable]="true"
+      [pageable]="true" [sortable]="true" (cellClose)="cellCloseHandler($event)"
+      (dataStateChange)="dataStateChange($event)" (cellClick)="cellClickHandler($event)"
+      (cancel)="cancelHandler($event)" (save)="saveHandler($event)" (remove)="removeHandler($event)"
+      (add)="addHandler($event)" [navigable]="true">
+
+
+      <ng-template kendoGridToolbarTemplate>
+
+        <div>
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
+            <input autocomplete="off" placeholder="Search..." title="Search..." #username class="k-input">
+          </span>
+          <button (click)="ngOnInitserch(username.value)" class="btn-outline-primary rounded-pill mr-3">
+            <span class="k-icon k-i-search"></span>
+            <span class="k-grid-search-text">Tìm kiếm</span>
+          </button>
+        </div>
+        <div class="d-flex align-items-center ml-auto">
+          <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus" kendoGridAddCommand>
+            <span class="mr-2">Thêm mới</span>
+          </button>
+
+        </div>
+        <div class="d-flex align-items-center">
+
+        </div>
+
+      </ng-template>
+      <kendo-grid-column title="STT" [width]="100">
+        <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+          {{ rowIndex + 1 }}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="name" title="Tên voucher" ></kendo-grid-column>
+      <kendo-grid-column field="amount" title="Số lượng"></kendo-grid-column>
+      <kendo-grid-column field="discount" title="Phần trăm giảm"></kendo-grid-column>
+      <kendo-grid-column field="minimumValue" title="Gía trị tối thiểu"></kendo-grid-column>
+      <kendo-grid-column field="event.name" title="Sự kiện" [width]="300">
+
+        <ng-template kendoGridGroupHeaderTemplate let-value="value">
+          {{ value }}
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ EventVoucher(dataItem.event.id)?.name }}
+        </ng-template>
+        <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+          <kendo-dropdownlist [data]="listEvent" textField="name" valueField="id" [valuePrimitive]="true"
+            (valueChange)="onEventChange($event)">
+          </kendo-dropdownlist>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-command-column title="Tùy chỉnh" [width]="300">
+
+        <ng-template kendoGridCellTemplate let-isNew="isNew">
+          <button *ngIf="!isNew" class=" btn-outline-success rounded-pill mr-3" kendoButton iconClass="fa fa-floppy-o"
+            (click)="Update(grid)">
+            <span class="mr-2">LƯU</span>
+          </button>
+
+          <button class=" btn-outline-danger rounded-pill" iconClass="fa fa-trash" kendoGridRemoveCommand>Xóa</button>
+          <button iconClass="fa fa-plus" class="btn-outline-primary rounded-pill mr-3"
+            kendoGridSaveCommand>Thêm</button>
+          <button class=" btn-outline-danger rounded-pill" iconClass="fa fa-ban" kendoGridCancelCommand>Hủy</button>
+        </ng-template>
+      </kendo-grid-command-column>
+    </kendo-grid>
+    <div *ngIf="Voucher.loading" class="k-i-loading"></div>
+  </div>
 </div>

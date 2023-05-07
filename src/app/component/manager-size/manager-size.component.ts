@@ -17,6 +17,7 @@ import { MessageService } from 'src/app/shared/message.service';
 export class ManagerSizeComponent implements OnInit {
   public gridData: Array<any> = [];
   public gridData_2: Array<any> = [];
+  count = 0;
   public state: State = {
     filter: undefined,
     skip: 0,
@@ -37,6 +38,10 @@ export class ManagerSizeComponent implements OnInit {
     this.api_2.isManager = true;
     this.api.Controller = "TypeSizeManagerController";
     this.api_2.Controller = "SizeManagerController";
+    this.gridData.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.gridData.length;
     this.api_2.Grid.isGrouping = true; // Xem dữ liệu có đc group ko ??
     this.Read();
     this.message.receivedDataAfterUpadte().subscribe((rs) => {

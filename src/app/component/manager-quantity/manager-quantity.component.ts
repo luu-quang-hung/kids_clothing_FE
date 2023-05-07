@@ -22,7 +22,7 @@ export class ManagerQuantityComponent implements OnInit {
   public listTypeSize: Array<any> = [];
   public listSize: Array<any> = [];
   public listProperty: Array<any> = [];
-
+  count = 0;
   public state: State = {
     filter: undefined,
     skip: 0,
@@ -42,6 +42,10 @@ export class ManagerQuantityComponent implements OnInit {
     this.api.OpenWindow.left = 120;
     this.api.OpenWindow.top = -115;
     this.api.Controller = "QuantityManagerController";
+    this.gridData.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.gridData.length;
     this.api.Read.Execute().subscribe((rs) => {
       this.gridData = rs.data;
     }, (error) => {
