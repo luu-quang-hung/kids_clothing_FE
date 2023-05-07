@@ -18,6 +18,7 @@ export class ManagerVoucherComponent implements OnInit {
   public listVoucher: Array<any> = [];
   public listEvent: Array<any> = [];
   public listserch: Array<any> = [];
+  count = 0;
   public state: State = {
     filter: undefined,
     skip: 0,
@@ -70,6 +71,10 @@ export class ManagerVoucherComponent implements OnInit {
     this.Event.isManager = true;
     this.Event.Controller = "EventManagerController";
     this.Voucher.Controller = "VoucherManagerController";
+    this.listVoucher.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.listVoucher.length;
     this.Voucher.Read.Execute().subscribe((res) => {
       this.listVoucher = res.data;
     }, (error) => {
@@ -101,7 +106,7 @@ export class ManagerVoucherComponent implements OnInit {
   EventVoucher(id: number): any {
     return this.listEvent.find(x => x.id === id);
   }
-  
+
   onEventChange(event: any): void{
     this.Voucher.formGroup.markAsDirty({ onlySelf: true });
     this.Voucher.formGroup.value.idevent = event;

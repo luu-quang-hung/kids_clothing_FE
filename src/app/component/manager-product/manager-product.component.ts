@@ -23,6 +23,7 @@ export class ManagerProductComponent implements OnInit {
   public gridData: Array<any> = [];
   public method: any;
   public loading = false;
+  count = 0;
   public state: State = {
     filter: undefined,
     skip: 0,
@@ -36,6 +37,7 @@ export class ManagerProductComponent implements OnInit {
   public api: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
 
   ngOnInitsearch(name: any ): void {
+
     this.api.isManager = true;
     this.api.Controller = "ProductManagerController";
     this.api.name = name;
@@ -81,6 +83,10 @@ export class ManagerProductComponent implements OnInit {
     this.api.OpenWindow.Width = 1200;
     this.api.typeData = "popup";
     this.api.loading = true;
+    this.gridData.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.gridData.length;
     this.api.Read.Execute().subscribe((rs) => {
       this.api.dataSource = rs.data;
       this.gridData = rs.data;

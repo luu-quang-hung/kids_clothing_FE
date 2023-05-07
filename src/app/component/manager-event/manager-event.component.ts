@@ -19,6 +19,7 @@ export class ManagerEventComponent implements OnInit {
   };
   public gridData: Array<any> = [];
   public date: Date = new Date();
+  count = 0;
 
   public changes: any = {};
   constructor(private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
@@ -47,10 +48,14 @@ export class ManagerEventComponent implements OnInit {
     this.message.receivedDataBehavior().subscribe((rs) => {
       this.gridData = rs;
     })
-  } 
+  }
   ngOnInit(): void {
     this.api.isManager = true;
     this.api.Controller = "EventManagerController";
+    this.gridData.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.gridData.length;
     this.api.Read.Execute().subscribe((res) => {
       this.gridData = res.data;
       this.api.dataSource = res.data;

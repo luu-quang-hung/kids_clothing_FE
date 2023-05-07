@@ -5,17 +5,17 @@
     <div class="card-body">
         <kendo-grid #grid [kendoGridBinding]="gridData" style="height: 600px; width: 1150px;" [pageSize]="10"
             (edit)="editHandler($event)" [sortable]="true" [pageable]="true" [sortable]="true" [navigable]="true"
-            [resizable]="true" (cellClose)="cellCloseHandler($event)" (cellClick)="cellClickHandler($event)" 
+            [resizable]="true" (cellClose)="cellCloseHandler($event)" (cellClick)="cellClickHandler($event)"
             filterable="menu">
             <ng-template kendoGridToolbarTemplate>
                 <div>
                     <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" >
                         <input  autocomplete="off" placeholder="Tìm Kiếm..." title="Search..." #username class="k-input">
-                      </span>   
+                      </span>
                       <button  class= "btn-outline-primary rounded-pill mr-3" >
                         <span class="k-icon k-i-search"></span>
                         <span class="k-grid-search-text">Tìm kiếm</span>
-                      </button> 
+                      </button>
                 </div>
                 <button kendoButton iconClass="fa fa-floppy-o" style="border-radius: 20px" class="btn btn-primary" (click)="Update(grid)">
                     Lưu
@@ -30,9 +30,9 @@
                         </li>
                       </ul>
                     </button>
-                   
+
                   </div> -->
-        
+
                 <div class="dropdown">
                     <select  class="form-control" formControlName="listStatus" >
                         <option value="">Chọn trạng thái </option>
@@ -57,11 +57,15 @@
                         </div>
                       </option>
                     </select>
-            
+
                   </div>
 
             </ng-template>
-          
+            <kendo-grid-column title="STT" [width]="100">
+              <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+                {{ rowIndex + 1 }}
+              </ng-template>
+            </kendo-grid-column>
             <kendo-grid-column field="statusshipping" title="Mã trạng thái ship" [width]="200" >
             </kendo-grid-column>
             <kendo-grid-column field="status" title="Trạng thái" [width]="200" >
@@ -84,7 +88,7 @@
                     <div *ngIf="dataItem.status == 'DA_GIAO_BEN_VAN_CHUYEN'">
                         Đã giao bên vận chuyển
                     </div>
-                </ng-template>  
+                </ng-template>
             </kendo-grid-column>
             <kendo-grid-column field="noterefund" title="Ghi chú hoàn hàng" [width]="200">
             </kendo-grid-column>
@@ -92,7 +96,7 @@
             <kendo-grid-column field="payment" title="Phương thức" [width]="250">
                 <ng-template kendoGridCellTemplate let-dataItem>
                     {{ dataItem.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
-                </ng-template>  
+                </ng-template>
             </kendo-grid-column>
             <kendo-grid-column field="fullname" title="Tên người nhận" [width]="200"></kendo-grid-column>
             <kendo-grid-column field="sdt" title="SĐT" [width]="150"></kendo-grid-column>

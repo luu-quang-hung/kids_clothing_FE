@@ -17,6 +17,7 @@ import { BrowserModule } from '@angular/platform-browser';
 })
 export class ManagerPropertyComponent implements OnInit {
   public gridData: Array<any> = [];
+  count = 0;
 
   public changes: any = {};
   constructor(private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
@@ -27,6 +28,10 @@ export class ManagerPropertyComponent implements OnInit {
   ngOnInit(): void {
     this.api.isManager = true;
     this.api.Controller = "PropertyManagerController";
+    this.gridData.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.gridData.length;
     this.api.Read.Execute().subscribe((res) => {
       this.gridData = res.data;
     })

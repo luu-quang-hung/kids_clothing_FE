@@ -7,6 +7,11 @@
             <ng-template kendoGridToolbarTemplate>
               <button kendoGridAddCommand class="btn btn-primary" iconClass="fa fa-plus" style="border-radius: 20px;">  Thêm mới</button>
             </ng-template>
+            <kendo-grid-column title="STT" [width]="100">
+              <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+                {{ rowIndex + 1 }}
+              </ng-template>
+            </kendo-grid-column>
             <kendo-grid-column field="product.name" title="Tên sản phẩm" [width]="300" [hidden]=true>
             </kendo-grid-column>
             <kendo-grid-column field="quantity" title="Số lượng" [width]="120">

@@ -1,64 +1,69 @@
 <div class="card">
-    <!-- <div class="card-header card-header-danger">
+  <!-- <div class="card-header card-header-danger">
         <h4 class="card-title ">Quản lý sự kiện</h4>
-         <p class="card-category"> Here is a subtitle for this table</p> 
+         <p class="card-category"> Here is a subtitle for this table</p>
     </div> -->
-    <div class="card-body">
-        <kendo-grid #grid [kendoGridBinding]="gridData" [height]="700" [pageSize]="20" [pageable]="true"
-            [sortable]="true" (cellClose)="cellCloseHandler($event)" (cellClick)="cellClickHandler($event)"
-            (cancel)="cancelHandler($event)" (save)="saveHandler($event)" (remove)="removeHandler($event)"
-            (add)="addHandler($event)" [navigable]="true"> 
+  <div class="card-body">
+    <kendo-grid #grid [kendoGridBinding]="gridData" [height]="700" [pageSize]="20" [pageable]="true" [sortable]="true"
+      (cellClose)="cellCloseHandler($event)" (cellClick)="cellClickHandler($event)" (cancel)="cancelHandler($event)"
+      (save)="saveHandler($event)" (remove)="removeHandler($event)" (add)="addHandler($event)" [navigable]="true">
 
-                 
-                <ng-template kendoGridToolbarTemplate >
-                    <div>
-                        <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" >
-                            <input  autocomplete="off" placeholder="Search..." title="Search..." #username class="k-input">
-                          </span>   
-                          <button (click)="ngOnInitsearch(username.value)" class= "btn-outline-primary rounded-pill mr-3" >
-                            <span class="k-icon k-i-search"></span>
-                            <span class="k-grid-search-text">Tìm kiếm</span>
-                          </button> 
-                    </div>
-                   
-                      <div class="d-flex align-items-center ml-auto">
-                    <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus"kendoGridAddCommand>Thêm mới</button>
-                </div>
-                </ng-template>
-         
-            <kendo-grid-column field="name" title="Tên"></kendo-grid-column>
-            <kendo-grid-column field="startday" title="Ngày bắt đầu" format="dd/MM/yyyy">
-                <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                    <kendo-datepicker #startday format="dd/MM/yyyy" (valueChange)="changeDayStart($event)"
-                        [(ngModel)]="dataItem.startday">
-                    </kendo-datepicker>
-                </ng-template>
-                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-                    {{dataItem.startday | date: 'dd/MM/yyyy'}}
-                </ng-template>
-            </kendo-grid-column>
-            <kendo-grid-column field="endday" title="Ngày kết thúc" format="dd/MM/yyyy">
-                <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                    <kendo-datepicker format="dd/MM/yyyy" (valueChange)="changeDayEnd($event)"
-                        [(ngModel)]="dataItem.endday">
-                    </kendo-datepicker>
-                </ng-template>
-                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-                    {{dataItem.endday | date: 'dd/MM/yyyy'}}
-                </ng-template>
-            </kendo-grid-column>
-            <kendo-grid-command-column title="Tùy chỉnh" [width]="300">
-             
-                <ng-template kendoGridCellTemplate let-isNew="isNew">
-                    <button *ngIf="!isNew" class=" btn-outline-success rounded-pill mr-3" kendoButton iconClass="fa fa-floppy-o" (click)="Update(grid)">
-                        LƯU
-                    </button>
-                    <button class=" btn-outline-danger rounded-pill"  iconClass="fa fa-trash" kendoGridRemoveCommand>Xóa</button>
-                    <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus" kendoGridSaveCommand>Thêm</button>
-                    <button class=" btn-outline-danger rounded-pill"  iconClass="fa fa-ban" kendoGridCancelCommand>Hủy</button>
-                </ng-template>
-            </kendo-grid-command-column>
-        </kendo-grid>
-        <div *ngIf="api.loading" class="k-i-loading"></div>
-    </div>
+
+      <ng-template kendoGridToolbarTemplate>
+        <div>
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
+            <input autocomplete="off" placeholder="Search..." title="Search..." #username class="k-input">
+          </span>
+          <button (click)="ngOnInitsearch(username.value)" class="btn-outline-primary rounded-pill mr-3">
+            <span class="k-icon k-i-search"></span>
+            <span class="k-grid-search-text">Tìm kiếm</span>
+          </button>
+        </div>
+
+        <div class="d-flex align-items-center ml-auto">
+          <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus" kendoGridAddCommand>Thêm
+            mới</button>
+        </div>
+      </ng-template>
+      <kendo-grid-column title="STT" [width]="100">
+        <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+          {{ rowIndex + 1 }}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="name" title="Tên"></kendo-grid-column>
+      <kendo-grid-column field="startday" title="Ngày bắt đầu" format="dd/MM/yyyy">
+        <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+          <kendo-datepicker #startday format="dd/MM/yyyy" (valueChange)="changeDayStart($event)"
+            [(ngModel)]="dataItem.startday">
+          </kendo-datepicker>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+          {{dataItem.startday | date: 'dd/MM/yyyy'}}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="endday" title="Ngày kết thúc" format="dd/MM/yyyy">
+        <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+          <kendo-datepicker format="dd/MM/yyyy" (valueChange)="changeDayEnd($event)" [(ngModel)]="dataItem.endday">
+          </kendo-datepicker>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+          {{dataItem.endday | date: 'dd/MM/yyyy'}}
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-command-column title="Tùy chỉnh" [width]="300">
+
+        <ng-template kendoGridCellTemplate let-isNew="isNew">
+          <button *ngIf="!isNew" class=" btn-outline-success rounded-pill mr-3" kendoButton iconClass="fa fa-floppy-o"
+            (click)="Update(grid)">
+            LƯU
+          </button>
+          <button class=" btn-outline-danger rounded-pill" iconClass="fa fa-trash" kendoGridRemoveCommand>Xóa</button>
+          <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus"
+            kendoGridSaveCommand>Thêm</button>
+          <button class=" btn-outline-danger rounded-pill" iconClass="fa fa-ban" kendoGridCancelCommand>Hủy</button>
+        </ng-template>
+      </kendo-grid-command-column>
+    </kendo-grid>
+    <div *ngIf="api.loading" class="k-i-loading"></div>
+  </div>
 </div>

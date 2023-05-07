@@ -16,6 +16,7 @@ import { WindowBillComponent } from './windowBill.component';
 })
 export class ManagerBillComponent implements OnInit {
   public gridData: Array<any> = [];
+  count = 0;
 
   constructor(public api: ApiService,private ngZone: NgZone, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
     private notificationService: NotificationService, private message: MessageService, private formBuilder: FormBuilder) { }
@@ -49,7 +50,11 @@ export class ManagerBillComponent implements OnInit {
   ]
   ngOnInit(): void {
     this.Bill.isManager = true;
-    this.Bill.Controller = "BillManagerController"; 
+    this.Bill.Controller = "BillManagerController";
+    this.gridData.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.gridData.length;
     this.Read();
     this.message.receivedDataAfterUpadte().subscribe((rs)=>{
       this.Bill.loading = true;
@@ -72,7 +77,7 @@ export class ManagerBillComponent implements OnInit {
       } else {
         this.Bill.Notification.notificationError('');
       }
-    })   
+    })
   }
   Update(grid: any): void {
     this.Bill.Update.Execute(grid);
