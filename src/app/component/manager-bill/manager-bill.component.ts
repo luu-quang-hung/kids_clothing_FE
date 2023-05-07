@@ -47,6 +47,16 @@ export class ManagerBillComponent implements OnInit {
       name: "HUY"
     },
   ]
+  public listpaypent: Array<{ id: any, name: string }> = [
+    {
+      id: 0,
+      name: "Thanh toán bằng tiền mặt"
+    },
+    {
+      id: 1,
+      name: "Thanh toán bằng ví"
+    }
+  ]
   ngOnInit(): void {
     this.Bill.isManager = true;
     this.Bill.Controller = "BillManagerController"; 
@@ -54,6 +64,32 @@ export class ManagerBillComponent implements OnInit {
     this.message.receivedDataAfterUpadte().subscribe((rs)=>{
       this.Bill.loading = true;
       this.Read();
+    })
+    this.message.receivedDataBehavior().subscribe((rs) => {
+      this.gridData = rs;
+    })
+  }
+  ngOnInitdropdow(event: Event): void {
+    this.Bill.name =  (event.target as HTMLSelectElement).value;
+    this.Bill.isManager = true;
+    this.Bill.Controller = "BillManagerController"; 
+    this.Readdropdow();
+    this.message.receivedDataAfterUpadte().subscribe((rs)=>{
+      this.Bill.loading = true;
+      this.Readdropdow();
+    })
+    this.message.receivedDataBehavior().subscribe((rs) => {
+      this.gridData = rs;
+    })
+  }
+  ngOnInitpayment(event: Event): void {
+    this.Bill.payment =  (event.target as HTMLSelectElement).value;
+    this.Bill.isManager = true;
+    this.Bill.Controller = "BillManagerController"; 
+    this.Readpayment();
+    this.message.receivedDataAfterUpadte().subscribe((rs)=>{
+      this.Bill.loading = true;
+      this.Readpayment();
     })
     this.message.receivedDataBehavior().subscribe((rs) => {
       this.gridData = rs;
@@ -74,6 +110,38 @@ export class ManagerBillComponent implements OnInit {
       }
     })   
   }
+  Readdropdow(): void{
+    this.Bill.loading = true;
+    this.Bill.Readdropdow.Execute().subscribe((rs) => {
+      this.gridData = rs.data;
+      this.Bill.loading = false;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.Bill.Notification.notificationError('');
+      }
+    }
+  )   
+  }
+
+  Readpayment(): void{
+    this.Bill.loading = true;
+    this.Bill.Readpayment.Execute().subscribe((rs) => {
+      this.gridData = rs.data;
+      this.Bill.loading = false;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.Bill.Notification.notificationError('');
+      }
+    }
+  )   
+  }
+
   Update(grid: any): void {
     this.Bill.Update.Execute(grid);
   }
@@ -98,5 +166,8 @@ export class ManagerBillComponent implements OnInit {
     const readOnlyColumns = ["statusshipping"];
     return readOnlyColumns.indexOf(field) > -1;
   }
+
+
+  
 
 }
