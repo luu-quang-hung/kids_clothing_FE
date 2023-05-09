@@ -60,6 +60,10 @@
                                 *ngIf="product.discount > 0">
                                 {{product.price|number :'1.0-3'}} đ
                             </small>
+                              <a href="/list-product/info/{{product.id}}" class="button" style="background: #ffffff;color: red;font-size: 26px ">
+                          <span class="fa fa-cart-plus" style="margin-right: 5px;font-size: 26px;
+                         "></span>
+                        </a>
                         </div>
                     </div>
                 </div>
@@ -97,7 +101,7 @@
                         <div class="name">
                             <a href="/list-product/info/{{product.id}}">{{product.name}}</a>
                         </div>
-                        <div class="price">                          
+                        <div class="price">
                             <p style="color: #ffc045;margin: 0;padding-top: 10px;"
                                 *ngIf="product.discount == 0 || product.discount == null">
                                 {{product.price|number :'1.0-3'}} ₫
@@ -108,7 +112,12 @@
                             <small style="text-decoration-line: line-through;padding: 10px 15px;color: #888888;font-size: 18px;margin-top: 3px;"
                             *ngIf="product.discount > 0">
                             {{product.price|number :'1.0-3'}} ₫
+
                         </small>
+                        <a href="/list-product/info/{{product.id}}" class="button" style="background: #ffffff;color: red;font-size: 26px ">
+                          <span class="fa fa-cart-plus" style="margin-right: 5px;font-size: 26px;
+                         "></span>
+                         </a>
                         </div>
                     </div>
                 </div>

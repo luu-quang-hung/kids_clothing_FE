@@ -67,6 +67,10 @@
                             *ngIf="product.discount > 0">
                             {{product.price|number :'1.0-3'}} ₫
                         </small>
+                        <a href="/list-product/info/{{product.id}}" class="button" style="background: #ffffff;color: red;font-size: 26px;margin-left: 25px ">
+                          <span class="fa fa-cart-plus" style="margin-right: 15px;font-size: 26px;
+                         "></span>
+                        </a>
                     </div>
                 </div>
             </div>

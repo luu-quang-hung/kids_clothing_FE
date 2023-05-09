@@ -39,9 +39,11 @@
 <div style="border-bottom: 1px solid #ddd;padding-bottom: 10px;margin: 0px 10px 10px 10px;" class="row">
     <label class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-4" style="font-weight: 600;">Trạng thái :</label>
     <div class="col-xl-5 col-lg-5 col-md-5 col-sm-4 col-8">
-        <kendo-dropdownlist [data]="status" textField="name" valueField="id" [valuePrimitive]="true"
+        <!-- <kendo-dropdownlist [data]="status" textField="name" valueField="id" [valuePrimitive]="true"
             [(ngModel)]="selectedValue" (valueChange)="changeStatus($event)" style="width: 250px;">
-        </kendo-dropdownlist>
+        </kendo-dropdownlist> -->
+
+        <kendo-slider [min]="1000" [max]="100000"  [showButtons]="true"></kendo-slider>
     </div>
     <div class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12" style="float: right;">
         <kendo-textbox placeholder="Search..." [clearButton]="true" style="width: 100%;"
@@ -90,6 +92,11 @@
                         *ngIf="product.discount > 0">
                         {{product.price|number :'1.0-3'}} ₫
                     </small>
+
+                    <a href="/list-product/info/{{product.id}}" class="button" style="background: #ffffff;color: red;font-size: 26px;margin-left: 25px ">
+                      <span class="fa fa-cart-plus" style="margin-right: 15px;font-size: 26px;
+                     "></span>
+                     </a>
                 </div>
             </div>
         </div>
