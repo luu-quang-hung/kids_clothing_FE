@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <kendo-tabstrip>
-            <kendo-tabstrip-tab title="Size cấp 1" [selected]="true">
+            <kendo-tabstrip-tab title="Kích cỡ" [selected]="true">
                 <ng-template kendoTabContent>
                     <kendo-grid #grid [kendoGridBinding]="gridData" [height]="692" [pageSize]="20" [sortable]="true"
                         [pageable]="true" [sortable]="true" (cellClose)="cellCloseHandler($event)"
@@ -18,8 +18,10 @@
                           </ng-template>
                         </kendo-grid-column>
                         <kendo-grid-column field="name" title="Tên"></kendo-grid-column>
-                        <kendo-grid-command-column title="Tùy chỉnh" [width]="320">
+                        <kendo-grid-command-column title="Tùy chỉnh" [width]="370">
                             <ng-template kendoGridCellTemplate let-isNew="isNew">
+                              <button kendoGridEditCommand iconClass="fa fa-bars" class="btn btn-primary" style="border-radius: 20px;">
+                                Chi tiết</button>
                               <button *ngIf="!isNew" class="btn-outline-success" style="border-radius: 20px;" kendoButton iconClass="fa fa-floppy-o" (click)="Update(grid)">
                                 LƯU
                                 </button>
@@ -31,54 +33,56 @@
                     </kendo-grid>
                     <div *ngIf="api.loading" class="k-i-loading"></div>
                 </ng-template>
+
             </kendo-tabstrip-tab>
             <kendo-tabstrip-tab title="Size cấp 2">
-                <ng-template kendoTabContent>
-                    <kendo-grid #grid [kendoGridBinding]="api_2.dataSource" kendoGridSelectBy="id"
-                        [pageSize]="state.take!" [skip]="state.skip!" [sort]="state.sort!" [group]="state.group!"
-                        [pageable]="true" [sortable]="true" [navigable]="true" [height]="692"
-                        [columnMenu]="{ filter: true }" (dataStateChange)="dataStateChange($event)"
-                        (cellClose)="cellCloseHandler($event)" (cellClick)="cellClickHandler($event)"
-                        (cancel)="cancelHandler($event)" (save)="saveHandler($event)" (remove)="removeHandler($event)"
-                        (add)="addHandler($event)">
-                        <ng-template kendoGridToolbarTemplate>
-                            <button class="btn-outline-primary" style="border-radius: 20px;" iconClass="fa fa-plus" kendoGridAddCommand>Thêm mới</button>
+              <ng-template kendoTabContent>
+                  <kendo-grid #grid [kendoGridBinding]="api_2.dataSource" kendoGridSelectBy="id"
+                      [pageSize]="state.take!" [skip]="state.skip!" [sort]="state.sort!" [group]="state.group!"
+                      [pageable]="true" [sortable]="true" [navigable]="true" [height]="692"
+                      [columnMenu]="{ filter: true }" (dataStateChange)="dataStateChange($event)"
+                      (cellClose)="cellCloseHandler($event)" (cellClick)="cellClickHandler($event)"
+                      (cancel)="cancelHandler($event)" (save)="saveHandler($event)" (remove)="removeHandler($event)"
+                      (add)="addHandler($event)">
+                      <ng-template kendoGridToolbarTemplate>
+                          <button class="btn-outline-primary" style="border-radius: 20px;" iconClass="fa fa-plus" kendoGridAddCommand>Thêm mới</button>
 
+                      </ng-template>
+                      <kendo-grid-column title="STT" [width]="100">
+                        <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+                          {{ rowIndex + 1 }}
                         </ng-template>
-                        <kendo-grid-column title="STT" [width]="100">
-                          <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
-                            {{ rowIndex + 1 }}
+                      </kendo-grid-column>
+                      <kendo-grid-column field="name" title="Tên" [width]="150"></kendo-grid-column>
+                      <kendo-grid-column field="typesize.name" title="Size cấp 1" [width]="150">
+                          <ng-template kendoGridGroupHeaderTemplate let-value="value">
+                              {{ value }}
                           </ng-template>
-                        </kendo-grid-column>
-                        <kendo-grid-column field="name" title="Tên" [width]="150"></kendo-grid-column>
-                        <kendo-grid-column field="typesize.name" title="Size cấp 1" [width]="150">
-                            <ng-template kendoGridGroupHeaderTemplate let-value="value">
-                                {{ value }}
-                            </ng-template>
-                            <ng-template kendoGridCellTemplate let-dataItem>
-                                {{ TypeSize(dataItem.typesize.id)?.name }}
-                            </ng-template>
-                            <ng-template kendoGridEditTemplate let-dataItem="dataItem">
-                                <kendo-dropdownlist [data]="api.dataSource" textField="name" valueField="id"
-                                    [valuePrimitive]="true" (valueChange)="onTypeSizeChange($event)">
-                                </kendo-dropdownlist>
-                            </ng-template>
-                        </kendo-grid-column>
-                        <kendo-grid-command-column title="Tùy chỉnh" [width]="320">
-                            <ng-template  kendoGridCellTemplate let-isNew="isNew">
-                              <button *ngIf="!isNew" class="btn-outline-success" style="border-radius: 20px;" kendoButton iconClass="fa fa-floppy-o" (click)="Update(grid)">
-                                   Lưu
-                              </button>
-                                <button class="btn-outline-danger" iconClass="fa fa-trash" style="border-radius: 20px;" kendoGridRemoveCommand>Xóa</button>
-                                <button class="btn-outline-primary" iconClass="fa fa-trash" style="border-radius: 20px;"  kendoGridSaveCommand>Thêm</button>
-                                <button class="btn-outline-danger" iconClass="fa fa-trash" style="border-radius: 20px;" kendoGridCancelCommand>Hủy</button>
-                            </ng-template>
-                        </kendo-grid-command-column>
-                    </kendo-grid>
-                    <div *ngIf="api_2.loading" class="k-i-loading"></div>
-                </ng-template>
+                          <ng-template kendoGridCellTemplate let-dataItem>
+                              {{ TypeSize(dataItem.typesize.id)?.name }}
+                          </ng-template>
+                          <ng-template kendoGridEditTemplate let-dataItem="dataItem">
+                              <kendo-dropdownlist [data]="api.dataSource" textField="name" valueField="id"
+                                  [valuePrimitive]="true" (valueChange)="onTypeSizeChange($event)">
+                              </kendo-dropdownlist>
+                          </ng-template>
+                      </kendo-grid-column>
+                      <kendo-grid-command-column title="Tùy chỉnh" [width]="320">
+                          <ng-template  kendoGridCellTemplate let-isNew="isNew">
+                            <button *ngIf="!isNew" class="btn-outline-success" style="border-radius: 20px;" kendoButton iconClass="fa fa-floppy-o" (click)="Update(grid)">
+                                 Lưu
+                            </button>
+                              <button class="btn-outline-danger" iconClass="fa fa-trash" style="border-radius: 20px;" kendoGridRemoveCommand>Xóa</button>
+                              <button class="btn-outline-primary" iconClass="fa fa-trash" style="border-radius: 20px;"  kendoGridSaveCommand>Thêm</button>
+                              <button class="btn-outline-danger" iconClass="fa fa-trash" style="border-radius: 20px;" kendoGridCancelCommand>Hủy</button>
+                          </ng-template>
+                      </kendo-grid-command-column>
+                  </kendo-grid>
+                  <div *ngIf="api.loading" class="k-i-loading"></div>
+              </ng-template>
             </kendo-tabstrip-tab>
         </kendo-tabstrip>
         <div kendoWindowContainer></div>
+        <div kendoDialogContainer></div>
     </div>
 </div>

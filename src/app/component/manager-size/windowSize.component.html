@@ -1,0 +1,125 @@
+<style>
+  .row {
+      margin: 15px 0px;
+  }
+  #loading {
+      position: absolute !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      font-size: 64px !important;
+      background-color: rgba(255, 255, 255, 0.3) !important;
+      color: #ff6757 !important;
+      z-index: 99999;
+  }
+</style>
+<form [formGroup]="formGroup">
+  <kendo-toolbar>
+      <kendo-toolbar-button text="Lưu" (click)="saveHandler($event)"></kendo-toolbar-button>
+  </kendo-toolbar>
+  <div class="row">
+      <div *ngIf="api.loading" class="k-i-loading" id="loading"></div>
+      <div class="col-md-6">
+          <div class="row">
+              <label class="col-md-3">Tên sản phẩm</label>
+              <div class="col-md-9">
+                  <input type="text" kendoTextBox style="width: 100%" formControlName="name" name="name"
+                      [(ngModel)]="formGroup.value.name" />
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="row">
+              <label class="col-md-3">Giá sản phẩm</label>
+              <div class="col-md-9">
+                  <kendo-numerictextbox format="n0" [min]="1" style="width: 100%;" formControlName="price"
+                      name="price" [(ngModel)]="formGroup.value.price" [value]="0">
+                  </kendo-numerictextbox>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="row">
+              <label class="col-md-3">Danh mục cấp 1</label>
+              <div class="col-md-9">
+                  <kendo-dropdownlist [data]="category" textField="name" valueField="id" [defaultItem]="defaultItem"
+                      formControlName="category" (selectionChange)="selectCategory($event)" style="width: 100%"
+                      [(ngModel)]="dataSource.categorydetail.category">
+                  </kendo-dropdownlist>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="row">
+              <label class="col-md-3">Danh mục cấp 2</label>
+              <div class="col-md-9">
+                  <kendo-dropdownlist [data]="CategoryDetailById" textField="name" valueField="id"
+                      [defaultItem]="defaultItem" [disabled]="disabled" formControlName="categorydetail"
+                      (selectionChange)="selectCategoryDetail($event)" style="width: 100%"
+                      [(ngModel)]="formGroup.value.categorydetail">
+                  </kendo-dropdownlist>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="row">
+              <label class="col-md-3">Giảm giá</label>
+              <div class="col-md-9">
+                  <kendo-numerictextbox format="0" [min]="1" [max]="100" style="width: 100%;"
+                      formControlName="discount" name="discount" [(ngModel)]="formGroup.value.discount" [value]="0">
+                  </kendo-numerictextbox>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="row">
+              <label class="col-md-3">Hình ảnh</label>
+              <div class="col-md-9">
+                  <div class="text-box">
+                      <span class="list-title">
+                          {{
+                          formGroup.value.image != null
+                          ? "Bạn hãy chon 1 ảnh cho sản phẩm:"
+                          : "No files are currently bound to the model"
+                          }}
+                      </span>&nbsp;
+                      <span>
+                          {{ formGroup.value.image }}
+                      </span>
+                  </div>
+                  <kendo-fileselect (select)="select($event)" [multiple]="false"></kendo-fileselect>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="row">
+              <label class="col-md-3">Mô tả</label>
+              <div class="col-md-9">
+                  <kendo-editor [iframe]="false" style="height: 250px;" name="description"
+                      formControlName="description" [(ngModel)]="formGroup.value.description">
+                  </kendo-editor>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+          <div class="row">
+              <label class="col-md-3">Mô tả chi tiết</label>
+              <div class="col-md-9">
+                  <kendo-editor [iframe]="false" style="height: 250px;" name="descriptionDetail"
+                      formControlName="descriptionDetail" [(ngModel)]="formGroup.value.descriptionDetail">
+                  </kendo-editor>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+            <label class="col-md-3">Số Lượng</label>
+            <div class="col-md-9">
+                <input type="text" kendoTextBox style="width: 100%" formControlName="quanity" name="quanity"
+                    [(ngModel)]="formGroup.value.quanity" />
+            </div>
+        </div>
+    </div>
+  </div>
+</form>

@@ -47,6 +47,7 @@ import { ManagerVoucherComponent } from "src/app/component/manager-voucher/manag
 import { SwiperModule } from "swiper/angular";
 import { shareManagerModule } from "../shareManager.module";
 import { DefaultManagerComponent } from "./default-manager.component";
+import { WindowSizeComponent } from "src/app/component/manager-size/windowSize.component";
 
 @NgModule({
     declarations: [
@@ -67,6 +68,7 @@ import { DefaultManagerComponent } from "./default-manager.component";
         WindowBillComponent,
         WindowUploadComponent,
         WindowAccountComponent,
+        WindowSizeComponent
     ],
     imports:[
         NgbModule,
@@ -106,7 +108,8 @@ import { DefaultManagerComponent } from "./default-manager.component";
         WindowQuantityComponent,
         WindowBillComponent,
         WindowUploadComponent,
-        WindowAccountComponent
+        WindowAccountComponent,
+        WindowSizeComponent
     ],
     bootstrap: [DefaultManagerComponent]
 })

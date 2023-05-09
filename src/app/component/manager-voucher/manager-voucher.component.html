@@ -12,7 +12,7 @@
       <ng-template kendoGridToolbarTemplate>
 
         <div>
-          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="margin-left: 100px;">
             <input autocomplete="off" placeholder="Search..." title="Search..." #username class="k-input">
           </span>
           <button (click)="ngOnInitserch(username.value)" class="btn-outline-primary rounded-pill mr-3">
@@ -36,8 +36,8 @@
           {{ rowIndex + 1 }}
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column field="name" title="Tên voucher" ></kendo-grid-column>
-      <kendo-grid-column field="amount" title="Số lượng"></kendo-grid-column>
+      <kendo-grid-column field="name" title="Tên voucher" [width]="200"></kendo-grid-column>
+      <kendo-grid-column field="amount" title="Số lượng" [width]="200"></kendo-grid-column>
       <kendo-grid-column field="discount" title="Phần trăm giảm"></kendo-grid-column>
       <kendo-grid-column field="minimumValue" title="Gía trị tối thiểu"></kendo-grid-column>
       <kendo-grid-column field="event.name" title="Sự kiện" [width]="300">
@@ -70,5 +70,7 @@
       </kendo-grid-command-column>
     </kendo-grid>
     <div *ngIf="Voucher.loading" class="k-i-loading"></div>
+    <div kendoWindowContainer></div>
+    <div kendoDialogContainer></div>
   </div>
 </div>

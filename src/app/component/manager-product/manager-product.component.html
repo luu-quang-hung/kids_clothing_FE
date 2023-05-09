@@ -44,15 +44,14 @@
           {{ value }}
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-command-column title="Tùy chỉnh" [width]="370" [locked]="false">
+      <kendo-grid-command-column title="Tùy chỉnh" [width]="270" [locked]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <button kendoGridEditCommand iconClass="fa fa-pencil" class="btn btn-primary" style="border-radius: 20px;">
-            Chỉnh sửa</button>
+          <!-- <button kendoGridEditCommand iconClass="fa fa-pencil" class="btn btn-primary" style="border-radius: 20px;">
+            Chỉnh sửa</button> -->
           <button kendoGridRemoveCommand iconClass="fa fa-trash" class="btn btn-danger" style="border-radius: 20px;">
             Xóa</button>
-          <button kendoButton iconClass="fa fa-upload" (click)="UploadImage(dataItem.id)" class="btn btn-secondary"
-            style="border-radius: 20px;">Tải
-            ảnh</button>
+            <button kendoGridEditCommand iconClass="fa fa-bars" class="btn btn-primary" style="border-radius: 20px;">
+              Chi tiết</button>
         </ng-template>
       </kendo-grid-command-column>
     </kendo-grid>

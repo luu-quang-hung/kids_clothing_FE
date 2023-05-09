@@ -146,6 +146,10 @@ export class ManagerVoucherComponent implements OnInit {
   addHandler(event: any): void {
     this.Voucher.Create.Execute(null, event.sender.data.data);
     event.sender.addRow(this.Voucher.formGroup);
+    this.Voucher.OpenWindow.top = -115;
+    this.Voucher.OpenWindow.left = -60;
+    this.Voucher.OpenWindow.Width = 1200;
+    this.Voucher.OpenWindow.Height = 600;
   }
   saveHandler(event: any) {
     if(!this.Rule()){return;}
