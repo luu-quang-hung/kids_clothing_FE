@@ -118,7 +118,6 @@
                               </small>
                             </div>
                           </div>
-
                     </div>
                     <div class="col-md-6" style="margin: 10px 0px;">
                         <div class="form-group">
@@ -176,15 +175,7 @@
                             Ship code toàn quốc
                           </label>
                         </div>
-                        <div class="col-md-5" *ngIf="!isPayment" style="margin: 10px 0px;">
-                          <table style="width: 100%;">
-                            <tr>
-                              <th>Giá ship</th>
-                              <th>Chuyen vao day</th>
-                            </tr>
-                          </table>
                         </div>
-                      </div>
                     </form>
                   </div>
             </div>
@@ -214,14 +205,6 @@
                                         <i class="fa fa-truck" aria-hidden="true"></i>
                                         Ship code toàn quốc
                                     </label>
-                                </div>
-                                <div class="col-md-5" *ngIf="!isPayment" style="margin: 10px 0px;">
-                                    <table style="width: 100%;">
-                                        <tr>
-                                            <th>Giá ship</th>
-                                            <th>Chuyen vao day</th>
-                                        </tr>
-                                    </table>
                                 </div>
                             </div>
                             <div style="font-size: 30px;margin: 20px 0px;" class="row">
@@ -335,6 +318,8 @@
                         <strong style="font-weight: 400;line-height: 1.68;color: #888;">Giá shipping:</strong>
                         <strong
                             style="float: right;font-size: 1.2857em;font-weight: bold;margin-bottom: 0;color: #ffc045;">
+                            <img src="https://i.imgur.com/qgmdQJq.png" style="    width: 105px;
+                            height: 22px;"> 
                             {{totalShipping|number :'1.0-3'}} VND
                         </strong>
                     </div>
