@@ -666,6 +666,35 @@ export class ApiService {
     },
     After: function () { },
   }
+  public Readproduc = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllproduc', { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllproduc')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
 
 }
 

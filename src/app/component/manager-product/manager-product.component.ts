@@ -28,7 +28,6 @@ export class ManagerProductComponent implements OnInit {
     filter: undefined,
     skip: 0,
     take: 10,
-   // group: [{ field: "categorydetail.category.name" }, { field: "categorydetail.name" },],
     sort: [],
   };
   constructor(private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
@@ -87,7 +86,7 @@ export class ManagerProductComponent implements OnInit {
       item.index = index + 1;
     });
     this.count = this.gridData.length;
-    this.api.Read.Execute().subscribe((rs) => {
+    this.api.Readproduc.Execute().subscribe((rs) => {
       this.api.dataSource = rs.data;
       this.gridData = rs.data;
       this.api.loading = false
