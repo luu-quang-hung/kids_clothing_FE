@@ -255,9 +255,9 @@ export class ShoppingCartComponent implements OnInit {
     this.dataSource.map((x) => {
       this.total = this.total + Number(x.newPrice * x.Quantity);
       this.toMoney = this.toMoney + Number(x.newPrice * x.Quantity);
+      console.log("ww = "+this.toMoney);
     });
-    this.toMoney = this.toMoney + this.totalShipping;
-
+      //this.toMoney = this.toMoney + this.totalShipping;
     this.message.receivedStorageCart().subscribe((res) => {
       this.Voucher.getApi(
         'Customer/' + this.Voucher.Controller + '/findVoucherByAmount'
