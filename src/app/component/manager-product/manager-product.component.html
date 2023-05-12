@@ -14,34 +14,39 @@
             <span class="k-grid-search-text">Tìm kiếm</span>
           </button>
         </div>
-        <button kendoGridAddCommand class="btn btn-primary" iconClass="fa fa-plus" style="border-radius: 20px; "> Thêm
-          mới</button>
+       
+
+
       </ng-template>
       <kendo-grid-column title="STT" [width]="100">
         <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
           {{ rowIndex + 1 }}
         </ng-template>
       </kendo-grid-column>
-
+      <kendo-grid-column field="image" title="Ảnh" [width]="150">
+        <ng-template kendoGridCellTemplate let-dataItem>
+        <img [width]="100"  src = "{{dataItem.image}}">
+      </ng-template>
+      </kendo-grid-column>
       <kendo-grid-column field="name" title="Tên sản phẩm" [width]="350"></kendo-grid-column>
       <kendo-grid-column field="price" title="Giá" [width]="100">
         <ng-template kendoGridCellTemplate let-dataItem>
           {{ dataItem.price | number :'1.0-3'}}
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column field="categorydetail.category.name" title="Loại sản phẩm" [width]="250">
+      <kendo-grid-column field="category_name" title="Loại sản phẩm" [width]="250">
         <ng-template kendoGridGroupHeaderTemplate let-value="value">
           {{ value }}
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column field="categorydetail.name" title="Chi tiết loại sản phẩm " [width]="250">
+      <kendo-grid-column field="categorydetail_name" title="Chi tiết loại sản phẩm " [width]="250">
         <ng-template kendoGridGroupHeaderTemplate let-value="value">
           {{ value }}
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-column field="quantity" title="Số lượng" [width]="120">
         <ng-template kendoGridGroupHeaderTemplate let-value="value">
-          {{ value }}
+          {{value}}
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-command-column title="Tùy chỉnh" [width]="270" [locked]="false">

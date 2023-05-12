@@ -9,66 +9,64 @@
             filterable="menu">
             <ng-template kendoGridToolbarTemplate>
                 <div>
-                    <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" >
-                        <input  autocomplete="off" placeholder="Tìm Kiếm..." title="Search..." #username class="k-input">
-                      </span>
-                      <button  class= "btn-outline-primary rounded-pill mr-3" >
+                    <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
+                        <input autocomplete="off" placeholder="Tìm Kiếm..." title="Search..." #username class="k-input">
+                    </span>
+                    <button class="btn-outline-primary rounded-pill mr-3">
                         <span class="k-icon k-i-search"></span>
                         <span class="k-grid-search-text">Tìm kiếm</span>
-                      </button>
+                    </button>
                 </div>
-                <button kendoButton iconClass="fa fa-floppy-o" style="border-radius: 20px" class="btn btn-primary" (click)="Update(grid)">
+                <button kendoButton iconClass="fa fa-floppy-o" style="border-radius: 20px" class="btn btn-primary"
+                    (click)="Update(grid)">
                     Lưu
                 </button>
-                <!-- <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="true">
-                      Chọn giá trị
-                      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li *ngFor="let listStatus of listStatus"  [value]="listStatus.id">
-                          <a href="#" >{{listStatus.name }}</a>
-                        </li>
-                      </ul>
-                    </button>
+                <div class="col-md-12">
+                <div class="dropdown ">
+                    <select (change)="ngOnInitdropdow($event)" style="border: none;">
+                        <option> Trạng Thái
+                        </option>
 
-                  </div> -->
+                        <option *ngFor="let listStatus of listStatus" [value]="listStatus.name">
 
-                <div class="dropdown">
-                    <select  class="form-control" formControlName="listStatus" >
-                        <option value="">Chọn trạng thái </option>
-                      <option *ngFor="let listStatus of listStatus" [value]="listStatus.id">
-                        <div *ngIf="listStatus.name == 'HUY'">
-                            Hủy
+                            <div *ngIf="listStatus.name == 'HUY'">
+                                Hủy
                         </div>
-                        <div *ngIf="listStatus.name == 'CHUA_XAC_NHAN'">
-                            Chưa xác nhận
-                        </div>
-                        <div *ngIf="listStatus.name == 'DA_XAC_NHAN_VA_DONG_GOI'">
-                            Đã xác nhận và đóng gói
-                        </div>
-                        <div *ngIf="listStatus.name == 'KHACH_DA_NHAN_HANG'">
-                            Khách đã nhận hàng
-                        </div>
-                        <div *ngIf="listStatus.name == 'HOAN_HANG'">
-                            Hoàn hàng
-                        </div>
-                        <div *ngIf="listStatus.name == 'DA_GIAO_BEN_VAN_CHUYEN'">
-                            Đã giao bên vận chuyển
-                        </div>
-                      </option>
+                            <div *ngIf="listStatus.name == 'CHUA_XAC_NHAN'">
+                                Chưa xác nhận
+                            </div>
+                            <div *ngIf="listStatus.name == 'DA_XAC_NHAN_VA_DONG_GOI'">
+                                Đã xác nhận và đóng gói
+                            </div>
+                            <div *ngIf="listStatus.name == 'KHACH_DA_NHAN_HANG'">
+                                Khách đã nhận hàng
+                            </div>
+                            <div *ngIf="listStatus.name == 'HOAN_HANG'">
+                                Hoàn hàng
+                            </div>
+                            <div *ngIf="listStatus.name == 'DA_GIAO_BEN_VAN_CHUYEN'">
+                                Đã giao bên vận chuyển
+                            </div>
+                        </option>
                     </select>
 
-                  </div>
+                </div>
+                <div class="dropdown">
+                    <select (change)="ngOnInitpayment($event)" style="border: none;">
+                        <option>Phương Thức
+                        </option>>
+                        <option *ngFor="let listpaypent of listpaypent" [value]="listpaypent.id">
+                            {{ listpaypent.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
 
             </ng-template>
-            <kendo-grid-column title="STT" [width]="100">
-              <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
-                {{ rowIndex + 1 }}
-              </ng-template>
-            </kendo-grid-column>
-            <kendo-grid-column field="statusshipping" title="Mã trạng thái ship" [width]="200" >
-            </kendo-grid-column>
-            <kendo-grid-column field="status" title="Trạng thái" [width]="200" >
+
+            <!-- <kendo-grid-column field="statusshipping" title="Mã trạng thái ship" [width]="200">
+            </kendo-grid-column> -->
+            <kendo-grid-column field="status" title="Trạng thái" [width]="200">
                 <ng-template kendoGridCellTemplate let-dataItem>
                     <div *ngIf="dataItem.status == 'HUY'">
                         Hủy
@@ -106,9 +104,9 @@
                     {{ dataItem.total |number :'1.0-3'}}
                 </ng-template>
             </kendo-grid-column>
-            <kendo-grid-command-column title="Tùy chỉnh" [width]="150" >
+            <kendo-grid-command-column title="Tùy chỉnh" [width]="150">
                 <ng-template kendoGridCellTemplate let-isNew="isNew">
-                    <button kendoGridEditCommand  style="border-radius: 20px" class="btn btn-primary">Chi tiết</button>
+                    <button kendoGridEditCommand style="border-radius: 20px" class="btn btn-primary">Chi tiết</button>
                 </ng-template>
             </kendo-grid-command-column>
         </kendo-grid>
