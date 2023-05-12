@@ -40,8 +40,8 @@ export class ManagerSizeComponent implements OnInit {
      public openPopup(): void {
       const dialogRef = this.windowService.open({
         content: WindowSizeComponent,
-        width: 400,
-        height: 300
+        width: 700,
+        height: 500
       });
 
       dialogRef.result.subscribe((result) => {

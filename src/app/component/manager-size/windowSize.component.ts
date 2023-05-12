@@ -12,8 +12,8 @@ import { MessageService } from "src/app/shared/message.service";
     templateUrl: './windowSize.component.html',
 })
 export class WindowSizeComponent implements OnInit {
-
   ngOnInit(): void {
+
   }
 
 
