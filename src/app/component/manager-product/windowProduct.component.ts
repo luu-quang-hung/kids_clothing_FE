@@ -139,10 +139,10 @@ export class WindowProductComponent implements OnInit {
         this.imagePreview = e.files;
     }
     selectCategory(event: any): void {
-        this.disabled = false;
-        this.formGroup.value.categorydetail = this.defaultItem;
-        this.CategoryDetailById = this.categoryDetail.filter((x) => x.category.id == event.id);
-    }
+      this.disabled = false;
+      this.formGroup.value.categorydetail = this.defaultItem;
+      this.CategoryDetailById = this.categoryDetail.filter((x) => x.category.id == event.id);
+  }
     selectCategoryDetail(event: any): void {
 
     }

@@ -30,23 +30,22 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="row">
-                <label class="col-md-3">Giá sản phẩm</label>
-                <div class="col-md-9">
-                    <kendo-numerictextbox format="n0" [min]="1" style="width: 100%;" formControlName="price"
-                        name="price" [(ngModel)]="formGroup.value.price" [value]="0">
-                    </kendo-numerictextbox>
-                </div>
+          <div class="row">
+            <label class="col-md-3">Giá sản phẩm</label>
+            <div class="col-md-9">
+              <input input type="text" kendoTextBox style="width: 100%" formControlName="price" name="price"
+              [(ngModel)]="formGroup.value.price">
             </div>
+          </div>
         </div>
         <div class="col-md-6">
             <div class="row">
                 <label class="col-md-3">Danh mục cấp 1</label>
                 <div class="col-md-9">
-                    <kendo-dropdownlist [data]="category" textField="name" valueField="id" [defaultItem]="defaultItem"
-                        formControlName="category" (selectionChange)="selectCategory($event)" style="width: 100%"
-                        [(ngModel)]="dataSource.categorydetail.category">
-                    </kendo-dropdownlist>
+                  <kendo-dropdownlist [data]="category" textField="name" valueField="id" [defaultItem]="defaultItem"
+                  formControlName="category" (selectionChange)="selectCategory($event)" style="width: 100%"
+                  [(ngModel)]="dataSource.categorydetail.category">
+              </kendo-dropdownlist>
                 </div>
             </div>
         </div>
@@ -54,11 +53,11 @@
             <div class="row">
                 <label class="col-md-3">Danh mục cấp 2</label>
                 <div class="col-md-9">
-                    <kendo-dropdownlist [data]="CategoryDetailById" textField="name" valueField="id"
+                    <!-- <kendo-dropdownlist [data]="CategoryDetailById" textField="name" valueField="id"
                         [defaultItem]="defaultItem" [disabled]="disabled" formControlName="categorydetail"
                         (selectionChange)="selectCategoryDetail($event)" style="width: 100%"
                         [(ngModel)]="formGroup.value.categorydetail">
-                    </kendo-dropdownlist>
+                    </kendo-dropdownlist> -->
                 </div>
             </div>
         </div>
@@ -66,9 +65,9 @@
             <div class="row">
                 <label class="col-md-3">Giảm giá</label>
                 <div class="col-md-9">
-                    <kendo-numerictextbox format="0" [min]="1" [max]="100" style="width: 100%;"
+                    <!-- <kendo-numerictextbox format="0" [min]="1" [max]="100" style="width: 100%;"
                         formControlName="discount" name="discount" [(ngModel)]="formGroup.value.discount" [value]="0">
-                    </kendo-numerictextbox>
+                    </kendo-numerictextbox> -->
                 </div>
             </div>
         </div>
@@ -76,7 +75,7 @@
             <div class="row">
                 <label class="col-md-3">Hình ảnh</label>
                 <div class="col-md-9">
-                    <div class="text-box">
+                    <!-- <div class="text-box">
                         <span class="list-title">
                             {{
                             formGroup.value.image != null
@@ -88,7 +87,7 @@
                             {{ formGroup.value.image }}
                         </span>
                     </div>
-                    <kendo-fileselect (select)="select($event)" [multiple]="false"></kendo-fileselect>
+                    <kendo-fileselect (select)="select($event)" [multiple]="false"></kendo-fileselect> -->
                 </div>
             </div>
         </div>
@@ -96,9 +95,9 @@
             <div class="row">
                 <label class="col-md-3">Mô tả</label>
                 <div class="col-md-9">
-                    <kendo-editor [iframe]="false" style="height: 250px;" name="description"
+                    <!-- <kendo-editor [iframe]="false" style="height: 250px;" name="description"
                         formControlName="description" [(ngModel)]="formGroup.value.description">
-                    </kendo-editor>
+                    </kendo-editor> -->
                 </div>
             </div>
         </div>
@@ -106,9 +105,9 @@
             <div class="row">
                 <label class="col-md-3">Mô tả chi tiết</label>
                 <div class="col-md-9">
-                    <kendo-editor [iframe]="false" style="height: 250px;" name="descriptionDetail"
+                    <!-- <kendo-editor [iframe]="false" style="height: 250px;" name="descriptionDetail"
                         formControlName="descriptionDetail" [(ngModel)]="formGroup.value.descriptionDetail">
-                    </kendo-editor>
+                    </kendo-editor> -->
                 </div>
             </div>
         </div>
@@ -116,8 +115,8 @@
           <div class="row">
               <label class="col-md-3">Số Lượng</label>
               <div class="col-md-9">
-                  <input type="text" kendoTextBox style="width: 100%" formControlName="quanity" name="quanity"
-                      [(ngModel)]="formGroup.value.quanity" />
+                  <!-- <input type="text" kendoTextBox style="width: 100%" formControlName="quantity" name="quantity"
+                      [(ngModel)]="formGroup.value.quanity" /> -->
               </div>
           </div>
       </div>
