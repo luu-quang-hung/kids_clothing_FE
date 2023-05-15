@@ -118,6 +118,7 @@ export class ShoppingCartComponent implements OnInit {
     var USERNAME = sessionStorage.getItem('USERNAME');
     if (USERNAME != null) {
     this.Quantity.Read.Execute().subscribe((rs) => {
+      this.totalShipping = 35000
       this.Quantity.dataSource = rs.data;
     }, (error) => {
       if (error.status == 500) {
@@ -255,9 +256,9 @@ export class ShoppingCartComponent implements OnInit {
     this.dataSource.map((x) => {
       this.total = this.total + Number(x.newPrice * x.Quantity);
       this.toMoney = this.toMoney + Number(x.newPrice * x.Quantity);
+      console.log("ww = "+this.toMoney);
     });
-    this.toMoney = this.toMoney + this.totalShipping;
-
+      //this.toMoney = this.toMoney + this.totalShipping;
     this.message.receivedStorageCart().subscribe((res) => {
       this.Voucher.getApi(
         'Customer/' + this.Voucher.Controller + '/findVoucherByAmount'
@@ -338,7 +339,7 @@ export class ShoppingCartComponent implements OnInit {
     });
     }
   }
-  // 
+  //
   public USERNAME = sessionStorage.getItem('USERNAME');
   Rules(): boolean {
     if (this.InfomationCustomer.controls.FullName.errors != null) {
@@ -421,8 +422,11 @@ export class ShoppingCartComponent implements OnInit {
     this.Address.value.Wards = selectedWardName;
 
     this.InfomationCustomer.value.Address = this.Address.value.Wards + ',' + this.Address.value.District + ',' + this.Address.value.Province
-    console.log("ward"  +this.wardCodeShip)   
+    console.log("ward"  +this.wardCodeShip)
     this.serviceShipping();
+    this.toMoney = this.total
+    this.toMoney = this.toMoney + this.totalShipping;
+
   }
  serviceShipping(){
   const url = 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/available-services';
@@ -445,17 +449,17 @@ export class ShoppingCartComponent implements OnInit {
     const toWardCode = this.wardCodeShip;
     const toDistrictId = this.districtsShip
     const fromDistrictId = 3440; // replace with the actual district ID of the sender
-    const weight = 200; // replace with the actual weight in grams
-    const length = 5; // replace with the actual length in cm
-    const width = 5; // replace with the actual width in cm
-    const height = 5; // replace with the actual height in cm
+    const weight = 20*(this.dataSource[0].Quantity); // replace with the actual weight in grams
+    const length = 10; // replace with the actual length in cm
+    const width = 10; // replace with the actual width in cm
+    const height = 10; // replace with the actual height in cm
     const headers = new HttpHeaders()
       .set('token', token)
       .set('shop_id', shopId);
 
     const params = {
       service_id: serviceId,
-      insurance_value: 0, // replace with the actual value of the product
+      insurance_value: this.toMoney, // replace with the actual value of the product
       coupon: '',
       to_ward_code: toWardCode,
       to_district_id: toDistrictId,
@@ -469,7 +473,6 @@ export class ShoppingCartComponent implements OnInit {
     this.http.get(url, { headers, params })
       .subscribe((res:any) => {
         this.totalShipping = res.data.total
-        this.toMoney = this.toMoney + this.totalShipping;
 
       });
   }
@@ -768,6 +771,7 @@ export class ShoppingCartComponent implements OnInit {
   }
   open(): void {
     this.opened = true;
+    this.totalShipping = 35000
   }
   valueChange(item: any) {
     this.InfomationCustomer.value.Address = item;

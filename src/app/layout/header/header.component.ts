@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
     },
     {
       text: "Sản phẩm",
+      path:"list-product",
       children: [
 
       ]
@@ -47,7 +48,7 @@ export class HeaderComponent implements OnInit {
   public expandMode: DrawerMode = "overlay";
   public listProduct: Array<any> = [];
   public items: Array<any> = []; // menu item router
-  public itemsParent: Array<any> = []; // menu items cha 
+  public itemsParent: Array<any> = []; // menu items cha
   public itemsChild: Array<any> = []; // menu items con
   public productByName: any;
   public url: string | undefined;
@@ -138,7 +139,7 @@ export class HeaderComponent implements OnInit {
     this.setBreadcrumb();
 
     console.log(sessionStorage.getItem('USERNAME'))
-  
+
   }
   openLogin(): void {
     window.location.href = '/login';
