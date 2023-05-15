@@ -114,7 +114,7 @@ export class ProductDetailsComponent implements OnInit {
       this.infoProduct = res.data;
       if (this.infoProduct.description != null) {
         this.infoProduct.description = decodeURIComponent(description.replace(/\+/g, ""));
-      } 
+      }
       if (this.infoProduct.descriptionDetail != null) {
         this.infoProduct.descriptionDetail = decodeURIComponent(descriptionDetail.replace(/\+/g, " "));
       }
