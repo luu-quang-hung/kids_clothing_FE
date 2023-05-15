@@ -32,6 +32,7 @@ import { ToolBarModule } from '@progress/kendo-angular-toolbar';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import 'hammerjs';
+import { Ng5SliderModule } from 'ng5-slider';
 
 @NgModule({
   declarations: [

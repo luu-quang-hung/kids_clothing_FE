@@ -7,8 +7,6 @@ import { FormBuilder } from '@angular/forms';
 import { DialogService, WindowService } from '@progress/kendo-angular-dialog';
 import { MessageService } from 'src/app/shared/message.service';
 import { QuanityModel } from './quantity.model';
-import { SliderModule } from '@progress/kendo-angular-inputs';
-
 @Component({
   selector: 'app-list-product-by-category',
   templateUrl: './list-product-by-category.component.html',
@@ -25,17 +23,10 @@ export class ListProductByCategoryComponent implements OnInit {
   public total = 0;
   public QuantityObj: QuanityModel = new QuanityModel();
   public listProductByQuantity: Array<any> = [];
-  public sliderMinValue!: 100;
-  public sliderMaxValue !: 10000;
 
     // ...
 
-    onSliderValueChange() {
-      const minValue = this.sliderMinValue;
-      const maxValue = this.sliderMaxValue;
-      console.log(`Slider value changed to min: ${minValue}, max: ${maxValue}`);
-      // Do something with the slider value...
-    }
+
   public status = [
     {
       id: 0,
@@ -43,18 +34,22 @@ export class ListProductByCategoryComponent implements OnInit {
     },
     {
       id: 1,
-      name: 'Giảm giá'
+      name: 'Giá dưới 100.000'
     },
     {
       id: 2,
-      name: 'Giá 250.000 - 500.000 VND'
+      name: 'Giá 100.000 - 250.000 VND'
     },
     {
       id: 3,
-      name: 'Giá 500.000 - 750.000 VND'
+      name: 'Giá 250.000 - 500.000 VND'
     },
     {
       id: 4,
+      name: 'Giá 500.000 - 750.000 VND'
+    },
+    {
+      id: 5,
       name: 'Giá 750.000 - 1.000.000 VND'
     },
   ];
@@ -68,6 +63,7 @@ export class ListProductByCategoryComponent implements OnInit {
   public Quantity: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
 
   ngOnInit(): void {
+//
     let url = window.location.href;
     let name = url.replace('http://localhost:4200/collection/', '');
     this.api.Controller = "CategoryDetailController";
@@ -118,7 +114,19 @@ export class ListProductByCategoryComponent implements OnInit {
             break;
           case 1:
             this.api.dataSource.map((x) => {
-              let arr = this.Quantity.dataSource.filter((val) => val.product.id == x.id && val.product.discount > 0 && val.quantity > 0)
+              let arr = this.Quantity.dataSource.filter((val) =>{
+                let price = 0;
+                if(val.product.discount == undefined || val.product.discount == 0){
+                  price = val.product.price ;
+                }else{
+                  price = Number(val.product.price * val.product.discount/100) ;
+                }
+                if( val.product.id == x.id && price <= 100000 && val.quantity > 0){
+                  return x;
+                }else{
+                  return null;
+                }
+              })
               if (arr.length > 0) {
                 this.listProduct.push(x);
               }
@@ -133,7 +141,7 @@ export class ListProductByCategoryComponent implements OnInit {
                 }else{
                   price = Number(val.product.price * val.product.discount/100) ;
                 }
-                if( val.product.id == x.id && price >= 250000 && price <= 500000 && val.quantity > 0){
+                if( val.product.id == x.id &&  price >= 100000 && price <= 250000 && val.quantity > 0){
                   return x;
                 }else{
                   return null;
@@ -144,7 +152,27 @@ export class ListProductByCategoryComponent implements OnInit {
               }
             })
             break;
-          case 3:
+            case 3:
+              this.api.dataSource.map((x) => {
+                let arr = this.Quantity.dataSource.filter((val) =>{
+                  let price = 0;
+                  if(val.product.discount == undefined || val.product.discount == 0){
+                    price = val.product.price ;
+                  }else{
+                    price = Number(val.product.price * val.product.discount/100) ;
+                  }
+                  if( val.product.id == x.id && price >= 250000 && price <= 500000 && val.quantity > 0){
+                    return x;
+                  }else{
+                    return null;
+                  }
+                })
+                if (arr.length > 0) {
+                  this.listProduct.push(x);
+                }
+              })
+              break;
+          case 4:
             this.api.dataSource.map((x) => {
               let arr = this.Quantity.dataSource.filter((val) =>{
                 let price = 0;
@@ -164,7 +192,7 @@ export class ListProductByCategoryComponent implements OnInit {
               }
             })
             break;
-          case 4:
+          case 5:
             this.api.dataSource.map((x) => {
               let arr = this.Quantity.dataSource.filter((val) =>{
                 let price = 0;

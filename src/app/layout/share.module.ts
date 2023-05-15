@@ -24,7 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { IndicatorsModule } from "@progress/kendo-angular-indicators";
 import { GridModule } from "@progress/kendo-angular-grid";
-import { ListViewModule } from "@progress/kendo-angular-listview"; 
+import { ListViewModule } from "@progress/kendo-angular-listview";
 import { WindowModule } from "@progress/kendo-angular-dialog";
 import { DialogModule } from "@progress/kendo-angular-dialog";
 import { DropDownsModule } from "@progress/kendo-angular-dropdowns";
