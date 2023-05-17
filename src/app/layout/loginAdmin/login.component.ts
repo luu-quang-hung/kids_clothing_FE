@@ -10,7 +10,7 @@ import { UserModel } from './user.model';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit,AfterViewInit{
+export class LoginAdminComponent implements OnInit,AfterViewInit{
   @ViewChild("appendTo", { read: ViewContainerRef })
   public isMessage = false;
   public msg: any;
@@ -48,9 +48,7 @@ export class LoginComponent implements OnInit,AfterViewInit{
         sessionStorage.setItem('USER_ID', res.data.id);
         sessionStorage.setItem('ROLE', res.data.roles[0]);
         if (sessionStorage.getItem('ROLE') == "ROLE_ADMIN" || sessionStorage.getItem('ROLE') == "ROLE_STAFF") {
-          let id =  encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g,"%27").replace(/"/g,"%22")
-          window.location.href = "/login/" + id;
-
+          window.location.href = "/manager/dashboard";
         } else {
           window.location.href = "/";
         }

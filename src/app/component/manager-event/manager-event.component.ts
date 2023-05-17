@@ -47,7 +47,7 @@ export class ManagerEventComponent implements OnInit {
     this.message.receivedDataBehavior().subscribe((rs) => {
       this.gridData = rs;
     })
-  } 
+  }
   ngOnInit(): void {
     this.api.isManager = true;
     this.api.Controller = "EventManagerController";

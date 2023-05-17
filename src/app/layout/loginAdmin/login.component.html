@@ -6,17 +6,10 @@
 </style>
 <app-header></app-header>
 <div class="container-fluid">
-    <h3 style="font-weight: 600;border-bottom: 2px solid #ddd;padding: 15px 0px;margin: 3px 0px; text-align: center;">Đăng nhập</h3>
+    <h3 style="font-weight: 600;border-bottom: 2px solid #ddd;padding: 15px 0px;margin: 3px 0px; text-align: center;">Đăng nhập Quyen</h3>
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;height: 50vh;">
-        <div class="k-loading-panel" *ngIf="loaderVisible">
-            <div class="k-loading-panel-mask"></div>
-            <div class="k-loading-panel-wrapper">
-                <kendo-loader type="infinite-spinner" themeColor="primary" size="large">
-                </kendo-loader>
-            </div>
-        </div>
         <form [formGroup]="userForm" style="width: 550px;margin: 28px;">
-            <p style="color: red;font-weight: 600;" *ngIf="isMessage"><i class="fa fa-times" aria-hidden="true"></i> {{msg}} !!</p>
+            <!-- <p style="color: red;font-weight: 600;" *ngIf="isMessage"><i class="fa fa-times" aria-hidden="true"></i> {{msg}} !!</p> -->
             <div class="row" style="padding: 5px 0px;">
                 <label class="col-md-4 form-label" style="margin-top: 10px;">Tên đăng nhập: </label>
                 <div class="col-md-8">
@@ -33,13 +26,6 @@
             </div>
             <div style="margin: 15px 0px;" class="row">
                 <div class="col-md-4" style="padding: 0px;">
-
-                </div>
-                <div class="col-md-4" style="text-align: center;">
-                    <a href="/register">Đăng ký tài khoản ?</a>
-                </div>
-                <div class="col-md-4" style="text-align: center;">
-                    <a href="/changePassword">Quên mật khẩu ?</a>
                 </div>
                 <br>
                 <button type="submit" kendoButton iconClass="fa fa-sign-in fa-fw" (click)="getAccount()"

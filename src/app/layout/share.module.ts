@@ -42,6 +42,7 @@ import { WindowHistoryComponent } from "./history-and-wallet/windowHistory.compo
 import { WindowRechargeComponent } from "./history-and-wallet/windowRecharge.component";
 import { IntroduceComponent } from "../component/introduce/introduce.component";
 import { ContactComponent } from "../component/contact/contact.component";
+import { LoginAdminComponent } from "../layout/loginAdmin/login.component";
 
 @NgModule({
     declarations:[
@@ -50,6 +51,7 @@ import { ContactComponent } from "../component/contact/contact.component";
         FooterComponent,
         HomePageComponent,
         LoginComponent,
+        LoginAdminComponent,
         ShoppingCartComponent,
         RegisterComponent,
         ChangePasswordComponent,
