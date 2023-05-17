@@ -8,6 +8,7 @@ import { HomePageComponent } from "../layout/home-page/home-page.component";
 import { LoginComponent } from "../layout/login/login.component";
 import { RegisterComponent } from "../layout/register/register.component";
 import { ShoppingCartComponent } from "../layout/shopping-cart/shopping-cart.component";
+import { LoginAdminComponent } from "../layout/loginAdmin/login.component";
 
 const routes: Routes = [
     {
@@ -49,7 +50,12 @@ const routes: Routes = [
         path: 'introduce',
         component: IntroduceComponent,
         pathMatch: 'full'
-    }
+    },
+    {
+      path: 'admin/login',
+      component: LoginAdminComponent,
+      pathMatch: 'full'
+  }
 ];
 @NgModule({
     imports: [
