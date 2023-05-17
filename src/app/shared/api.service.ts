@@ -19,8 +19,10 @@ export class ApiService {
   public dropdowname: String | undefined;
   public Controller: String | undefined;
   public name: String | undefined;
+  public event: String | undefined;
   public payment: any | undefined;
-
+  public minPrice: any | undefined;
+  public maxPrice: any | undefined;
   public formGroup !: FormGroup;
   public status: String | undefined;
   public dataSource: Array<any> = [];
@@ -613,14 +615,14 @@ export class ApiService {
       if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
         let getHeader = this._.getHeader();
         if (getHeader instanceof HttpHeaders) {
-          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findby_status?name='+ this._.name , { headers: getHeader })
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllByIsDeleteFalse'+ this._.name , { headers: getHeader })
             .pipe(map((res: any) => {
               return res;
             }), tap(() => {
               this._.loading = false
             }))
         } else {
-          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +'/findby_status?name='+ this._.name)
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +'/findAllByIsDeleteFalse'+ this._.name)
             .pipe(map((res: any) => {
               return res;
             }), tap(() => {
@@ -628,7 +630,7 @@ export class ApiService {
             }))
         }
       } else {
-        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findby_status?name='+ this._.name)
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse'+ this._.name)
           .pipe(map((res: any) => {
             return res;
           }))
@@ -688,6 +690,35 @@ export class ApiService {
         }
       } else {
         return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public ReadserchPrice = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findPriceProduc?minPrice ='+ this._.minPrice + '&maxPrice=' + this._.maxPrice  , { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findPriceProduc')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findPriceProduc')
           .pipe(map((res: any) => {
             return res;
           }))

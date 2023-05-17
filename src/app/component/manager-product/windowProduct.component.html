@@ -40,7 +40,7 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                <label class="col-md-3">Danh mục cấp 1</label>
+                <label class="col-md-3">Danh mục</label>
                 <div class="col-md-9">
                   <kendo-dropdownlist [data]="category" textField="name" valueField="id" [defaultItem]="defaultItem"
                   formControlName="category" (selectionChange)="selectCategory($event)" style="width: 100%"
@@ -51,7 +51,7 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                <label class="col-md-3">Danh mục cấp 2</label>
+                <label class="col-md-3">Danh mục Chi tiết</label>
                 <div class="col-md-9">
                     <kendo-dropdownlist [data]="CategoryDetailById" textField="name" valueField="id"
                         [defaultItem]="defaultItem" [disabled]="disabled" formControlName="categorydetail"
@@ -79,7 +79,7 @@
                         <span class="list-title">
                             {{
                             formGroup.value.image != null
-                            ? "Bạn hãy chon 1 ảnh cho sản phẩm:"
+                            ? "Hình ảnh sản phẩm:"
                             : "No files are currently bound to the model"
                             }}
                         </span>&nbsp;
@@ -114,7 +114,7 @@
               <label class="col-md-3">Số Lượng</label>
               <div class="col-md-9">
                   <input type="text" kendoTextBox style="width: 100%" formControlName="quantity" name="quantity"
-                      [(ngModel)]="formGroup.value.quanity" />
+                      [(ngModel)]="formGroup.value.quanity"/>
               </div>
           </div>
       </div>

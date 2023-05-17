@@ -5,6 +5,34 @@
       style="height: 770px; width: 1170px;" [columnMenu]="{ filter: true }" (edit)="editHandler($event)"
       (add)="addHanler($event)" (remove)="removeHandler($event)" (dataStateChange)="dataStateChange($event)">
       <ng-template kendoGridToolbarTemplate>
+
+
+        <div class="col-md-2">
+          <div class="dropdown ">
+            <select (change)="ngOnInitdropdow($event)" style="border: none;">
+              <option> Loại sản phẩm
+              </option>
+
+              <option [value]="api.name">
+
+                <div *ngIf="api.name == 'name'">
+
+                </div>
+
+              </option>
+            </select>
+
+          </div>
+
+        </div>
+        <div class="col-md ">
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
+            <input autocomplete="off" placeholder="Giá nhỏ nhất" title="Search..."  class="k-input">
+          </span>
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
+            <input autocomplete="off" placeholder="Giá lớn nhất" title="Search..."  class="k-input">
+          </span>
+        </div>
         <div>
           <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
             <input autocomplete="off" placeholder=" Tìm kiếm theo tên" title="Search..." #username class="k-input">
@@ -14,9 +42,8 @@
             <span class="k-grid-search-text">Tìm kiếm</span>
           </button>
         </div>
-
-
-
+        <button kendoGridAddCommand class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus"
+          style="border-radius: 20px;"> Thêm mới</button>
       </ng-template>
       <kendo-grid-column title="STT" [width]="100">
         <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
@@ -25,8 +52,8 @@
       </kendo-grid-column>
       <kendo-grid-column field="image" title="Ảnh" [width]="150">
         <ng-template kendoGridCellTemplate let-dataItem>
-        <img [width]="100"  src = "{{dataItem.image}}">
-      </ng-template>
+          <img [width]="100" src="{{dataItem.image}}">
+        </ng-template>
       </kendo-grid-column>
       <kendo-grid-column field="name" title="Tên sản phẩm" [width]="350"></kendo-grid-column>
       <kendo-grid-column field="price" title="Giá" [width]="100">
@@ -52,10 +79,10 @@
       <kendo-grid-command-column title="Tùy chỉnh" [width]="270" [locked]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
           <button kendoGridEditCommand iconClass="fa fa-pencil" class="btn btn-primary" style="border-radius: 20px;">
-            Chỉnh sửa</button>
+            Chi Tiết</button>
           <button kendoGridRemoveCommand iconClass="fa fa-trash" class="btn btn-danger" style="border-radius: 20px;">
             Xóa</button>
-            <!-- <button kendoGridEditCommand iconClass="fa fa-bars" class="btn btn-primary" style="border-radius: 20px;">
+          <!-- <button kendoGridEditCommand iconClass="fa fa-bars" class="btn btn-primary" style="border-radius: 20px;">
               Chi tiết</button> -->
         </ng-template>
       </kendo-grid-command-column>

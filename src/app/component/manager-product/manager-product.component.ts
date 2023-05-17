@@ -31,8 +31,7 @@ export class ManagerProductComponent implements OnInit {
     sort: [],
   };
   constructor(private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
-    private notificationService: NotificationService, private formBuilder: FormBuilder) { }
-
+  private notificationService: NotificationService, private formBuilder: FormBuilder) { }
   public api: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
 
   ngOnInitsearch(name: any ): void {
@@ -41,6 +40,30 @@ export class ManagerProductComponent implements OnInit {
     this.api.Controller = "ProductManagerController";
     this.api.name = name;
     this.api.Readserch.Execute().subscribe((res) => {
+      this.gridData = res.data;
+      this.api.dataSource = res.data;
+    })
+    this.message.receivedDataAfterUpadte().subscribe((rs) => {
+      this.gridData = rs.data;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    })
+    this.message.receivedDataBehavior().subscribe((rs) => {
+      this.gridData = rs;
+    })
+  }
+  ngOnInitsearchPrice(minPrice: any,maxPrice : any ): void {
+
+    this.api.isManager = true;
+    this.api.Controller = "ProductManagerController";
+    this.api.minPrice = minPrice;
+    this.api.minPrice = maxPrice;
+    this.api.ReadserchPrice.Execute().subscribe((res) => {
       this.gridData = res.data;
       this.api.dataSource = res.data;
     })
@@ -76,6 +99,43 @@ export class ManagerProductComponent implements OnInit {
     });
   }
 
+  ngOnInitdropdow(event: any): void {
+    this.api.isManager = true;
+    this.api.Controller = "ProductManagerController";
+    this.api.event = event;
+    this.api.Readserch.Execute().subscribe((res) => {
+      this.gridData = res.data;
+      this.api.dataSource = res.data;
+    })
+    this.message.receivedDataAfterUpadte().subscribe((rs) => {
+      this.gridData = rs.data;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    })
+    this.message.receivedDataBehavior().subscribe((rs) => {
+      this.gridData = rs;
+    })
+  }
+  Readdropdow(): void{
+    this.api.loading = true;
+    this.api.Readdropdow.Execute().subscribe((rs) => {
+      this.gridData = rs.data;
+      this.api.loading = false;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    }
+  )
+  }
   ngOnInit(): void {
     this.api.isManager = true;
     this.api.Controller = "ProductManagerController";

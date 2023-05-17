@@ -32,7 +32,7 @@
                     <div *ngIf="api.loading" class="k-i-loading"></div>
                 </ng-template>
             </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab title="Loại sản phẩm chi tiết">
+            <kendo-tabstrip-tab title=" Chi tiết loại sản phẩm">
                 <ng-template kendoTabContent>
                     <kendo-grid #grid [kendoGridBinding]="api_2.dataSource" kendoGridSelectBy="id"
                         [pageSize]="state.take!" [skip]="state.skip!" [sort]="state.sort!" [group]="state.group!"
