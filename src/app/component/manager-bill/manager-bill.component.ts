@@ -17,7 +17,10 @@ import { WindowBillComponent } from './windowBill.component';
 export class ManagerBillComponent implements OnInit {
   public gridData: Array<any> = [];
   count = 0;
-
+  public startDate:string | undefined;
+  public endDate:string | undefined;
+  public Status:string | undefined;
+  public Method:string | undefined;
   constructor(public api: ApiService,private ngZone: NgZone, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
     private notificationService: NotificationService, private message: MessageService, private formBuilder: FormBuilder) { }
 
@@ -87,7 +90,8 @@ export class ManagerBillComponent implements OnInit {
       this.gridData = rs;
     })
   }
-  ngOnInitpayment(event: Event): void {
+  ngOnInitpayment(event: Event,): void {
+
     this.Bill.payment =  (event.target as HTMLSelectElement).value;
     this.Bill.isManager = true;
     this.Bill.Controller = "BillManagerController"; 
@@ -98,6 +102,39 @@ export class ManagerBillComponent implements OnInit {
     })
     this.message.receivedDataBehavior().subscribe((rs) => {
       this.gridData = rs;
+    })
+  }
+  ngOnInitcombobox(): void {
+    if(this.startDate === undefined){
+      this.startDate = ""
+    }
+    if(this.endDate == undefined){
+      this.endDate = ""
+    }  if(this.Method == undefined){
+      this.Method = ""
+    }  if(this.Status == undefined){
+      this.Status = ""
+    }
+  
+    this.Bill.date = this.startDate
+    console.log( this.Bill.date);
+    this.Bill.dateto = this.endDate
+    console.log(  this.Bill.dateto);
+    this.Bill.status = this.Status
+    console.log(  this.Bill.status);
+    this.Bill.payment = this.Method;
+    console.log(  this.Bill.payment);
+  
+    this.Bill.isManager = true;
+    this.Bill.Controller = "BillManagerController"; 
+    this.Readcombobox();
+    this.message.receivedDataAfterUpadte().subscribe((rs)=>{
+      this.Bill.loading = true;
+      this.Readcombobox();
+    })
+    this.message.receivedDataBehavior().subscribe((rs) => {
+      this.gridData = rs;
+
     })
   }
 
@@ -134,6 +171,22 @@ export class ManagerBillComponent implements OnInit {
   Readpayment(): void{
     this.Bill.loading = true;
     this.Bill.Readpayment.Execute().subscribe((rs) => {
+      this.gridData = rs.data;
+      this.Bill.loading = false;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.Bill.Notification.notificationError('');
+      }
+    }
+  )   
+  }
+
+  Readcombobox(): void{
+    this.Bill.loading = true;
+    this.Bill.Readcombobox.Execute().subscribe((rs) => {
       this.gridData = rs.data;
       this.Bill.loading = false;
     }, (error) => {
