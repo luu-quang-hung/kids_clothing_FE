@@ -76,6 +76,11 @@
 
             <!-- <kendo-grid-column field="statusshipping" title="Mã trạng thái ship" [width]="200">
             </kendo-grid-column> -->
+            <kendo-grid-column title="STT" [width]="100">
+                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+                  {{ rowIndex + 1 }}
+                </ng-template>
+              </kendo-grid-column>
             <kendo-grid-column field="status" title="Trạng thái" [width]="200">
                 <ng-template kendoGridCellTemplate let-dataItem>
                     <div *ngIf="dataItem.status == 'HUY'">

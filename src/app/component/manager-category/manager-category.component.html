@@ -13,6 +13,11 @@
 
                         </ng-template>
                         <kendo-grid-column title="STT" [width]="100">
+                            <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+                              {{ rowIndex + 1 }}
+                            </ng-template>
+                          </kendo-grid-column>
+                        <kendo-grid-column title="STT" [width]="100">
                           <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
                             {{ rowIndex + 1 }}
                           </ng-template>
