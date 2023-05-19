@@ -21,8 +21,8 @@ export class ApiService {
   public name: String | undefined;
   public event: String | undefined;
   public payment: any | undefined;
-  public minPrice: any | undefined;
-  public maxPrice: any | undefined;
+  public minPrice: Number | undefined;
+  public maxPrice: Number | undefined;
   public formGroup !: FormGroup;
   public status: String | undefined;
   public dataSource: Array<any> = [];
@@ -347,14 +347,14 @@ export class ApiService {
       if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
         let getHeader = this._.getHeader();
         if (getHeader instanceof HttpHeaders) {
-          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findby_name?name='+ this._.name , { headers: getHeader })
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findPriceProduc?name='+ this._.name +'&minPrice='+this._.minPrice +'&maxPrice='+this._.maxPrice, { headers: getHeader })
             .pipe(map((res: any) => {
               return res;
             }), tap(() => {
               this._.loading = false
             }))
         } else {
-          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findby_name')
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findPriceProduc')
             .pipe(map((res: any) => {
               return res;
             }), tap(() => {
@@ -362,7 +362,7 @@ export class ApiService {
             }))
         }
       } else {
-        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findby_name')
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findPriceProduc')
           .pipe(map((res: any) => {
             return res;
           }))

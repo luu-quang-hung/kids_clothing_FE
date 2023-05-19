@@ -23,6 +23,8 @@ export class ManagerProductComponent implements OnInit {
   public gridData: Array<any> = [];
   public method: any;
   public loading = false;
+  public minprice : Number | undefined
+  public maxprice:Number| undefined
   count = 0;
   public state: State = {
     filter: undefined,
@@ -39,6 +41,11 @@ export class ManagerProductComponent implements OnInit {
     this.api.isManager = true;
     this.api.Controller = "ProductManagerController";
     this.api.name = name;
+    this.api.minPrice = this.minprice;
+    console.log(this.api.minPrice);
+    this.api.maxPrice = this.maxprice;
+    console.log(this.api.maxPrice);
+    console.log("vào rồi");
     this.api.Readserch.Execute().subscribe((res) => {
       this.gridData = res.data;
       this.api.dataSource = res.data;

@@ -5,7 +5,21 @@
       style="height: 770px; width: 1170px;" [columnMenu]="{ filter: true }" (edit)="editHandler($event)"
       (add)="addHanler($event)" (remove)="removeHandler($event)" (dataStateChange)="dataStateChange($event)">
       <ng-template kendoGridToolbarTemplate>
-
+        <div>
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
+            <input autocomplete="off" placeholder=" Tìm kiếm theo tên" title="Search..." #name class="k-input">
+          </span>
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
+            <input autocomplete="off" [(ngModel)]="minprice"  placeholder="Giá nhỏ nhất" title="Search..." #minPrice  class="k-input">
+          </span>
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
+            <input autocomplete="off" [(ngModel)]="maxprice" placeholder="Giá lớn nhất" title="Search..." #maxPrice class="k-input">
+          </span>
+          <button (click)="ngOnInitsearch(name.value)" class="btn-outline-primary rounded-pill mr-3">
+            <span class="k-icon k-i-search"></span>
+            <span class="k-grid-search-text">Tìm kiếm</span>
+          </button>
+        </div>
 
         <div class="col-md-2">
           <div class="dropdown ">
@@ -25,23 +39,7 @@
           </div>
 
         </div>
-        <div class="col-md ">
-          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
-            <input autocomplete="off" placeholder="Giá nhỏ nhất" title="Search..."  class="k-input">
-          </span>
-          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
-            <input autocomplete="off" placeholder="Giá lớn nhất" title="Search..."  class="k-input">
-          </span>
-        </div>
-        <div>
-          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
-            <input autocomplete="off" placeholder=" Tìm kiếm theo tên" title="Search..." #username class="k-input">
-          </span>
-          <button (click)="ngOnInitsearch(username.value)" class="btn-outline-primary rounded-pill mr-3">
-            <span class="k-icon k-i-search"></span>
-            <span class="k-grid-search-text">Tìm kiếm</span>
-          </button>
-        </div>
+
         <button kendoGridAddCommand class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus"
           style="border-radius: 20px;"> Thêm mới</button>
       </ng-template>
