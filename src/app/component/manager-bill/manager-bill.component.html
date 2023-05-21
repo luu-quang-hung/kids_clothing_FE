@@ -10,20 +10,26 @@
             <ng-template kendoGridToolbarTemplate>
                 <div>
                     <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
-                        <input autocomplete="off" placeholder="Tìm Kiếm..." title="Search..." #username class="k-input">
+                        <input autocomplete="off" placeholder="Tìm đơn hàng" title="tìm đơn hàng " #username class="k-input">
                     </span>
-                    <button class="btn-outline-primary rounded-pill mr-3">
-                        <span class="k-icon k-i-search"></span>
-                        <span class="k-grid-search-text">Tìm kiếm</span>
-                    </button>
-                </div>
-                <button kendoButton iconClass="fa fa-floppy-o" style="border-radius: 20px" class="btn btn-primary"
+                  
+              
+                <button kendoButton iconClass="fa fa-floppy-o"  class="btn-outline-primary rounded-pill mr-3"
                     (click)="Update(grid)">
                     Lưu
                 </button>
-                <div class="col-md-12">
+               
+                <form>
+                    <div class="search-inputs">
+                      <input type="date" id="start_date" name="start_date" [(ngModel)]="startDate" >
+                    </div>
+                    <div class="search-inputs">
+                      <input type="date" id="end_date" name="end_date"  [(ngModel)]="endDate">
+                    </div>
+                  </form>
+                  
                 <div class="dropdown ">
-                    <select (change)="ngOnInitdropdow($event)" style="border: none;">
+                    <select  [(ngModel)]="Status" style="border: none;">
                         <option> Trạng Thái
                         </option>
 
@@ -52,7 +58,7 @@
 
                 </div>
                 <div class="dropdown">
-                    <select (change)="ngOnInitpayment($event)" style="border: none;">
+                    <select  [(ngModel)]="Method" style="border: none;">
                         <option>Phương Thức
                         </option>>
                         <option *ngFor="let listpaypent of listpaypent" [value]="listpaypent.id">
@@ -60,12 +66,21 @@
                         </option>
                     </select>
                 </div>
+        
+            <button (click)="ngOnInitcombobox()" class="btn-outline-primary rounded-pill mr-3">
+                <span class="k-icon k-i-search"></span>
+                <span class="k-grid-search-text">Tìm kiếm</span>
+            </button>
             </div>
-
             </ng-template>
 
             <!-- <kendo-grid-column field="statusshipping" title="Mã trạng thái ship" [width]="200">
             </kendo-grid-column> -->
+            <kendo-grid-column title="STT" [width]="100">
+                <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+                  {{ rowIndex + 1 }}
+                </ng-template>
+              </kendo-grid-column>
             <kendo-grid-column field="status" title="Trạng thái" [width]="200">
                 <ng-template kendoGridCellTemplate let-dataItem>
                     <div *ngIf="dataItem.status == 'HUY'">

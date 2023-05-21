@@ -23,6 +23,9 @@ export class ApiService {
   public payment: any | undefined;
   public minPrice: Number | undefined;
   public maxPrice: Number | undefined;
+  public id : Number | undefined;
+  public date: String | undefined;
+  public dateto: String | undefined;
   public formGroup !: FormGroup;
   public status: String | undefined;
   public dataSource: Array<any> = [];
@@ -719,6 +722,68 @@ export class ApiService {
         }
       } else {
         return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findPriceProduc')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+
+
+
+  public Readcombobox = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +
+           '/findby_date_and_payment_and_status?date='+this._.date+'&dateto='+this._.dateto+'&payment='+this._.payment+'&status='+this._.status, { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllproduc')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public ReadserchCateDetail = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findByDropdown?name='+ this._.name , { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findByDropdown')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findByDropdown')
           .pipe(map((res: any) => {
             return res;
           }))

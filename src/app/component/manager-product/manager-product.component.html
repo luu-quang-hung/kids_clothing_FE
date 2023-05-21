@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body">
-    <kendo-grid [kendoGridBinding]="gridData" kendoGridSelectBy="id" [pageSize]="state.take!" [skip]="state.skip!"
+    <kendo-grid [kendoGridBinding]="gridData"   kendoGridSelectBy="id" [pageSize]="state.take!" [skip]="state.skip!"
       [sort]="state.sort!" [group]="state.group!" [pageable]="true" [sortable]="true"
       style="height: 770px; width: 1170px;" [columnMenu]="{ filter: true }" (edit)="editHandler($event)"
       (add)="addHanler($event)" (remove)="removeHandler($event)" (dataStateChange)="dataStateChange($event)">
@@ -22,22 +22,21 @@
         </div>
 
         <div class="col-md-2">
-          <div class="dropdown ">
-            <select (change)="ngOnInitdropdow($event)" style="border: none;">
-              <option> Loại sản phẩm
-              </option>
 
-              <option [value]="api.name">
-
-                <div *ngIf="api.name == 'name'">
-
-                </div>
-
-              </option>
+          <div class="dropdown">
+            <!-- <select  style="border: none;">
+                <option>Danh Mục Sản Phẩm
+                </option>
+                <option (click)="onDropClick()" *ngFor="let item of dropData" [value]="item">
+                    {{ item.name}}
+                </option>
+            </select> -->
+            <select style="border: none;" id="myDropdown" (change)="onDropClick($event)">
+              <option>Danh Mục Sản Phẩm</option>
+              <option *ngFor="let item of dropData" [value]="item.name">{{ item.name }}</option>
             </select>
 
-          </div>
-
+        </div>
         </div>
 
         <button kendoGridAddCommand class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus"
