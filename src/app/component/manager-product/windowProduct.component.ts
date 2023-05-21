@@ -16,6 +16,7 @@ export class WindowProductComponent implements OnInit {
     @Input() public formGroup !: FormGroup;
     @Input() public status: String | undefined;
     public category: Array<any> = [];
+    public CategoryById: any;
     public categoryDetail: Array<any> = [];
     public CategoryDetailById: any;
     public defaultItem: { name: string; id: number, category: any } = {
@@ -41,18 +42,24 @@ export class WindowProductComponent implements OnInit {
         this.CategoryDetail.isManager = true;
         this.api.typeData = "popup";
         this.formGroup.addControl('category', new FormControl());
+        this.formGroup.addControl('categorydetail', new FormControl());
         if (this.status == "EDIT") {
+          console.log(this.formGroup);
             if (this.formGroup.value.description != null) {
+
                 this.formGroup.controls.description.setValue(decodeURIComponent(this.dataSource.description.replace(/\+/g, " ")));
+                console.log(this.formGroup.value.description)
+              }
+            if (this.formGroup.value.description_detail != null) {
+                this.formGroup.controls.description_detail.setValue(decodeURIComponent(this.dataSource.description_detail.replace(/\+/g, " ")));
             }
-            if (this.formGroup.value.descriptionDetail != null) {
-                this.formGroup.controls.descriptionDetail.setValue(decodeURIComponent(this.dataSource.descriptionDetail.replace(/\+/g, " ")));
-            }
+            console.log(this.formGroup);
         } else {
             this.disabled = true;
             this.dataSource.categorydetail = this.defaultItem;
             this.formGroup.controls.categorydetail.setValue(this.defaultItem);
         }
+
         this.getCategory();
     }
 

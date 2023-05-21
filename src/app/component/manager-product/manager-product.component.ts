@@ -22,10 +22,10 @@ export class ManagerProductComponent implements OnInit {
   public hiddenColumns: string[] = [];
   public gridData: Array<any> = [];
   public dropData: Array<any> = [];
-  public method: any;
   public loading = false;
-  public minprice : Number | undefined
-  public maxprice:Number| undefined
+  public minprice : any | undefined
+  public maxprice:any| undefined
+  public nameCate:any|undefined
   count = 0;
   public state: State = {
 
@@ -39,40 +39,24 @@ export class ManagerProductComponent implements OnInit {
   public api: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
 
   ngOnInitsearch(name: any ): void {
+    this.minprice = this.minprice == undefined ? "" : this.minprice;
+    this.maxprice = this.maxprice == undefined ? "" : this.maxprice;
+    this.nameCate = this.nameCate == undefined ? "" : this.nameCate;
 
+    name = name == undefined ? "" : name;
     this.api.isManager = true;
     this.api.Controller = "ProductManagerController";
     this.api.name = name;
     this.api.minPrice = this.minprice;
+    this.api.nameCate = this.nameCate
+    console.log( "log cate"+this.nameCate);
+    console.log( "log cate"+ this.api.nameCate);
     console.log(this.api.minPrice);
     this.api.maxPrice = this.maxprice;
     console.log(this.api.maxPrice);
+    this.api.nameCate = this.nameCate;
     console.log("vào rồi");
     this.api.Readserch.Execute().subscribe((res) => {
-      this.gridData = res.data;
-      this.api.dataSource = res.data;
-    })
-    this.message.receivedDataAfterUpadte().subscribe((rs) => {
-      this.gridData = rs.data;
-    }, (error) => {
-      if (error.status == 500) {
-        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
-        window.location.href = "/login/" + id;
-      } else {
-        this.api.Notification.notificationError('');
-      }
-    })
-    this.message.receivedDataBehavior().subscribe((rs) => {
-      this.gridData = rs;
-    })
-  }
-  ngOnInitsearchPrice(minPrice: any,maxPrice : any ): void {
-
-    this.api.isManager = true;
-    this.api.Controller = "ProductManagerController";
-    this.api.minPrice = minPrice;
-    this.api.minPrice = maxPrice;
-    this.api.ReadserchPrice.Execute().subscribe((res) => {
       this.gridData = res.data;
       this.api.dataSource = res.data;
     })

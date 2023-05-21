@@ -1,46 +1,56 @@
 <div class="card">
   <div class="card-body">
-    <kendo-grid [kendoGridBinding]="gridData"   kendoGridSelectBy="id" [pageSize]="state.take!" [skip]="state.skip!"
+    <kendo-grid [kendoGridBinding]="gridData" kendoGridSelectBy="id" [pageSize]="state.take!" [skip]="state.skip!"
       [sort]="state.sort!" [group]="state.group!" [pageable]="true" [sortable]="true"
       style="height: 770px; width: 1170px;" [columnMenu]="{ filter: true }" (edit)="editHandler($event)"
       (add)="addHanler($event)" (remove)="removeHandler($event)" (dataStateChange)="dataStateChange($event)">
       <ng-template kendoGridToolbarTemplate>
         <div>
-          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
-            <input autocomplete="off" placeholder=" Tìm kiếm theo tên" title="Search..." #name class="k-input">
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3"
+            style="margin-left: 25px; margin-top: 10px;">
+            <input autocomplete="off" placeholder=" Tìm kiếm theo tên" title="Search..." #name class="k-input"
+              style="width: 150px; margin-left: 10px;">
           </span>
-          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
+          <!-- <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
             <input autocomplete="off" [(ngModel)]="minprice"  placeholder="Giá nhỏ nhất" title="Search..." #minPrice  class="k-input">
           </span>
           <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
             <input autocomplete="off" [(ngModel)]="maxprice" placeholder="Giá lớn nhất" title="Search..." #maxPrice class="k-input">
-          </span>
-          <button (click)="ngOnInitsearch(name.value)" class="btn-outline-primary rounded-pill mr-3">
+          </span> -->
+          <div class="input-group mb-3" style="margin-top: 10px; width: 400px;">
+            <div class=" input-group-prepend">
+              <span class="input-group-text"
+                style="border-radius: 18px  0px 0px 18px ; background-color: rgb(115, 158, 251);">Khoảng giá</span>
+            </div>
+            <span class="k-textbox k-grid-search k-display-flex " style="width: 140px; margin-left: 3px;">
+              <input autocomplete="off" [(ngModel)]="minprice" placeholder="  Giá nhỏ nhất" title="Search..." #minPrice
+                class="k-input">
+            </span>
+            <span class="k-textbox k-grid-search k-display-flex " style="width: 140px;margin-left: 3px;">
+              <input autocomplete="off" [(ngModel)]="maxprice" placeholder="Giá lớn nhất" title="Search..." #maxPrice
+                class="k-input">
+            </span>
+          </div>
+          <div class="col-md-2" style="margin-top: 20px;margin-right: 10px;">
+
+            <div class="dropdown">
+              <select [(ngModel)]="nameCate" style="border: none;">
+                <option>Danh Mục Sản Phẩm</option>
+                <option *ngFor="let item of dropData" [value]="item.name">{{ item.name }}</option>
+              </select>
+
+            </div>
+          </div>
+          <button (click)="ngOnInitsearch(name.value)" class="btn-outline-primary rounded-pill mr-3"style="width: 120px; height: 40px; margin-top: 10px;">
             <span class="k-icon k-i-search"></span>
             <span class="k-grid-search-text">Tìm kiếm</span>
           </button>
         </div>
 
-        <div class="col-md-2">
 
-          <div class="dropdown">
-            <!-- <select  style="border: none;">
-                <option>Danh Mục Sản Phẩm
-                </option>
-                <option (click)="onDropClick()" *ngFor="let item of dropData" [value]="item">
-                    {{ item.name}}
-                </option>
-            </select> -->
-            <select style="border: none;" id="myDropdown" (change)="onDropClick($event)">
-              <option>Danh Mục Sản Phẩm</option>
-              <option *ngFor="let item of dropData" [value]="item.name">{{ item.name }}</option>
-            </select>
-
-        </div>
-        </div>
 
         <button kendoGridAddCommand class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus"
-          style="border-radius: 20px;"> Thêm mới</button>
+          style="border-radius: 20px;width: 140px; height: 40px;"> Thêm mới</button>
       </ng-template>
       <kendo-grid-column title="STT" [width]="100">
         <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">

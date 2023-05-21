@@ -19,6 +19,7 @@ export class ApiService {
   public dropdowname: String | undefined;
   public Controller: String | undefined;
   public name: String | undefined;
+  public nameCate: String | undefined;
   public event: String | undefined;
   public payment: any | undefined;
   public minPrice: Number | undefined;
@@ -350,7 +351,7 @@ export class ApiService {
       if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
         let getHeader = this._.getHeader();
         if (getHeader instanceof HttpHeaders) {
-          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findPriceProduc?name='+ this._.name +'&minPrice='+this._.minPrice +'&maxPrice='+this._.maxPrice, { headers: getHeader })
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findPriceProduc?name='+ this._.name +'&minPrice='+this._.minPrice +'&maxPrice='+this._.maxPrice +'&nameCate='+this._.nameCate, { headers: getHeader })
             .pipe(map((res: any) => {
               return res;
             }), tap(() => {
