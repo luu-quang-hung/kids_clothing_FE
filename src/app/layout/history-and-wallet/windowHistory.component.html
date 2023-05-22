@@ -2,6 +2,33 @@
     ::ng-deep kendo-window {
         padding: 0px;
     }
+    .update-button {
+  background-color: #4CAF50; /* Màu nền */
+  border: none; /* Loại bỏ đường viền */
+  color: white; /* Màu chữ */
+  padding: 10px 20px; /* Khoảng cách lề trong nút */
+  text-align: center; /* Căn giữa chữ trong nút */
+  text-decoration: none; /* Loại bỏ gạch chân chữ */
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px; /* Bo góc nút */
+}
+.input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.input-wrapper .update-button {
+  margin-left: 10px;
+  margin-top: -1px
+}
 </style>
 <form [formGroup]="formGroup">
     <kendo-tabstrip>
@@ -55,11 +82,11 @@
                     </div>
                     <div class="col-md-8" style="margin: 10px 0px;">
                       <label>Địa chỉ</label>
-                      <input kendoTextBox [readonly]="isAddressReadOnly" formControlName="address" style="width: 100%;"
-                        [(ngModel)]="formGroup.value.address"/>
-                      <button (click)="toggleAddressEditMode()">Cập nhật địa chỉ</button>
-                      <button (click)="saveAddress()">Lưu</button>
-
+                      <div class="input-wrapper">
+                        <input kendoTextBox [readonly]="isAddressReadOnly" formControlName="address" style="width: 100%;"
+                          [(ngModel)]="formGroup.value.address" />
+                        <button class="update-button" (click)="saveAddress()">Cập nhật địa chỉ</button>
+                      </div>
                     </div>
                     <div class="col-md-12" style="padding: 0px;" style="margin: 10px 0px;">
                         <kendo-grid #grid [kendoGridBinding]="listOrderDetail" style="height: 400px; width: 1100;"
@@ -68,8 +95,8 @@
                             <kendo-grid-column field="quantitydetail" title="Số lượng" [width]="120">
                               <ng-template kendoGridCellTemplate let-dataItem>
                                 <div class="quantity-input">
-                                  <input type="number" value="{{dataItem.quantitydetail}}" (change)="onQuantityChange(dataItem.id,$event)" style="width: 50px;  border: none;
-                                  outline: none;" />
+                                  <input type="number" [readonly]="isAddressReadOnly" value="{{dataItem.quantitydetail}}" (change)="onQuantityChange(dataItem.id,$event)" style="width: 50px;  border: none;
+                                  outline: none;" min="1"/>
                                 </div>
                               </ng-template>
                             </kendo-grid-column>
@@ -89,8 +116,7 @@
                                 {{ dataItem.downprice | number:'1.0-0' }}
                               </ng-template>
                             </kendo-grid-column>
-                            <kendo-grid-column title="Chức năng" [width]="250">
-                            </kendo-grid-column>
+
                         </kendo-grid>
                     </div>
                 </div>

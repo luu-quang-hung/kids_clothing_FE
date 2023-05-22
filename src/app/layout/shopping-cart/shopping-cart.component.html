@@ -229,9 +229,11 @@
                     </div>
                 </div>
                 <div class="row" *ngIf="USERNAME == null">
-                    <h3>
-                        Chúng tôi sẽ XÁC NHẬN đơn hàng bằng TIN NHẮN SMS hoặc GỌI ĐIỆN. Bạn vui lòng kiểm tra TIN NHẮN hoặc NGHE MÁY ngay khi đặt hàng thành công và CHỜ NHẬN HÀNG
-                    </h3>
+                  <h3 style="text-align: center; font-size: 18px; font-weight: bold; margin: 20px 0;">
+                    Chúng tôi sẽ <span style="color: blue;">XÁC NHẬN</span> đơn hàng bằng <span style="color: blue;">TIN NHẮN SMS</span> hoặc <span style="color: blue;">GỌI ĐIỆN</span>.<br/>
+                    Bạn vui lòng kiểm tra <span style="color: blue;">TIN NHẮN</span> hoặc <span style="color: blue;">NGHE MÁY</span> ngay khi đặt hàng thành công và  <br><span style="color: blue;">CHỜ NHẬN HÀNG</span>.<br>
+                    <span>Nếu muốn theo dõi đơn hàng 1 cách chi tiết nhất hãy <span style="color: blue;">ĐĂNG KÝ VÀ ĐĂNG NHẬP TÀI KHOẢN ĐỂ MUA HÀNG</span></span>
+                  </h3>
                 </div>
             </div>
             <div *ngIf="step_3"
@@ -289,7 +291,12 @@
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-6 col-md-6 col-sm-5">Số lượng: {{card.Quantity}}</label>
+
+                                <div class="col-lg-6 col-md-6 col-sm-7">
+                                  <span>Tổng tiền: {{card.newPrice*card.Quantity|number :'1.0-3'}}</span>
+                              </div>
                             </div>
+
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-3"
                             style="display: flex;justify-content: center;align-items: center;">
@@ -319,7 +326,7 @@
                         <strong
                             style="float: right;font-size: 1.2857em;font-weight: bold;margin-bottom: 0;color: #ffc045;">
                             <img src="https://i.imgur.com/qgmdQJq.png" style="    width: 105px;
-                            height: 22px;"> 
+                            height: 22px;">
                             {{totalShipping|number :'1.0-3'}} VND
                         </strong>
                     </div>

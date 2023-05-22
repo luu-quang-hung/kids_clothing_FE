@@ -59,9 +59,9 @@ export class ShoppingCartComponent implements OnInit {
   public listVoucher: Array<any> = [];
   public QuantityObj: QuanityModel = new QuanityModel();
   public BillObj: BillModel = new BillModel();
-  public provinces!: { ProvinceId: any, ProvinceName: any  }[];
+  public provinces!: { ProvinceId: any, ProvinceName: any }[];
   public districts: {DistrictID: any,DistrictName: any }[] = [];
-  public wards: {WardCode: any,WardName: any }[] = [];
+  public wards !: {WardCode: any,WardName: any }[];
 
   public wardCodeShip:any;
   public districtsShip:any;
