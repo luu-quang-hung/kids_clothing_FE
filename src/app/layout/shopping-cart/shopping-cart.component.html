@@ -143,7 +143,7 @@
                         <kendo-textbox placeholder="Tổ/Xóm" formControlName="Hamlet" (change)="HamletChange($event)">
                         </kendo-textbox>
                     </div>
-                    <div class="col-md-9" *ngIf="USERNAME != null">
+                    <div class="col-md-9" >
                         <div
                             *ngIf="InfomationCustomer.controls['Address']!.invalid && (InfomationCustomer.controls['Address']!.dirty || InfomationCustomer.controls['Address']!.touched)">
                             <small class="text-danger" *ngIf="InfomationCustomer.get('Address')!.hasError('required')">

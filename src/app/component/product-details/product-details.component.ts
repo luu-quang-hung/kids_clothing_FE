@@ -7,7 +7,6 @@ import { ApiService } from 'src/app/shared/api.service';
 import { MessageService } from 'src/app/shared/message.service';
 import SwiperCore, { Pagination, SwiperOptions, Autoplay, Navigation, Thumbs } from "swiper";
 import { QuanityModel } from './quantity.model';
-
 SwiperCore.use([Pagination]);
 SwiperCore.use([Autoplay]);
 SwiperCore.use([Navigation, Thumbs]);
@@ -29,6 +28,9 @@ export class ProductDetailsComponent implements OnInit {
   public listProperty: Array<any> = [];
   public listPropertyByQuantity: Array<any> = [];
   public listSizeByQuantity: Array<any> = [];
+  public productDetailQuantity: any;
+  public isDisabled: boolean;
+  public sizes: any;
   public badge = 0;
   public dataSource: Array<any> = [];
   public QuantityObj: QuanityModel = new QuanityModel();
@@ -83,6 +85,7 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(private api: ApiService, private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
     private notificationService: NotificationService, private formBuilder: FormBuilder) {
+      this.isDisabled = false; 
   }
   public Product: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
   public TypeSize: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
@@ -234,6 +237,18 @@ export class ProductDetailsComponent implements OnInit {
         this.api.Notification.notificationError('');
       }
     })
+
+       // ---------------------------------------------------
+      this.Product.getApi('Customer/ProductDetailController/findByAlls?idProduct=' + id +
+      `&idSize=&idProperty=`
+      ).subscribe((res) => {
+        this.productDetailQuantity = res.data.quantity;
+        this.isDisabled = this.productDetailQuantity <= 0;
+ 
+      }, (error) => {
+    
+      })
+   // ===================================================
   }
 
   changeProperty(e: any): void {
@@ -247,10 +262,39 @@ export class ProductDetailsComponent implements OnInit {
       this.listSizeByQuantity.push(x.size);
     })
     this.QuantityObj.Size = this.listSizeByQuantity[0];
+    // ---------------------------------------------------
     this.formGroup.controls.size.setValue(this.listSizeByQuantity[0]);
+    const sizeValue = this.formGroup.controls.size.value;
+    let url = window.location.href;
+    let id = url.replace('http://localhost:4200/list-product/info/', '');
+    this.Product.getApi('Customer/ProductDetailController/findByAlls?idProduct=' + id +
+    `&idSize=` + sizeValue.id + `&idProperty=` + e.idproperty
+    ).subscribe((res) => {
+      this.productDetailQuantity = res.data.quantity;
+      this.isDisabled = this.productDetailQuantity <= 0;
+
+    }, (error) => {
+  
+    })
+    // ===================================================
   }
   changeSize(value: any): void {
     this.QuantityObj.Size = value;
+     // ---------------------------------------------------
+     this.formGroup.controls.property.setValue(String(this.listProperty[0].idproperty));
+     const propertyValue = this.formGroup.controls.property.value;
+     let url = window.location.href;
+     let id = url.replace('http://localhost:4200/list-product/info/', '');
+     this.Product.getApi('Customer/ProductDetailController/findByAlls?idProduct=' + id +
+     `&idSize=` + value.id + `&idProperty=` + propertyValue
+     ).subscribe((res) => {
+       this.productDetailQuantity = res.data.quantity;
+       this.isDisabled = this.productDetailQuantity <= 0;
+
+     }, (error) => {
+   
+     })
+     // ===================================================
   }
   changeQuantity(value: any): void {
     this.QuantityObj.Quantity = value;
@@ -259,9 +303,6 @@ export class ProductDetailsComponent implements OnInit {
   addSoppingCart(): void {
     if( this.QuantityObj.Quantity < 0){
       return this.Quantity.Notification.notificationWarning("Không được nhập số âm");
-    }
-    if( this.QuantityObj.Quantity > 1000){
-      return this.Quantity.Notification.notificationWarning("Không thể mua " +  this.QuantityObj.Quantity + " "+" mặt hàng nếu muốn mua Sỉ SLL vui lòng liên hệ shop");
     }
     this.dataSource = [];
     let key = Object.keys(localStorage);
