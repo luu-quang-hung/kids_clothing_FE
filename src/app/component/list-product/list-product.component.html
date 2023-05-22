@@ -14,20 +14,25 @@
 <div>
     <div class="row" style="border-bottom: 1px solid #ddd;padding-bottom: 10px;margin: 0px 10px 10px 10px;">
         <label class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-4" style="font-weight: 600;">Mức giá :</label>
-        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-8">
-            <kendo-dropdownlist [data]="status" textField="name" valueField="id" [valuePrimitive]="true"
-                [(ngModel)]="selectedValue" (valueChange)="changeStatus($event)" style="width: 250px;">
-            </kendo-dropdownlist>
+        <div class="row">
+          <div class="col-6 col-sm-3"><label class="" style="font-weight: 600;">Mức giá :</label>
+          </div>
+          <div class="col-6 col-sm-3"> <label class="" style="font-weight: 600;">Tìm kiếm</label></div>
+
+          <!-- Force next columns to break to new line -->
+          <div class="w-100"></div>
+
+          <div class="col-6 col-sm-3"><kendo-dropdownlist [data]="status" textField="name" valueField="id" [valuePrimitive]="true"
+            [(ngModel)]="selectedValue" (valueChange)="changeStatus($event)" style="width: 250px;">
+          </kendo-dropdownlist></div>
+          <div class="col-6 col-sm-3">    <kendo-textbox placeholder="Search..." [clearButton]="true" style="width: 100%;"
+            (change)="onChangeHandler($event)">
+            <ng-template kendoTextBoxPrefixTemplate>
+                <button kendoButton look="clear" icon="search" (click)="search()"></button>
+                <kendo-textbox-separator></kendo-textbox-separator>
+            </ng-template>
+        </kendo-textbox></div>
         </div>
-        <!-- <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12" >
-            <kendo-textbox placeholder="Search..." [clearButton]="true" style="width: 100%;"
-                (change)="onChangeHandler($event)">
-                <ng-template kendoTextBoxPrefixTemplate>
-                    <button kendoButton look="clear" icon="search" (click)="search()"></button>
-                    <kendo-textbox-separator></kendo-textbox-separator>
-                </ng-template>
-            </kendo-textbox>
-        </div> -->
     </div>
     <div class="row">
         <div *ngIf="Quantity.loading" class="k-i-loading" style="z-index: 99999;"></div>

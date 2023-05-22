@@ -41,7 +41,7 @@
 <div class="row">
   <div class="col-6 col-sm-3"><label class="" style="font-weight: 600;">Mức giá :</label>
   </div>
-  <div class="col-6 col-sm-3"> <label class="" style="font-weight: 600;">Màu sắc</label></div>
+  <div class="col-6 col-sm-3"> <label class="" style="font-weight: 600;">Tìm kiếm</label></div>
 
   <!-- Force next columns to break to new line -->
   <div class="w-100"></div>
@@ -49,9 +49,13 @@
   <div class="col-6 col-sm-3"><kendo-dropdownlist [data]="status" textField="name" valueField="id" [valuePrimitive]="true"
     [(ngModel)]="selectedValue" (valueChange)="changeStatus($event)" style="width: 250px;">
   </kendo-dropdownlist></div>
-  <div class="col-6 col-sm-3"> <kendo-dropdownlist [data]="status" textField="name" valueField="id" [valuePrimitive]="true"
-    [(ngModel)]="selectedValue" (valueChange)="changeStatus($event)" style="width: 250px;">
-  </kendo-dropdownlist></div>
+  <div class="col-6 col-sm-3">    <kendo-textbox placeholder="Search..." [clearButton]="true" style="width: 100%;"
+    (change)="onChangeHandler($event)">
+    <ng-template kendoTextBoxPrefixTemplate>
+        <button kendoButton look="clear" icon="search" (click)="search()"></button>
+        <kendo-textbox-separator></kendo-textbox-separator>
+    </ng-template>
+</kendo-textbox></div>
 </div>
 
 <div class="d-flex align-items-center"
