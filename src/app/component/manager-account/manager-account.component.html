@@ -8,7 +8,7 @@
             [sort]="state.sort!" [group]="state.group!" [pageable]="true" [sortable]="true"
             style="height: 700px; width: 1300px;" [columnMenu]="{ filter: true }" (edit)="editHandler($event)"
             (add)="addHanler($event)" (remove)="removeHandler($event)" (dataStateChange)="dataStateChange($event)">
-            <ng-template kendoGridToolbarTemplate>
+            <!-- <ng-template kendoGridToolbarTemplate>
                 <div>
                     <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" >
                         <input  autocomplete="off" placeholder="Search..." title="Search..." #username class="k-input">
@@ -20,20 +20,36 @@
                 </div>
                 <div class="d-flex align-items-center ml-auto">   <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus" kendoGridAddCommand>Thêm mới</button></div>
              
+            </ng-template> -->
+            <kendo-grid-column title="STT" [width]="100">
+            <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
+              {{ rowIndex + 1 }}
             </ng-template>
-            <kendo-grid-command-column title="Command" [width]="250" >
+          </kendo-grid-column>
+            <kendo-grid-column field="email" title="Email" [width]="250">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.email }}
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="username" title="Tên đăng nhập " [width]="200">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.username }}
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="phone" title="SDT" [width]="200">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.phone }}
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-command-column field="role" title="Phân quyền Admin" [width]="220">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{dataItem.role }}
+                </ng-template>
+            </kendo-grid-command-column>
+            <kendo-grid-command-column title="Tùy chỉnh" [width]="250" >
                 <ng-template kendoGridCellTemplate let-dataItem>
                     <button class="btn-outline-success rounded-pill " iconClass="fa fa-edit" kendoGridEditCommand > sửa</button>
                     <button class="btn-outline-danger rounded-pill" iconClass="fa fa-trash" kendoGridRemoveCommand>Xóa</button>
-                </ng-template>
-            </kendo-grid-command-column>
-            <kendo-grid-column field="account.email" title="Email" [width]="250">
-            </kendo-grid-column>
-            <kendo-grid-column field="account.username" title="Username" [width]="200"></kendo-grid-column>
-            <kendo-grid-column field="account.phone" title="SDT" [width]="200"></kendo-grid-column>
-            <kendo-grid-command-column field="role.name" title="Phân quyền Admin" [width]="220">
-                <ng-template kendoGridCellTemplate let-dataItem>
-                    {{ Role(dataItem.role.id)?.name }}
                 </ng-template>
             </kendo-grid-command-column>
         </kendo-grid>

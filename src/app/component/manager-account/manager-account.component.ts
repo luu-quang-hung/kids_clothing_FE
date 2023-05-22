@@ -15,6 +15,7 @@ import { WindowAccountComponent } from './windowAccount.component';
   styleUrls: ['./manager-account.component.css']
 })
 export class ManagerAccountComponent implements OnInit {
+   count = 0;
   public gridData: Array<any> = [];
   public isAdmin = new FormGroup({
     username: new FormControl(''),
@@ -35,23 +36,30 @@ export class ManagerAccountComponent implements OnInit {
   }
   public Authority: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
   
-  ngOnInitserch(name: any): void {
-    this.api.Controller = "AccountManagerController";
-    this.api.isManager = true;
-    this.api.typeData = "popup"
-    this.api.name = name
-    this.Readserch();
-    this.message.receivedDataAfterUpadte().subscribe((rs) => {
-      this.Readserch();
-    })
-  }
+  // ngOnInitserch(name: any): void {
+  //   this.api.Controller = "AccountManagerController";
+  //   this.api.isManager = true;
+  //   this.api.typeData = "popup"
+  //   this.api.name = name
+  //   this.Readserch();
+  //   this.message.receivedDataAfterUpadte().subscribe((rs) => {
+  //     this.Readserch();
+  //   })
+  // }
   ngOnInit(): void {
-    this.api.Controller = "AccountManagerController";
-    this.api.isManager = true;
-    this.api.typeData = "popup"
+    this.Authority.isManager = true;
+    this.Authority.Controller = "AccountManagerController";
+    this.gridData.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.gridData.length;
     this.Read();
-    this.message.receivedDataAfterUpadte().subscribe((rs) => {
+    this.message.receivedDataAfterUpadte().subscribe((rs)=>{
+      this.Authority.loading = true;
       this.Read();
+    })
+    this.message.receivedDataBehavior().subscribe((rs) => {
+      this.gridData = rs;
     })
   }
   Role(id: number): any {
@@ -59,19 +67,17 @@ export class ManagerAccountComponent implements OnInit {
     return role;
   }
   Read(): void{
-    this.api.Read.Execute().subscribe((rs) => {
-      this.gridData = rs.data.filter((x:any) => x.role.id == "admin" || x.role.id == "staff");
-      this.api.dataSource = rs.data
+    this.Authority.loading = true;
+    this.Authority.ReadAccountAD.Execute().subscribe((rs) => {
+      this.gridData = rs.data;
+      this.Authority.loading = false;
     }, (error) => {
       if (error.status == 500) {
         let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
         window.location.href = "/login/" + id;
       } else {
-        this.api.Notification.notificationError('');
+        this.Authority.Notification.notificationError('');
       }
-    })
-    this.Authority.getApi('Manager/' + this.api.Controller +'/findAll').subscribe((rs)=>{
-      this.Authority.dataSource = rs.data;
     })
   }
   Readserch(): void{
@@ -86,7 +92,7 @@ export class ManagerAccountComponent implements OnInit {
         this.api.Notification.notificationError('');
       }
     })
-    this.Authority.getApi('Manager/' + this.api.Controller +'/findby_name?name='+ this.api.name).subscribe((rs)=>{
+    this.Authority.getApi('Manager/' + this.api.Controller +'/findAll').subscribe((rs)=>{
       this.Authority.dataSource = rs.data;
     })
   }

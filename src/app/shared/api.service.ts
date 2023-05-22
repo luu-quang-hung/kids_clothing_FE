@@ -56,7 +56,7 @@ export class ApiService {
 
       return this.http.get(`http://localhost:8080/${url}`, { headers: getHeader })
         .pipe(map((res: any) => {
-          console.log('end call')
+          console.log('end call' + res)
           return res;
         }))
     } else {
@@ -313,7 +313,7 @@ export class ApiService {
   }
   public Read = {
     _: this,
-    Execute: function () {
+     Execute: function () {
       if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
         let getHeader = this._.getHeader();
         if (getHeader instanceof HttpHeaders) {
@@ -722,6 +722,64 @@ export class ApiService {
         }
       } else {
         return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public ReadAcount = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAll', { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllByIsDeleteFalse')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public ReadAccountAD = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllROLE_ADMIN' , { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +'/findAllROLE_ADMIN')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllROLE_ADMIN')
           .pipe(map((res: any) => {
             return res;
           }))

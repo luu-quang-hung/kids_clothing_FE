@@ -40,11 +40,11 @@ export class WindowAccountComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.status == "EDIT") {
-            this.formAccount.controls.email.setValue(this.formGroup.value.account.email);
-            this.formAccount.controls.username.setValue(this.formGroup.value.account.username);
-            this.formAccount.controls.password.setValue(this.formGroup.value.account.password);
-            this.formAccount.controls.phone.setValue(this.formGroup.value.account.phone);
-            this.formAccount.controls.role.setValue(this.formGroup.value.role.name);
+            this.formAccount.controls.email.setValue(this.formGroup.value.email);
+            this.formAccount.controls.username.setValue(this.formGroup.value.username);
+            this.formAccount.controls.password.setValue(this.formGroup.value.password);
+            this.formAccount.controls.phone.setValue(this.formGroup.value.phone);
+            this.formAccount.controls.role.setValue(this.formGroup.value.role);
         }
     }
     changeRole(event: any): void{
