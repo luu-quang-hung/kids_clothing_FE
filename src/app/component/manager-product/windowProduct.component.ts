@@ -157,19 +157,10 @@ export class WindowProductComponent implements OnInit {
       this.formGroup.value.categorydetail = this.defaultItem;
       this.CategoryDetailById = this.categoryDetail.filter((x) => x.category.id == event.id);
   }
-    selectCategoryDetail(event: any): void {
+  selectCategoryDetail(event: any): void {
 
-    }
-    onClickSave(event: Event):void{
+  }
 
-      this.api.isManager = true;
-      this.api.Controller = "ProductManagerController";
-      this.api.loading = true;
-      this.api.name = (event.target as HTMLSelectElement).value;
-      this.api.Update.Execute(data);
-      console.log((event.target as HTMLSelectElement).value);
-
-    }
 
 
 }
