@@ -139,13 +139,31 @@ export class WindowProductComponent implements OnInit {
         } else {
             this.addImage();
         }
+
+        window.location.href = "http://localhost:4200/manager/quan-ly-san-pham"
     }
     addImage(): void {
         const data = new FormData();
+        const json = {
+          "name": this.formGroup.value.name,
+          "price":this.formGroup.value.price,
+          "discount": this.formGroup.value.discount,
+          "description": this.formGroup.value.description,
+          "descriptionDetail": this.formGroup.value.descriptionDetail,
+          "categorydetail": {
+            "id": this.dataSource.categorydetail.id,
+            "name":this.dataSource.categorydetail.name,
+            "category": {
+              "id": this.dataSource.category.id,
+              "name":this.dataSource.category.name,
+              "isDelete": false,
+            },
+
+        }}
         if (this.imagePreview.length > 0) {
             data.append("files", this.imagePreview[0].rawFile);
         }
-        data.append("Product", JSON.stringify(this.formGroup.value));
+        data.append("Product", JSON.stringify(json));
         this.api.Controller="ProductManagerController"
         this.api.Update.Execute(data);
     }
@@ -160,6 +178,7 @@ export class WindowProductComponent implements OnInit {
   selectCategoryDetail(event: any): void {
 
   }
+
 
 
 

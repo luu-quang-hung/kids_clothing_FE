@@ -35,7 +35,7 @@
 
             <div class="dropdown">
               <select [(ngModel)]="nameCate" style="border: none;">
-                <option>Danh Mục Sản Phẩm</option>
+                <option selected>Danh Mục Sản Phẩm</option>
                 <option *ngFor="let item of dropData" [value]="item.name">{{ item.name }}</option>
               </select>
 
