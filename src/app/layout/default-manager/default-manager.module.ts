@@ -30,6 +30,8 @@ import { ToolBarModule } from "@progress/kendo-angular-toolbar";
 import { UploadsModule } from "@progress/kendo-angular-upload";
 import { CarouselModule } from "ngx-owl-carousel-o";
 import { DashboardComponent } from "src/app/component/dashboard/dashboard.component";
+import { ManagerCustomerComponent } from "src/app/component/manager-customer/manager-customer.component";
+import { WindowCustomerComponent } from "src/app/component/manager-customer/windowCustomer.component";
 import { ManagerAccountComponent } from "src/app/component/manager-account/manager-account.component";
 import { WindowAccountComponent } from "src/app/component/manager-account/windowAccount.component";
 import { ManagerBillComponent } from "src/app/component/manager-bill/manager-bill.component";
@@ -47,6 +49,7 @@ import { ManagerVoucherComponent } from "src/app/component/manager-voucher/manag
 import { SwiperModule } from "swiper/angular";
 import { shareManagerModule } from "../shareManager.module";
 import { DefaultManagerComponent } from "./default-manager.component";
+import { WindowSizeComponent } from "src/app/component/manager-size/windowSize.component";
 
 @NgModule({
     declarations: [
@@ -57,6 +60,7 @@ import { DefaultManagerComponent } from "./default-manager.component";
         ManagerCategoryComponent,
         ManagerQuantityComponent,
         ManagerPropertyComponent,
+        ManagerCustomerComponent,
         ManagerAccountComponent,
         ManagerVoucherComponent,
         ManagerBillComponent,
@@ -67,6 +71,8 @@ import { DefaultManagerComponent } from "./default-manager.component";
         WindowBillComponent,
         WindowUploadComponent,
         WindowAccountComponent,
+        WindowCustomerComponent,
+        WindowSizeComponent
     ],
     imports:[
         NgbModule,
@@ -106,7 +112,9 @@ import { DefaultManagerComponent } from "./default-manager.component";
         WindowQuantityComponent,
         WindowBillComponent,
         WindowUploadComponent,
-        WindowAccountComponent
+        WindowAccountComponent,
+        WindowCustomerComponent,
+        WindowSizeComponent
     ],
     bootstrap: [DefaultManagerComponent]
 })

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ViewChild, ElementRef} from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { DialogService, WindowService } from '@progress/kendo-angular-dialog';
 import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
@@ -8,6 +8,8 @@ import { GroupDescriptor, State, process, DataResult } from '@progress/kendo-dat
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/shared/api.service';
 import { MessageService } from 'src/app/shared/message.service';
+import { WindowSizeComponent } from './windowSize.component';
+import { WindowRef } from '@progress/kendo-angular-dialog';
 
 @Component({
   selector: 'app-manager-size',
@@ -15,8 +17,12 @@ import { MessageService } from 'src/app/shared/message.service';
   styleUrls: ['./manager-size.component.css']
 })
 export class ManagerSizeComponent implements OnInit {
+  @ViewChild('myWindow', { static: true }) myWindow: any;
+
+
   public gridData: Array<any> = [];
   public gridData_2: Array<any> = [];
+  count = 0;
   public state: State = {
     filter: undefined,
     skip: 0,
@@ -27,16 +33,39 @@ export class ManagerSizeComponent implements OnInit {
 
   public changes: any = {};
   constructor(private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
-    private notificationService: NotificationService, private formBuilder: FormBuilder) { }
+    private notificationService: NotificationService, private formBuilder: FormBuilder) {
+
+     }
+
+     public openPopup(): void {
+      const dialogRef = this.windowService.open({
+        content: WindowSizeComponent,
+        width: 700,
+        height: 500
+      });
+
+      dialogRef.result.subscribe((result) => {
+        console.log(result);
+      });
+    }
+
 
   public api: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
   public api_2: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
+
+
+
+
 
   ngOnInit(): void {
     this.api.isManager = true;
     this.api_2.isManager = true;
     this.api.Controller = "TypeSizeManagerController";
     this.api_2.Controller = "SizeManagerController";
+    this.gridData.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.gridData.length;
     this.api_2.Grid.isGrouping = true; // Xem dữ liệu có đc group ko ??
     this.Read();
     this.message.receivedDataAfterUpadte().subscribe((rs) => {
@@ -180,4 +209,5 @@ export class ManagerSizeComponent implements OnInit {
   dataStateChange(state: DataStateChangeEvent): void {
     this.state = state;
   }
+
 }

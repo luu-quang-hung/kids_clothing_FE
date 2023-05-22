@@ -10,6 +10,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from 'src/app/shared/api.service';
 import { MessageService } from 'src/app/shared/message.service';
 
+
 @Component({
   selector: 'app-manager-category',
   templateUrl: './manager-category.component.html',
@@ -19,6 +20,7 @@ import { MessageService } from 'src/app/shared/message.service';
 export class ManagerCategoryComponent implements OnInit {
   public gridData: Array<any> = [];
   public gridData_2: Array<any> = [];
+  count = 0;
   public state: State = {
     filter: undefined,
     skip: 0,
@@ -40,6 +42,10 @@ export class ManagerCategoryComponent implements OnInit {
     this.api.Controller = "CategoryManagerController";
     this.api_2.Controller = "CategoryDetailManagerController";
     this.api_2.Grid.isGrouping = true;
+    this.gridData.forEach((item, index) => {
+      item.index = index + 1;
+    });
+    this.count = this.gridData.length;
     this.Read();
     this.message.receivedDataAfterUpadte().subscribe((rs) => {
       this.Read();

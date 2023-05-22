@@ -9,9 +9,9 @@ import { ApiService } from "src/app/shared/api.service";
 import { MessageService } from "src/app/shared/message.service";
 @Component({
     selector: "window-info",
-    templateUrl: './windowAccount.component.html',
+    templateUrl: './windowCustomer.component.html',
 })
-export class WindowAccountComponent implements OnInit {
+export class WindowCustomerComponent implements OnInit {
     @Input() public dataSource: any;
     @Input() public formGroup !: FormGroup;
     @Input() public status: String | undefined;

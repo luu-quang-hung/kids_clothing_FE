@@ -25,28 +25,27 @@
                 <label class="col-md-3">Tên sản phẩm</label>
                 <div class="col-md-9">
                     <input type="text" kendoTextBox style="width: 100%" formControlName="name" name="name"
-                        [(ngModel)]="formGroup.value.name" />
+                        [(ngModel)]="formGroup.value.name"/>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="row">
-                <label class="col-md-3">Giá sản phẩm</label>
-                <div class="col-md-9">
-                    <kendo-numerictextbox format="n0" [min]="1" style="width: 100%;" formControlName="price"
-                        name="price" [(ngModel)]="formGroup.value.price" [value]="0">
-                    </kendo-numerictextbox>
-                </div>
+          <div class="row">
+            <label class="col-md-3">Giá sản phẩm</label>
+            <div class="col-md-9">
+              <input input type="text" kendoTextBox style="width: 100%" formControlName="price" name="price"
+              [(ngModel)]="formGroup.value.price">
             </div>
+          </div>
         </div>
         <div class="col-md-6">
             <div class="row">
                 <label class="col-md-3">Danh mục cấp 1</label>
                 <div class="col-md-9">
-                    <kendo-dropdownlist [data]="category" textField="name" valueField="id" [defaultItem]="defaultItem"
-                        formControlName="category" (selectionChange)="selectCategory($event)" style="width: 100%"
-                        [(ngModel)]="dataSource.categorydetail.category">
-                    </kendo-dropdownlist>
+                  <kendo-dropdownlist [data]="category" textField="name" valueField="id" [defaultItem]="defaultItem"
+                  formControlName="category" (selectionChange)="selectCategory($event)" style="width: 100%"
+                  [(ngModel)]="dataSource.category">
+              </kendo-dropdownlist>
                 </div>
             </div>
         </div>
@@ -84,9 +83,7 @@
                             : "No files are currently bound to the model"
                             }}
                         </span>&nbsp;
-                        <span>
-                            {{ formGroup.value.image }}
-                        </span>
+                        <img [width]="150"  src = "{{formGroup.value.image}}">
                     </div>
                     <kendo-fileselect (select)="select($event)" [multiple]="false"></kendo-fileselect>
                 </div>
@@ -112,5 +109,14 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+          <div class="row">
+              <label class="col-md-3">Số Lượng</label>
+              <div class="col-md-9">
+                  <input type="text" kendoTextBox style="width: 100%" formControlName="quantity" name="quantity"
+                      [(ngModel)]="formGroup.value.quanity" />
+              </div>
+          </div>
+      </div>
     </div>
 </form>

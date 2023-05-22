@@ -16,8 +16,12 @@ import { GroupDescriptor, State, process, DataResult } from '@progress/kendo-dat
   providedIn: 'root'
 })
 export class ApiService {
+  public dropdowname: String | undefined;
   public Controller: String | undefined;
   public name: String | undefined;
+  public payment: any | undefined;
+  public date: String | undefined;
+  public dateto: String | undefined;
   public formGroup !: FormGroup;
   public status: String | undefined;
   public dataSource: Array<any> = [];
@@ -37,7 +41,7 @@ export class ApiService {
   public windowRef: any;
   public dialogRef!: DialogRef;
   constructor(public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
-              private notificationService: NotificationService, private message: MessageService, private formBuilder: FormBuilder) {
+    private notificationService: NotificationService, private message: MessageService, private formBuilder: FormBuilder) {
   }
 
   getHeader() {
@@ -52,7 +56,7 @@ export class ApiService {
 
       return this.http.get(`http://localhost:8080/${url}`, { headers: getHeader })
         .pipe(map((res: any) => {
-          console.log('end call')
+          console.log('end call' + res)
           return res;
         }))
     } else {
@@ -309,7 +313,7 @@ export class ApiService {
   }
   public Read = {
     _: this,
-    Execute: function () {
+     Execute: function () {
       if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
         let getHeader = this._.getHeader();
         if (getHeader instanceof HttpHeaders) {
@@ -602,6 +606,246 @@ export class ApiService {
     },
     After: function() {}
   };
+
+
+  public Readdropdow = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findby_status?name='+ this._.name , { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +'/findby_status?name='+ this._.name)
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findby_status?name='+ this._.name)
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+
+  public Readpayment = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findby_payment?name='+ this._.payment , { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +'/findby_payment?name='+ this._.payment)
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findby_payment?name='+ this._.payment)
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public Readproduc = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllproduc', { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllproduc')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+
+
+
+  public Readcombobox = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +
+           '/findby_date_and_payment_and_status?date='+this._.date+'&dateto='+this._.dateto+'&payment='+this._.payment+'&status='+this._.status, { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllproduc')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public ReadAcount = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAll', { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllByIsDeleteFalse')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllByIsDeleteFalse')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public ReadAccountAD = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllROLE_ADMIN' , { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +'/findAllROLE_ADMIN')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllROLE_ADMIN')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public ReadCustomer = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findAllROLE_Customer' , { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +'/findAllROLE_Customer')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findAllROLE_Customer')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+  public Readphone = {
+    _: this,
+    Execute: function () {
+      if (sessionStorage.getItem('ROLE') == 'ADMIN' || this._.isManager == true) {
+        let getHeader = this._.getHeader();
+        if (getHeader instanceof HttpHeaders) {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller + '/findByPhone/'+this._.name , { headers: getHeader })
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        } else {
+          return this._.http.get('http://localhost:8080/Manager/' + this._.Controller +'/findByPhone')
+            .pipe(map((res: any) => {
+              return res;
+            }), tap(() => {
+              this._.loading = false
+            }))
+        }
+      } else {
+        return this._.http.get('http://localhost:8080/Customer/' + this._.Controller + '/findByPhone')
+          .pipe(map((res: any) => {
+            return res;
+          }))
+      }
+    },
+    After: function () { },
+  }
+
 
 }
 

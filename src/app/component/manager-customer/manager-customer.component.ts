@@ -7,14 +7,14 @@ import { NotificationService } from '@progress/kendo-angular-notification';
 import { State } from '@progress/kendo-data-query';
 import { ApiService } from 'src/app/shared/api.service';
 import { MessageService } from 'src/app/shared/message.service';
-import { WindowAccountComponent } from './windowAccount.component';
+import { WindowCustomerComponent } from './windowCustomer.component';
 
 @Component({
-  selector: 'app-manager-account',
-  templateUrl: './manager-account.component.html',
-  styleUrls: ['./manager-account.component.css']
+  selector: 'app-manager-customer',
+  templateUrl: './manager-customer.component.html',
+  styleUrls: ['./manager-customer.component.css']
 })
-export class ManagerAccountComponent implements OnInit {
+export class ManagerCustomerComponent implements OnInit {
    count = 0;
   public gridData: Array<any> = [];
   public isAdmin = new FormGroup({
@@ -36,16 +36,16 @@ export class ManagerAccountComponent implements OnInit {
   }
   public Authority: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
   
-  // ngOnInitserch(name: any): void {
-  //   this.api.Controller = "AccountManagerController";
-  //   this.api.isManager = true;
-  //   this.api.typeData = "popup"
-  //   this.api.name = name
-  //   this.Readserch();
-  //   this.message.receivedDataAfterUpadte().subscribe((rs) => {
-  //     this.Readserch();
-  //   })
-  // }
+  ngOnInitserch(name: any): void {
+    this.api.Controller = "AccountManagerController";
+    this.api.isManager = true;
+    this.api.name = name
+    console.log(name)
+    this.Readserch();
+    this.message.receivedDataAfterUpadte().subscribe((rs) => {
+      this.Readserch();
+    })
+  }
   ngOnInit(): void {
     this.Authority.isManager = true;
     this.Authority.Controller = "AccountManagerController";
@@ -68,7 +68,7 @@ export class ManagerAccountComponent implements OnInit {
   }
   Read(): void{
     this.Authority.loading = true;
-    this.Authority.ReadAccountAD.Execute().subscribe((rs) => {
+    this.Authority.ReadCustomer.Execute().subscribe((rs) => {
       this.gridData = rs.data;
       this.Authority.loading = false;
     }, (error) => {
@@ -81,19 +81,17 @@ export class ManagerAccountComponent implements OnInit {
     })
   }
   Readserch(): void{
-    this.api.Read.Execute().subscribe((rs) => {
-      this.gridData = rs.data.filter((x:any) => x.role.id == "admin" || x.role.id == "staff");
-      this.api.dataSource = rs.data
+    this.Authority.loading = true;
+    this.Authority.Readphone.Execute().subscribe((rs) => {
+      this.gridData = rs.data;
+      this.Authority.loading = false;
     }, (error) => {
       if (error.status == 500) {
         let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
         window.location.href = "/login/" + id;
       } else {
-        this.api.Notification.notificationError('');
+        this.Authority.Notification.notificationError('');
       }
-    })
-    this.Authority.getApi('Manager/' + this.api.Controller +'/findAll').subscribe((rs)=>{
-      this.Authority.dataSource = rs.data;
     })
   }
  
@@ -102,14 +100,14 @@ export class ManagerAccountComponent implements OnInit {
     this.api.OpenWindow.left = 200;
     this.api.OpenWindow.Width = 550;
     this.api.OpenWindow.Height = 600;
-    this.api.Create.Execute(WindowAccountComponent, this.gridData[0]);
+    this.api.Create.Execute(WindowCustomerComponent, this.gridData[0]);
   }
   editHandler(event: any) {
     this.api.OpenWindow.top = -115;
     this.api.OpenWindow.left = 200;
     this.api.OpenWindow.Width = 550;
     this.api.OpenWindow.Height = 600;
-    this.api.Edit.Execute(WindowAccountComponent, event);
+    this.api.Edit.Execute(WindowCustomerComponent, event);
   }
   removeHandler(event: any) {
     this.api.Destroy.Execute(null,event.dataItem);
