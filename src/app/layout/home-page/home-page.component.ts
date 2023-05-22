@@ -13,9 +13,9 @@ import { MessageService } from 'src/app/shared/message.service';
 })
 export class HomePageComponent implements OnInit {
   public items: any[] = [
-    { title: "Flower", url: "https://i.pinimg.com/originals/6c/52/58/6c52584568600f7c77f91f49be6ea1b4.jpg" },
-    { title: "Mountain", url: "https://cdn.shopify.com/s/files/1/2595/4890/files/main-banner-1_3b5bf70a-0c67-4a9a-a718-591a5e523437_1400x.progressive.png.jpg?v=1559885493" },
-    { title: "Sky", url: "https://cdn.shopify.com/s/files/1/0064/5667/2338/files/August-website-banner-1_1024x1024.jpg?v=1618915575" },
+    { title: "Flower", url: "https://cdn.pancake.vn/1/s1200x600/03/a0/ff/80/6b71dff68f9b03f366d72665e81bf879eed66ccc9c283b445aba6e29.gif" },
+    { title: "Mountain", url: "https://bizweb.dktcdn.net/100/302/397/themes/754809/assets/slider_2.jpg?1614149879141" },
+    { title: "Sky", url: "https://kscloset.vn/pub/media/catalog/category/he-soi-dong.png" },
   ];
   public listProduct: Array<any> = [];
   public listProductDiscount: Array<any> = [];

@@ -38,7 +38,7 @@ export class ShoppingCartComponent implements OnInit {
   public oldAddress: Array<any> = [];
   public myWallet: any;
   public selectedValue = null;
-  public totalShipping :any;
+  public totalShipping :any = 0;
   public steps = [
     { label: "Bước 1", index: 0 },
     { label: "Bước 2", index: 1, disabled: true },
@@ -59,9 +59,9 @@ export class ShoppingCartComponent implements OnInit {
   public listVoucher: Array<any> = [];
   public QuantityObj: QuanityModel = new QuanityModel();
   public BillObj: BillModel = new BillModel();
-  public provinces!: { ProvinceId: any, ProvinceName: any  }[];
+  public provinces!: { ProvinceId: any, ProvinceName: any }[];
   public districts: {DistrictID: any,DistrictName: any }[] = [];
-  public wards: {WardCode: any,WardName: any }[] = [];
+  public wards !: {WardCode: any,WardName: any }[];
 
   public wardCodeShip:any;
   public districtsShip:any;
@@ -118,7 +118,7 @@ export class ShoppingCartComponent implements OnInit {
     var USERNAME = sessionStorage.getItem('USERNAME');
     if (USERNAME != null) {
     this.Quantity.Read.Execute().subscribe((rs) => {
-      this.totalShipping = 35000
+      // this.totalShipping = 35000
       this.Quantity.dataSource = rs.data;
     }, (error) => {
       if (error.status == 500) {
@@ -248,6 +248,7 @@ export class ShoppingCartComponent implements OnInit {
       }
     });
   } else {
+    this.totalShipping = 0
     this.key.map((x: any) => {
       let data: any = localStorage.getItem(x);
       let value = JSON.parse(data);
@@ -256,7 +257,6 @@ export class ShoppingCartComponent implements OnInit {
     this.dataSource.map((x) => {
       this.total = this.total + Number(x.newPrice * x.Quantity);
       this.toMoney = this.toMoney + Number(x.newPrice * x.Quantity);
-      console.log("ww = "+this.toMoney);
     });
       //this.toMoney = this.toMoney + this.totalShipping;
     this.message.receivedStorageCart().subscribe((res) => {
@@ -301,40 +301,26 @@ export class ShoppingCartComponent implements OnInit {
         }
       });
       if (same_cart.length == 2) {
-        this.total =
-          this.total -
-          Number(
-            parseInt(same_cart[0].newPrice) * parseInt(same_cart[0].Quantity)
-          );
-        this.toMoney =
-          this.toMoney -
-          Number(
-            parseInt(same_cart[0].newPrice) * parseInt(same_cart[0].Quantity)
-          ) +
-          this.totalShipping;
+        this.total = this.total - Number(parseInt(same_cart[0].newPrice) * parseInt(same_cart[0].Quantity));
+        this.toMoney = this.toMoney - Number(parseInt(same_cart[0].newPrice) * parseInt(same_cart[0].Quantity)) + this.totalShipping;
         localStorage.removeItem(this.dataSource[0].Id);
         this.message.SendBadgeCart(localStorage.length);
-        this.dataSource.splice(
-          this.dataSource.indexOf(this.dataSource[0]),
-          1
-        );
+        this.dataSource.splice(this.dataSource.indexOf(this.dataSource[0]), 1);
         this.notificationService.show({
           appendTo: this.appendTo,
-          content:
-            'Chúng tôi đã xóa 1 sản phẩm trong giỏ hàng của bạn vì bạn đã sửa sản phẩm trùng với sản phẩm đã có trong giỏ hàng',
-          animation: { type: 'fade', duration: 500 },
-          position: { horizontal: 'right', vertical: 'top' },
-          type: { style: 'success', icon: true },
+          content: "Chúng tôi đã xóa 1 sản phẩm trong giỏ hàng của bạn vì bạn đã sửa sản phẩm trùng với sản phẩm đã có trong giỏ hàng",
+          animation: { type: "fade", duration: 500 },
+          position: { horizontal: "right", vertical: "top" },
+          type: { style: "success", icon: true },
         });
       } else {
         this.total = 0;
         this.toMoney = 0;
         this.dataSource.map((x) => {
-          this.total =
-            this.total + Number(parseInt(x.newPrice) * parseInt(x.Quantity));
-          this.toMoney = this.toMoney + Number(x.newPrice * x.Quantity);
-        });
-        this.toMoney = this.toMoney + this.totalShipping;
+          this.total = this.total + Number(parseInt(x.newPrice) * parseInt(x.Quantity));
+          this.toMoney = this.toMoney + Number(x.newPrice * x.Quantity)
+        })
+        this.toMoney =  this.toMoney + this.totalShipping;
       }
     });
     }
@@ -424,8 +410,6 @@ export class ShoppingCartComponent implements OnInit {
     this.InfomationCustomer.value.Address = this.Address.value.Wards + ',' + this.Address.value.District + ',' + this.Address.value.Province
     console.log("ward"  +this.wardCodeShip)
     this.serviceShipping();
-    this.toMoney = this.total
-    this.toMoney = this.toMoney + this.totalShipping;
 
   }
  serviceShipping(){
@@ -473,7 +457,8 @@ export class ShoppingCartComponent implements OnInit {
     this.http.get(url, { headers, params })
       .subscribe((res:any) => {
         this.totalShipping = res.data.total
-
+        this.toMoney = this.total
+        this.toMoney = this.toMoney + this.totalShipping;
       });
   }
   HamletChange(event: any) {
