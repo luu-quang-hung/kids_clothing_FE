@@ -5,6 +5,7 @@ import { EventManager } from "@angular/platform-browser";
 import { DialogService, WindowService } from "@progress/kendo-angular-dialog";
 import { NotificationService } from "@progress/kendo-angular-notification";
 import { SelectEvent } from "@progress/kendo-angular-upload";
+import { data } from "jquery";
 import { ApiService } from "src/app/shared/api.service";
 import { MessageService } from "src/app/shared/message.service";
 @Component({
@@ -18,6 +19,7 @@ export class WindowProductComponent implements OnInit {
     public category: Array<any> = [];
     public CategoryById: any;
     public categoryDetail: Array<any> = [];
+    public gridData: Array<any> = [];
     public CategoryDetailById: any;
     public defaultItem: { name: string; id: number, category: any } = {
         name: "Choose...",
@@ -34,7 +36,7 @@ export class WindowProductComponent implements OnInit {
 
     public Category: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
     public CategoryDetail: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
-
+    public Product: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
     ngOnInit(): void {
         this.Category.Controller = "CategoryManagerController";
         this.CategoryDetail.Controller = "CategoryDetailManagerController";
@@ -121,11 +123,15 @@ export class WindowProductComponent implements OnInit {
         if (!this.Rules()){return;}
         event.preventDefault();
         this.formGroup.removeControl('category');
+        this.Product.isManager = true;
+
         if (this.status == "EDIT") {
             if (this.imagePreview.length > 0) {
                 this.addImage();
+                this.Rules();
             }
             else {
+
                 this.formGroup.value.description = encodeURIComponent(this.formGroup.value.description).replace(/'/g, "%27");
                 this.formGroup.value.descriptionDetail = encodeURIComponent(this.formGroup.value.descriptionDetail).replace(/'/g, "%27");
                 this.addImage();
@@ -140,6 +146,7 @@ export class WindowProductComponent implements OnInit {
             data.append("files", this.imagePreview[0].rawFile);
         }
         data.append("Product", JSON.stringify(this.formGroup.value));
+        this.api.Controller="ProductManagerController"
         this.api.Update.Execute(data);
     }
     select(e: SelectEvent): void {
@@ -153,4 +160,16 @@ export class WindowProductComponent implements OnInit {
     selectCategoryDetail(event: any): void {
 
     }
+    onClickSave(event: Event):void{
+
+      this.api.isManager = true;
+      this.api.Controller = "ProductManagerController";
+      this.api.loading = true;
+      this.api.name = (event.target as HTMLSelectElement).value;
+      this.api.Update.Execute(data);
+      console.log((event.target as HTMLSelectElement).value);
+
+    }
+
+
 }

@@ -19,10 +19,10 @@
           </span> -->
           <div class="input-group mb-3" style="margin-top: 10px; width: 400px;">
             <div class=" input-group-prepend">
-              <span class="input-group-text"
-                style="border-radius: 18px  0px 0px 18px ; background-color: rgb(115, 158, 251);">Khoảng giá</span>
+              <span class="btn btn-outline-primary input-group-text"
+                style="border-radius: 18px  0px 0px 18px ; ">Khoảng giá</span>
             </div>
-            <span class="k-textbox k-grid-search k-display-flex " style="width: 140px; margin-left: 3px;">
+            <span class="k-textbox k-grid-search k-display-flex " style="width: 140px; margin-left: 3px; ">
               <input autocomplete="off" [(ngModel)]="minprice" placeholder="  Giá nhỏ nhất" title="Search..." #minPrice
                 class="k-input">
             </span>
@@ -41,7 +41,7 @@
 
             </div>
           </div>
-          <button (click)="ngOnInitsearch(name.value)" class="btn-outline-primary rounded-pill mr-3"style="width: 120px; height: 40px; margin-top: 10px;">
+          <button (click)="ngOnInitsearch(name.value)" class="btn-outline-primary rounded-pill mr-3"style="width: 120px; height: 40px; margin-top: 13px;">
             <span class="k-icon k-i-search"></span>
             <span class="k-grid-search-text">Tìm kiếm</span>
           </button>

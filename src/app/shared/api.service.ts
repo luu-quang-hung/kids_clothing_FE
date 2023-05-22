@@ -526,7 +526,11 @@ export class ApiService {
         });
         this._.dataSource = newState;
       }
-      this._.windowRef.close();
+
+      if (this._.windowRef) { // Kiểm tra xem this._.windowRef đã được khởi tạo
+        this._.windowRef.close();
+      }
+
       this._.message.SendDataAfterUpdate(res);
       return res;
     },

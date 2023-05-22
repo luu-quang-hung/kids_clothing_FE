@@ -49,8 +49,6 @@ export class ManagerProductComponent implements OnInit {
     this.api.name = name;
     this.api.minPrice = this.minprice;
     this.api.nameCate = this.nameCate
-    console.log( "log cate"+this.nameCate);
-    console.log( "log cate"+ this.api.nameCate);
     console.log(this.api.minPrice);
     this.api.maxPrice = this.maxprice;
     console.log(this.api.maxPrice);

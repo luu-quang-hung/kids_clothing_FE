@@ -31,13 +31,14 @@
         </div>
         <div class="col-md-6">
           <div class="row">
-            <label class="col-md-3">Giá sản phẩm</label>
-            <div class="col-md-9">
-              <input input type="text" kendoTextBox style="width: 100%" formControlName="price" name="price"
-              [(ngModel)]="formGroup.value.price">
-            </div>
+              <label class="col-md-3">Giá sản phẩm</label>
+              <div class="col-md-9">
+                  <kendo-numerictextbox format="n0" [min]="1" style="width: 100%;" formControlName="price"
+                      name="price" [(ngModel)]="formGroup.value.price" [value]="0">
+                  </kendo-numerictextbox>
+              </div>
           </div>
-        </div>
+      </div>
         <div class="col-md-6">
           <div class="row">
             <label class="col-md-3">Danh mục</label>
@@ -61,25 +62,16 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-md-6">
-            <div class="row">
-                <label class="col-md-3">Giảm giá</label>
-                <div class="col-md-9">
-                    <kendo-numerictextbox format="0" [min]="1" [max]="100" style="width: 100%;"
-                        formControlName="discount" name="discount" [(ngModel)]="formGroup.value.discount" [value]="0">
-                    </kendo-numerictextbox>
-                </div>
-            </div>
-        </div> -->
         <div class="col-md-6">
           <div class="row">
-            <label class="col-md-3">Giảm giá</label>
-            <div class="col-md-9">
-              <input input type="text" kendoTextBox style="width: 100%" formControlName="discount" name="discount"
-              [(ngModel)]="formGroup.value.discount">
-            </div>
+              <label class="col-md-3">Giảm giá</label>
+              <div class="col-md-9">
+                  <kendo-numerictextbox format="0" [min]="1" [max]="100" style="width: 100%;"
+                      formControlName="discount" name="discount" [(ngModel)]="formGroup.value.discount" [value]="0">
+                  </kendo-numerictextbox>
+              </div>
           </div>
-        </div>
+      </div>
         <div class="col-md-6">
             <div class="row">
                 <label class="col-md-3">Hình ảnh</label>
