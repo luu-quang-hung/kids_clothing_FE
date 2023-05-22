@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { DashboardComponent } from "../component/dashboard/dashboard.component";
 import { ManagerAccountComponent } from "../component/manager-account/manager-account.component";
+import { ManagerCustomerComponent } from "../component/manager-customer/manager-customer.component";
 import { ManagerBillComponent } from "../component/manager-bill/manager-bill.component";
 import { ManagerCategoryComponent } from "../component/manager-category/manager-category.component";
 import { ManagerEventComponent } from "../component/manager-event/manager-event.component";
@@ -70,6 +71,14 @@ const routes: Routes = [
             {
                 path: 'quan-ly-tai-khoan',
                 component: ManagerAccountComponent,
+                canActivate: [AuthGuard],
+                data: {
+                    expectedRole: 'ROLE_ADMIN'
+                }                        
+            },
+            {
+                path: 'quan-ly-khach-hang',
+                component: ManagerCustomerComponent,
                 canActivate: [AuthGuard],
                 data: {
                     expectedRole: 'ROLE_ADMIN'

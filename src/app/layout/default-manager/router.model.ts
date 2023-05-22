@@ -39,5 +39,6 @@ export const items = [
   },
   
   { text: 'Quản lý tài khoản', icon: 'fa fa-users', path: 'quan-ly-tai-khoan', expanded: false },
+  { text: 'Quản khách hàng ', icon: 'fa fa-users', path: 'quan-ly-khach-hang', expanded: false },
   { text: 'Quản lý đơn hàng', icon: 'fa fa-check-square', path: 'quan-ly-don-hang', expanded: false },
 ]

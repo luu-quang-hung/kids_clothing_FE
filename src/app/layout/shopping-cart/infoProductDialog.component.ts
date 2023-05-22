@@ -15,7 +15,7 @@ import { MessageService } from "src/app/shared/message.service";
                     {{infoProduct.Product.name}}
                 </h3>
                 <p style="color: #ffc045;padding-top: 10px;font-size: 20px;font-weight: 600;">
-                    {{infoProduct.Product.price}} VND
+                    {{infoProduct.Product.price | number:'1.0-0'}} VND
                 </p>
                 <div class="row" style="margin: 15px 0px;padding-top: 5px;">
                     <span class="col-md-3 col-sm-2" style="padding: 0px">Màu sắc</span>
@@ -86,6 +86,12 @@ export class DialogInfoProductComponent implements OnInit {
         this.QuantityObj.Size = value;
     }
     changeQuantity(value: any): void {
+      if( this.QuantityObj.Quantity <= 0){
+        alert("Không thể nhập số lượng âm hoặc 0")
+      }
+      if( this.QuantityObj.Quantity > 1000){
+        alert("Không thể mua " +  this.QuantityObj.Quantity + " "+" mặt hàng nếu muốn mua Sỉ SLL vui lòng liên hệ shop")
+      }
         this.QuantityObj.Quantity = value;
     }
     changeShoppingCard(value: any): void {
@@ -98,5 +104,6 @@ export class DialogInfoProductComponent implements OnInit {
         data.Property = this.QuantityObj.Property;
         localStorage.setItem(this.infoProduct.Id, JSON.stringify(data));
         this.message.SendStorageCart(data);
+
     }
 }

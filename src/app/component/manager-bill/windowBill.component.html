@@ -42,78 +42,68 @@
                     <kendo-toolbar-button text="Hoàn hàng" (click)="refund()" *ngIf="isRefund"></kendo-toolbar-button>
                 </kendo-toolbar>
                 <div class="row">
-                    <div class="col-md-2">
-                        <label>Mã sản phẩm</label>
-                        <input kendoTextBox readonly style="width: 100%;" formControlName="id"
-                            [(ngModel)]="formGroup.value.id" />
+                <div class="col-md-2" style="margin: 10px 0px;">
+                    <label>Mã sản phẩm</label>
+                    <input kendoTextBox readonly style="width: 100%;" formControlName="id"
+                        [(ngModel)]="formGroup.value.id" />
+                </div>
+                <div class="col-md-2" style="margin: 10px 0px;">
+                    <label>Phương thức thanh toán</label>
+                    <div style="text-align: center;">
+                        {{ formGroup.value.payment ? "Thanh toán bằng ví" : "Thanh toán bằng tiền mặt" }}
                     </div>
-                    <div class="col-md-2">
-                        <label>Phương thức thanh toán</label>
-                        <div>
-                            <p *ngIf="formGroup.controls['payment'].value">
-                                Thanh toán bằng ví
-                            </p>
-                            <p *ngIf="!formGroup.controls['payment'].value">
-                                Thanh toán bằng tiền mặt
-                            </p>
-                        </div>
+                </div>
+                <div class="col-md-4" style="margin: 10px 0px;">
+                    <label>Tên Người nhận</label>
+                    <input kendoTextBox readonly formControlName="fullname" style="width: 100%;"
+                        [(ngModel)]="formGroup.value.fullname" />
+                </div>
+                <div class="col-md-4" style="margin: 10px 0px;">
+                    <label>SDT</label>
+                    <input kendoTextBox readonly formControlName="sdt" style="width: 100%;"
+                        [(ngModel)]="formGroup.value.sdt" />
+                </div>
+                <div class="col-md-4" style="margin: 10px 0px;">
+                    <label>Trạng thái</label>
+                    <input kendoTextBox readonly formControlName="status" style="width: 100%;"
+                        [(ngModel)]="formGroup.value.status" />
+                </div>
+                <div class="col-md-4" style="margin: 10px 0px;">
+                    <label>Tổng tiền (VND)</label>
+                    <input kendoTextBox readonly formControlName="total" style="width: 100%;"
+                    [ngModel]="formGroup.value.total | number:'1.0-0'" >
+                </div>
+                <div class="col-md-4" style="margin: 10px 0px;">
+                    <label>Thanh toán (VND)</label>
+                    <input kendoTextBox readonly formControlName="downtotal" style="width: 100%;"
+                        [ngModel]="formGroup.value.downtotal | number:'1.0-0'" />
+                </div>
+                <div class="col-md-4" style="margin: 10px 0px;">
+                    <label>Giá ship (VND)</label>
+                    <input kendoTextBox readonly formControlName="transportFee" style="width: 100%;"
+                        [ngModel]="formGroup.value.transportFee | number:'1.0-0'" />
+                </div>
+                <div class="col-md-8" style="margin: 10px 0px;">
+                    <label>Địa chỉ</label>
+                    <div class="input">
+                      <input kendoTextBox  [readonly]="isAddressReadOnly" formControlName="address" style="width: 80%;"
+                        [(ngModel)]="formGroup.value.address" />
+                      <button class="update-button btn btn-primary"   (click)="saveAddress()">Cập nhật địa chỉ</button>
                     </div>
-                    <div class="col-md-4">
-                        <label>Tên Người nhận</label>
-                        <input kendoTextBox readonly formControlName="fullname" style="width: 100%;"
-                            [(ngModel)]="formGroup.value.fullname" />
-                    </div>
-                    <div class="col-md-4">
-                        <label>SDT</label>
-                        <input kendoTextBox readonly formControlName="sdt" style="width: 100%;"
-                            [(ngModel)]="formGroup.value.sdt" />
-                    </div>
-                    <div class="col-md-2">
-                        <label>Mã trạng thái ship</label>
-                        <input kendoTextBox readonly formControlName="statusshipping" style="width: 100%;"
-                            [(ngModel)]="formGroup.value.statusshipping" />
-                    </div>
-                    <div class="col-md-2">
-                        <label>Tiền ship</label>
-                        <kendo-numerictextbox format="n" [readonly]=true formControlName="transportFee"
-                            style="width: 100%;" [(ngModel)]="formGroup.value.transportFee"></kendo-numerictextbox>
-                    </div>
-                    <div class="col-md-4">
-                        <label>Tổng đơn</label>
-                        <kendo-numerictextbox format="n" [readonly]=true formControlName="total" style="width: 100%;"
-                            [(ngModel)]="formGroup.value.total"></kendo-numerictextbox>
-                    </div>
-                    <div class="col-md-4">
-                        <label>Thành tiền</label>
-                        <kendo-numerictextbox format="n" [readonly]=true formControlName="downtotal"
-                            style="width: 100%;" [(ngModel)]="formGroup.value.downtotal"></kendo-numerictextbox>
-                    </div>
-                    <div class="col-md-4">
-                        <label>Trạng thái</label>
-                        <input kendoTextBox readonly formControlName="status" style="width: 100%;"
-                            [(ngModel)]="formGroup.value.status" />
-                    </div>
-                    <div class="col-md-8">
-                        <label>Địa chỉ</label>
-                        <input kendoTextBox readonly formControlName="address" style="width: 100%;"
-                            [(ngModel)]="formGroup.value.address" />
-                    </div>
+                  </div>
                     <div class="col-md-12" style="padding: 0px;">
                         <kendo-grid #grid [kendoGridBinding]="listOrderDetail" style="height: 400px; width: 1100;"
                             [pageSize]="20" [sortable]="true" [pageable]="true" [navigable]="true">
                             <kendo-grid-column field="productDetail.product.name" title="Tên sản phẩm" [width]="250">
-                                <ng-template kendoGridCellTemplate format="{0:n0}" let-dataItem>
-                                    {{ dataItem.price |number :'1.0-3' }}
-                                </ng-template>
                             </kendo-grid-column>
 
                                 <kendo-grid-column field="quantitydetail" title="Số lượng" [width]="120">
-                                    <!-- <ng-template kendoGridCellTemplate let-dataItem>
+                                    <ng-template kendoGridCellTemplate let-dataItem>
                                       <div class="quantity-input">
-                                        <input type="number" value="{{dataItem.quantitydetail}}"  style="width: 50px;  border: none;
+                                        <input type="number" value="{{dataItem.quantitydetail}}"  (change)="onQuantityChange(dataItem.id,$event)"  style="width: 50px;  border: none;
                                         outline: none;" />
                                       </div>
-                                    </ng-template> -->
+                                    </ng-template>
                                   </kendo-grid-column>
                             <kendo-grid-column field="productDetail.property.name" title="Thuộc tính" [width]="150">
                             </kendo-grid-column>

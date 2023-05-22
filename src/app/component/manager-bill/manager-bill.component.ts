@@ -115,6 +115,11 @@ export class ManagerBillComponent implements OnInit {
     }  if(this.Status == undefined){
       this.Status = ""
     }
+    if(this.Method === "Trạng Thái"){
+    this.Method = ""
+  }  if(this.Status === "Phương Thức"){
+    this.Status = ""
+  }
   
     this.Bill.date = this.startDate
     console.log( this.Bill.date);

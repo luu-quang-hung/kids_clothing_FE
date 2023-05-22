@@ -9,17 +9,16 @@
             style="height: 700px; width: 1200px;" [columnMenu]="{ filter: true }" (edit)="editHandler($event)"
             (add)="addHanler($event)" (remove)="removeHandler($event)" (dataStateChange)="dataStateChange($event)">
             <ng-template kendoGridToolbarTemplate>
-                <!-- <div>
+                <div>
                     <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" >
-                        <input  autocomplete="off" placeholder="Search..." title="Search..." #username class="k-input">
+                        <input  autocomplete="off" placeholder="tìm theo SĐT" title="Search..." #username class="k-input">
                       </span>   
                       <button (click)="ngOnInitserch(username.value)"  class= "btn-outline-primary rounded-pill mr-3" >
                         <span class="k-icon k-i-search"></span>
                         <span class="k-grid-search-text">Tìm kiếm</span>
                       </button> 
-                </div> -->
-                <div class="d-flex align-items-center ml-auto">    
-                    <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus" kendoGridAddCommand>Thêm mới</button></div>
+                </div>
+                <div class="d-flex align-items-center ml-auto">   <button class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus" kendoGridAddCommand>Thêm mới</button></div>
              
             </ng-template>
             <kendo-grid-column title="STT" [width]="100">
@@ -42,9 +41,9 @@
                     {{dataItem.phone }}
                 </ng-template>
             </kendo-grid-column>
-            <kendo-grid-command-column field="role" title="Phân quyền Admin" [width]="220">
+            <kendo-grid-command-column field="address" title="địa chỉ" [width]="220">
                 <ng-template kendoGridCellTemplate let-dataItem>
-                    {{dataItem.role }}
+                    {{dataItem.address }}
                 </ng-template>
             </kendo-grid-command-column>
             <kendo-grid-command-column title="Tùy chỉnh" [width]="250" >

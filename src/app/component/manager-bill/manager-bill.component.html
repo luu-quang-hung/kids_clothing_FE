@@ -12,29 +12,19 @@
                     <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
                         <input autocomplete="off" placeholder="Tìm đơn hàng" title="tìm đơn hàng " #username class="k-input">
                     </span>
-                  
-              
-                <button kendoButton iconClass="fa fa-floppy-o"  class="btn-outline-primary rounded-pill mr-3"
-                    (click)="Update(grid)">
-                    Lưu
-                </button>
-               
                 <form>
                     <div class="search-inputs">
-                      <input type="date" id="start_date" name="start_date" [(ngModel)]="startDate" >
+                      <input type="date" id="start_date" name="start_date"   [(ngModel)]="startDate" >
                     </div>
                     <div class="search-inputs">
                       <input type="date" id="end_date" name="end_date"  [(ngModel)]="endDate">
                     </div>
                   </form>
                   
-                <div class="dropdown ">
-                    <select  [(ngModel)]="Status" style="border: none;">
-                        <option> Trạng Thái
-                        </option>
-
-                        <option *ngFor="let listStatus of listStatus" [value]="listStatus.name">
-
+            
+                    <select     [(ngModel)]="Status" style="border: none;">
+                        <option value="" [ngValue]=""> Trạng Thái</option>
+                        <option *ngFor="let listStatus of listStatus"  [value]="listStatus.name">
                             <div *ngIf="listStatus.name == 'HUY'">
                                 Hủy
                         </div>
@@ -55,32 +45,34 @@
                             </div>
                         </option>
                     </select>
-
-                </div>
-                <div class="dropdown">
-                    <select  [(ngModel)]="Method" style="border: none;">
-                        <option>Phương Thức
-                        </option>>
+   
+                    <select   [(ngModel)]="Method" style="border: none;">
+                        <option value="" selected>Phương Thức
+                        </option>
                         <option *ngFor="let listpaypent of listpaypent" [value]="listpaypent.id">
                             {{ listpaypent.name }}
                         </option>
                     </select>
-                </div>
         
             <button (click)="ngOnInitcombobox()" class="btn-outline-primary rounded-pill mr-3">
                 <span class="k-icon k-i-search"></span>
                 <span class="k-grid-search-text">Tìm kiếm</span>
             </button>
+             
+            <button kendoButton iconClass="fa fa-floppy-o"  class="btn-outline-primary rounded-pill mr-3"
+            (click)="Update(grid)">
+            Lưu
+        </button>
             </div>
             </ng-template>
-
-            <kendo-grid-column field="statusshipping" title="Mã trạng thái ship" [width]="200">
-            </kendo-grid-column>
             <kendo-grid-column title="STT" [width]="100">
                 <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
                   {{ rowIndex + 1 }}
                 </ng-template>
               </kendo-grid-column>
+            <kendo-grid-column field="statusshipping" title="Mã trạng thái ship" [width]="200">
+            </kendo-grid-column>
+           
             <kendo-grid-column field="status" title="Trạng thái" [width]="200">
                 <ng-template kendoGridCellTemplate let-dataItem>
                     <div *ngIf="dataItem.status == 'HUY'">
@@ -118,6 +110,17 @@
                 <ng-template kendoGridCellTemplate let-dataItem>
                     {{ dataItem.total |number :'1.0-3'}}
                 </ng-template>
+                
+            </kendo-grid-column>
+            <kendo-grid-column field="createAt" title="Ngày Thêm " [width]="200">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{ dataItem.updateAts | date:'dd/MM/yyyy HH:mm:ss' }}
+                  </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="updateAts" title="Ngày Cập Nhật " [width]="200">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    {{ dataItem.updateAts | date:'dd/MM/yyyy HH:mm:ss' }}
+                  </ng-template>
             </kendo-grid-column>
             <kendo-grid-command-column title="Tùy chỉnh" [width]="150">
                 <ng-template kendoGridCellTemplate let-isNew="isNew">

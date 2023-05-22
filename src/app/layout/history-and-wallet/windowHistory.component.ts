@@ -37,7 +37,9 @@ export class WindowHistoryComponent implements OnInit {
     this.isAddressReadOnly = !this.isAddressReadOnly;
     }
 
-
+    deleteProductCard(dataItem: any): void {
+      // handle delete action
+    }
 
     saveAddress() {
       console.log("Địa chỉ mới:", this.formGroup.value.address);
@@ -60,67 +62,46 @@ export class WindowHistoryComponent implements OnInit {
       })
     }
 
-    onQuantityChange(id: any,event: Event) {
-      const newValue = (event.target as HTMLInputElement)?.value;
-      const productId = this.formGroup.value.id;
-      if (newValue) {
-      this.api.postApi('Customer/OrderDetailController/update/'+productId + "/" +id + "/" + newValue, null).subscribe((rs) => {
-        if (rs.status) {
-           this.statusShipping.Notification.notificationSuccess("Cập nhật sản phẩm thành công");
-          this.dataSource.map((x:any) => {
-          console.log(x)
-          })
 
-        }
+    getAll(){
+      this.OrderDetail.Controller = "OrderDetailController";
+      this.statusShipping.Controller = "BillController";
+      this.OrderDetail.getApi('Customer/' + this.OrderDetail.Controller + '/' + this.formGroup.value.id).subscribe((rs) => {
+          this.listOrderDetail = rs;
+          console.log(this.listOrderDetail)
+
       }, (error) => {
-        if (error.status == 500) {
-          let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
-          // window.location.href = "/login/" + id;
-        } else {
-          this.api.Notification.notificationError(error.error.message);
-        }
-        this.api.loading = false;
+          if (error.status == 500) {
+              let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+              window.location.href = "/login/" + id;
+          } else {
+              this.api.Notification.notificationError('');
+          }
       })
-
-        console.log(newValue);
-        console.log(id);
-        // Gọi API hoặc thực hiện các thao tác cần thiết
+      this.statusShipping.getApi(('api/bill/shiping/' + this.formGroup.value.id)).subscribe((rs) => {
+          this.listStatus = rs.data;
+      }, (error) => {
+          if (error.status == 500) {
+              let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+              window.location.href = "/login/" + id;
+          } else {
+              this.api.Notification.notificationError('');
+          }
+      })
+      if(this.formGroup.value.status == "KHACH_DA_NHAN_HANG" || this.formGroup.value.status == "HUY" ||
+      this.formGroup.value.status == "DA_XAC_NHAN_VA_DONG_GOI"){
+          this.showToolBar = false;
       }
+      this.formGroup.controls.payment.disable({ emitEvent: true });
+      this.changeButton();
+
     }
-
     ngOnInit(): void {
-
-        this.OrderDetail.Controller = "OrderDetailController";
-        this.statusShipping.Controller = "BillController";
-        this.OrderDetail.getApi('Customer/' + this.OrderDetail.Controller + '/' + this.formGroup.value.id).subscribe((rs) => {
-            this.listOrderDetail = rs;
-            console.log(this.listOrderDetail)
-
-        }, (error) => {
-            if (error.status == 500) {
-                let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
-                window.location.href = "/login/" + id;
-            } else {
-                this.api.Notification.notificationError('');
-            }
-        })
-        this.statusShipping.getApi(('api/bill/shiping/' + this.formGroup.value.id)).subscribe((rs) => {
-            this.listStatus = rs.data;
-        }, (error) => {
-            if (error.status == 500) {
-                let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
-                window.location.href = "/login/" + id;
-            } else {
-                this.api.Notification.notificationError('');
-            }
-        })
-        if(this.formGroup.value.status == "KHACH_DA_NHAN_HANG" || this.formGroup.value.status == "HUY" ||
-        this.formGroup.value.status == "DA_XAC_NHAN_VA_DONG_GOI"){
-            this.showToolBar = false;
-        }
-        this.formGroup.controls.payment.disable({ emitEvent: true });
-        this.changeButton();
-
+      const status = this.formGroup.value.status
+      if(status == "CHUA_XAC_NHAN"){
+        this.isAddressReadOnly = !this.isAddressReadOnly;
+      }
+      this.getAll();
       }
       formatNumberWithCommas(number: number): string {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -163,6 +144,42 @@ export class WindowHistoryComponent implements OnInit {
 
     refund(): void {
 
+    }
+
+    onQuantityChange(id: any,event: Event) {
+      const newValue = (event.target as HTMLInputElement)?.value;
+      const productId = this.formGroup.value.id;
+      const status = this.formGroup.value.status
+     if(status == "CHUA_XAC_NHAN"){
+      if(newValue < "1"){
+        this.statusShipping.Notification.notificationWarning("Không thể cập nhật số lượng âm");
+      }else{
+      this.api.postApi('Customer/OrderDetailController/update/'+productId + "/" +id + "/" + newValue, null).subscribe((rs) => {
+        if (rs.status) {
+           this.statusShipping.Notification.notificationSuccess("Cập nhật số lượng thành công");
+          this.dataSource.map((x:any) => {
+          console.log(x)
+          })
+
+        }
+      }, (error) => {
+        if (error.status == 500) {
+          let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+          // window.location.href = "/login/" + id;
+        } else {
+          this.api.Notification.notificationError(error.error.message);
+        }
+        this.api.loading = false;
+      })
+
+        console.log(newValue);
+        console.log(id);
+
+      }}else{
+        this.statusShipping.Notification.notificationWarning("Không thể cập nhật số lượng do đơn hàng đã xác nhận");
+
+      }
+      this.getAll()
     }
 
 }

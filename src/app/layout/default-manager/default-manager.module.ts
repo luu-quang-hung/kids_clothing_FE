@@ -30,6 +30,8 @@ import { ToolBarModule } from "@progress/kendo-angular-toolbar";
 import { UploadsModule } from "@progress/kendo-angular-upload";
 import { CarouselModule } from "ngx-owl-carousel-o";
 import { DashboardComponent } from "src/app/component/dashboard/dashboard.component";
+import { ManagerCustomerComponent } from "src/app/component/manager-customer/manager-customer.component";
+import { WindowCustomerComponent } from "src/app/component/manager-customer/windowCustomer.component";
 import { ManagerAccountComponent } from "src/app/component/manager-account/manager-account.component";
 import { WindowAccountComponent } from "src/app/component/manager-account/windowAccount.component";
 import { ManagerBillComponent } from "src/app/component/manager-bill/manager-bill.component";
@@ -58,6 +60,7 @@ import { WindowSizeComponent } from "src/app/component/manager-size/windowSize.c
         ManagerCategoryComponent,
         ManagerQuantityComponent,
         ManagerPropertyComponent,
+        ManagerCustomerComponent,
         ManagerAccountComponent,
         ManagerVoucherComponent,
         ManagerBillComponent,
@@ -68,6 +71,7 @@ import { WindowSizeComponent } from "src/app/component/manager-size/windowSize.c
         WindowBillComponent,
         WindowUploadComponent,
         WindowAccountComponent,
+        WindowCustomerComponent,
         WindowSizeComponent
     ],
     imports:[
@@ -109,6 +113,7 @@ import { WindowSizeComponent } from "src/app/component/manager-size/windowSize.c
         WindowBillComponent,
         WindowUploadComponent,
         WindowAccountComponent,
+        WindowCustomerComponent,
         WindowSizeComponent
     ],
     bootstrap: [DefaultManagerComponent]

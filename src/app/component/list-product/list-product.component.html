@@ -19,7 +19,7 @@
                 [(ngModel)]="selectedValue" (valueChange)="changeStatus($event)" style="width: 250px;">
             </kendo-dropdownlist>
         </div>
-        <!-- <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12" >
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12" >
             <kendo-textbox placeholder="Search..." [clearButton]="true" style="width: 100%;"
                 (change)="onChangeHandler($event)">
                 <ng-template kendoTextBoxPrefixTemplate>
@@ -27,7 +27,7 @@
                     <kendo-textbox-separator></kendo-textbox-separator>
                 </ng-template>
             </kendo-textbox>
-        </div> -->
+        </div>
     </div>
     <div class="row">
         <div *ngIf="Quantity.loading" class="k-i-loading" style="z-index: 99999;"></div>

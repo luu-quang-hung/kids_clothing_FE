@@ -261,7 +261,7 @@ export class ProductDetailsComponent implements OnInit {
       return this.Quantity.Notification.notificationWarning("Không được nhập số âm");
     }
     if( this.QuantityObj.Quantity > 1000){
-      return this.Quantity.Notification.notificationWarning("Không thể mua " +  this.QuantityObj.Quantity + "mặt hàng nếu muốn mua Sỉ SLL vui lòng liên hệ shop");
+      return this.Quantity.Notification.notificationWarning("Không thể mua " +  this.QuantityObj.Quantity + " "+" mặt hàng nếu muốn mua Sỉ SLL vui lòng liên hệ shop");
     }
     this.dataSource = [];
     let key = Object.keys(localStorage);
