@@ -6,10 +6,42 @@
       (add)="addHanler($event)" (remove)="removeHandler($event)" (dataStateChange)="dataStateChange($event)">
       <ng-template kendoGridToolbarTemplate>
         <div>
-          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3">
-            <input autocomplete="off" placeholder=" Tìm kiếm theo tên" title="Search..." #username class="k-input">
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3"
+            style="margin-left: 25px; margin-top: 10px;">
+            <input autocomplete="off" placeholder=" Tìm kiếm theo tên" title="Search..." #name class="k-input"
+              style="width: 150px; margin-left: 10px;">
           </span>
-          <button (click)="ngOnInitsearch(username.value)" class="btn-outline-primary rounded-pill mr-3">
+          <!-- <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
+            <input autocomplete="off" [(ngModel)]="minprice"  placeholder="Giá nhỏ nhất" title="Search..." #minPrice  class="k-input">
+          </span>
+          <span class="k-textbox  k-grid-search k-display-flex rounded-pill mr-3" style="width: 180px;">
+            <input autocomplete="off" [(ngModel)]="maxprice" placeholder="Giá lớn nhất" title="Search..." #maxPrice class="k-input">
+          </span> -->
+          <div class="input-group mb-3" style="margin-top: 10px; width: 400px;">
+            <div class=" input-group-prepend">
+              <span class="btn btn-outline-primary input-group-text"
+                style="border-radius: 18px  0px 0px 18px ; ">Khoảng giá</span>
+            </div>
+            <span class="k-textbox k-grid-search k-display-flex " style="width: 140px; margin-left: 3px; ">
+              <input autocomplete="off" [(ngModel)]="minprice" placeholder="  Giá nhỏ nhất" title="Search..." #minPrice
+                class="k-input">
+            </span>
+            <span class="k-textbox k-grid-search k-display-flex " style="width: 140px;margin-left: 3px;">
+              <input autocomplete="off" [(ngModel)]="maxprice" placeholder="Giá lớn nhất" title="Search..." #maxPrice
+                class="k-input">
+            </span>
+          </div>
+          <div class="col-md-2" style="margin-top: 20px;margin-right: 10px;">
+
+            <div class="dropdown">
+              <select [(ngModel)]="nameCate" style="border: none;">
+                <option selected>Danh Mục Sản Phẩm</option>
+                <option *ngFor="let item of dropData" [value]="item.name">{{ item.name }}</option>
+              </select>
+
+            </div>
+          </div>
+          <button (click)="ngOnInitsearch(name.value)" class="btn-outline-primary rounded-pill mr-3"style="width: 120px; height: 40px; margin-top: 13px;">
             <span class="k-icon k-i-search"></span>
             <span class="k-grid-search-text">Tìm kiếm</span>
           </button>
@@ -17,6 +49,8 @@
 
 
 
+        <button kendoGridAddCommand class="btn-outline-primary rounded-pill mr-3" iconClass="fa fa-plus"
+          style="border-radius: 20px;width: 140px; height: 40px;"> Thêm mới</button>
       </ng-template>
       <kendo-grid-column title="STT" [width]="100">
         <ng-template kendoGridCellTemplate let-rowIndex="rowIndex">
@@ -25,8 +59,8 @@
       </kendo-grid-column>
       <kendo-grid-column field="image" title="Ảnh" [width]="150">
         <ng-template kendoGridCellTemplate let-dataItem>
-        <img [width]="100"  src = "{{dataItem.image}}">
-      </ng-template>
+          <img [width]="100" src="{{dataItem.image}}">
+        </ng-template>
       </kendo-grid-column>
       <kendo-grid-column field="name" title="Tên sản phẩm" [width]="350"></kendo-grid-column>
       <kendo-grid-column field="price" title="Giá" [width]="100">
@@ -52,10 +86,10 @@
       <kendo-grid-command-column title="Tùy chỉnh" [width]="270" [locked]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
           <button kendoGridEditCommand iconClass="fa fa-pencil" class="btn btn-primary" style="border-radius: 20px;">
-            Chỉnh sửa</button>
+            Chi Tiết</button>
           <button kendoGridRemoveCommand iconClass="fa fa-trash" class="btn btn-danger" style="border-radius: 20px;">
             Xóa</button>
-            <!-- <button kendoGridEditCommand iconClass="fa fa-bars" class="btn btn-primary" style="border-radius: 20px;">
+          <!-- <button kendoGridEditCommand iconClass="fa fa-bars" class="btn btn-primary" style="border-radius: 20px;">
               Chi tiết</button> -->
         </ng-template>
       </kendo-grid-command-column>

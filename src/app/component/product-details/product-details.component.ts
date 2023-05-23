@@ -85,7 +85,7 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(private api: ApiService, private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
     private notificationService: NotificationService, private formBuilder: FormBuilder) {
-      this.isDisabled = false; 
+      this.isDisabled = false;
   }
   public Product: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
   public TypeSize: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
@@ -244,9 +244,9 @@ export class ProductDetailsComponent implements OnInit {
       ).subscribe((res) => {
         this.productDetailQuantity = res.data.quantity;
         this.isDisabled = this.productDetailQuantity <= 0;
- 
+
       }, (error) => {
-    
+
       })
    // ===================================================
   }
@@ -274,7 +274,7 @@ export class ProductDetailsComponent implements OnInit {
       this.isDisabled = this.productDetailQuantity <= 0;
 
     }, (error) => {
-  
+
     })
     // ===================================================
   }
@@ -292,7 +292,7 @@ export class ProductDetailsComponent implements OnInit {
        this.isDisabled = this.productDetailQuantity <= 0;
 
      }, (error) => {
-   
+
      })
      // ===================================================
   }
@@ -303,6 +303,8 @@ export class ProductDetailsComponent implements OnInit {
   addSoppingCart(): void {
     if( this.QuantityObj.Quantity < 0){
       return this.Quantity.Notification.notificationWarning("Không được nhập số âm");
+    }if( this.QuantityObj.Quantity >10000){
+      return this.Quantity.Notification.notificationWarning("Không thể mua số lượng lớn. Nếu muốn mua số lượng lớn hay liên hệ chủ shop");
     }
     this.dataSource = [];
     let key = Object.keys(localStorage);

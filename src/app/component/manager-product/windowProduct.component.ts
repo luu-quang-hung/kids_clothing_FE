@@ -5,6 +5,7 @@ import { EventManager } from "@angular/platform-browser";
 import { DialogService, WindowService } from "@progress/kendo-angular-dialog";
 import { NotificationService } from "@progress/kendo-angular-notification";
 import { SelectEvent } from "@progress/kendo-angular-upload";
+import { data } from "jquery";
 import { ApiService } from "src/app/shared/api.service";
 import { MessageService } from "src/app/shared/message.service";
 @Component({
@@ -16,7 +17,9 @@ export class WindowProductComponent implements OnInit {
     @Input() public formGroup !: FormGroup;
     @Input() public status: String | undefined;
     public category: Array<any> = [];
+    public CategoryById: any;
     public categoryDetail: Array<any> = [];
+    public gridData: Array<any> = [];
     public CategoryDetailById: any;
     public defaultItem: { name: string; id: number, category: any } = {
         name: "Choose...",
@@ -33,7 +36,7 @@ export class WindowProductComponent implements OnInit {
 
     public Category: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
     public CategoryDetail: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
-
+    public Product: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
     ngOnInit(): void {
         this.Category.Controller = "CategoryManagerController";
         this.CategoryDetail.Controller = "CategoryDetailManagerController";
@@ -41,18 +44,24 @@ export class WindowProductComponent implements OnInit {
         this.CategoryDetail.isManager = true;
         this.api.typeData = "popup";
         this.formGroup.addControl('category', new FormControl());
+        this.formGroup.addControl('categorydetail', new FormControl());
         if (this.status == "EDIT") {
+          console.log(this.formGroup);
             if (this.formGroup.value.description != null) {
+
                 this.formGroup.controls.description.setValue(decodeURIComponent(this.dataSource.description.replace(/\+/g, " ")));
+                console.log(this.formGroup.value.description)
+              }
+            if (this.formGroup.value.description_detail != null) {
+                this.formGroup.controls.description_detail.setValue(decodeURIComponent(this.dataSource.description_detail.replace(/\+/g, " ")));
             }
-            if (this.formGroup.value.descriptionDetail != null) {
-                this.formGroup.controls.descriptionDetail.setValue(decodeURIComponent(this.dataSource.descriptionDetail.replace(/\+/g, " ")));
-            }
+            console.log(this.formGroup);
         } else {
             this.disabled = true;
             this.dataSource.categorydetail = this.defaultItem;
             this.formGroup.controls.categorydetail.setValue(this.defaultItem);
         }
+
         this.getCategory();
     }
 
@@ -114,11 +123,15 @@ export class WindowProductComponent implements OnInit {
         if (!this.Rules()){return;}
         event.preventDefault();
         this.formGroup.removeControl('category');
+        this.Product.isManager = true;
+
         if (this.status == "EDIT") {
             if (this.imagePreview.length > 0) {
                 this.addImage();
+                this.Rules();
             }
             else {
+
                 this.formGroup.value.description = encodeURIComponent(this.formGroup.value.description).replace(/'/g, "%27");
                 this.formGroup.value.descriptionDetail = encodeURIComponent(this.formGroup.value.descriptionDetail).replace(/'/g, "%27");
                 this.addImage();
@@ -126,13 +139,32 @@ export class WindowProductComponent implements OnInit {
         } else {
             this.addImage();
         }
+
+        window.location.href = "http://localhost:4200/manager/quan-ly-san-pham"
     }
     addImage(): void {
         const data = new FormData();
+        const json = {
+          "name": this.formGroup.value.name,
+          "price":this.formGroup.value.price,
+          "discount": this.formGroup.value.discount,
+          "description": this.formGroup.value.description,
+          "descriptionDetail": this.formGroup.value.descriptionDetail,
+          "categorydetail": {
+            "id": this.dataSource.categorydetail.id,
+            "name":this.dataSource.categorydetail.name,
+            "category": {
+              "id": this.dataSource.category.id,
+              "name":this.dataSource.category.name,
+              "isDelete": false,
+            },
+
+        }}
         if (this.imagePreview.length > 0) {
             data.append("files", this.imagePreview[0].rawFile);
         }
-        data.append("Product", JSON.stringify(this.formGroup.value));
+        data.append("Product", JSON.stringify(json));
+        this.api.Controller="ProductManagerController"
         this.api.Update.Execute(data);
     }
     select(e: SelectEvent): void {
@@ -143,7 +175,11 @@ export class WindowProductComponent implements OnInit {
       this.formGroup.value.categorydetail = this.defaultItem;
       this.CategoryDetailById = this.categoryDetail.filter((x) => x.category.id == event.id);
   }
-    selectCategoryDetail(event: any): void {
+  selectCategoryDetail(event: any): void {
 
-    }
+  }
+
+
+
+
 }

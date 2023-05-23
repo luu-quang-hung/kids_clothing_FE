@@ -18,8 +18,6 @@ import { WindowRef } from '@progress/kendo-angular-dialog';
 })
 export class ManagerSizeComponent implements OnInit {
   @ViewChild('myWindow', { static: true }) myWindow: any;
-
-
   public gridData: Array<any> = [];
   public gridData_2: Array<any> = [];
   count = 0;
@@ -30,11 +28,9 @@ export class ManagerSizeComponent implements OnInit {
     group: [{ field: "typesize.name" }],
     sort: [],
   };
-
   public changes: any = {};
   constructor(private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
     private notificationService: NotificationService, private formBuilder: FormBuilder) {
-
      }
 
      public openPopup(): void {
@@ -48,15 +44,8 @@ export class ManagerSizeComponent implements OnInit {
         console.log(result);
       });
     }
-
-
   public api: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
   public api_2: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
-
-
-
-
-
   ngOnInit(): void {
     this.api.isManager = true;
     this.api_2.isManager = true;

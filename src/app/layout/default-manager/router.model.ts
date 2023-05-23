@@ -1,25 +1,25 @@
 export const items = [
-  { text: 'Dashboard', icon: 'fa fa-home', path: 'dashboard', expanded: false },
+  { text: 'Thống kê', icon: 'fa fa-home', path: 'dashboard', expanded: false },
   {
-    text: 'Danh sách sản phẩm ', icon: 'fa fa-list', path: '', expanded: false, children: [
-      { text: 'Quản lý sản phẩm', path: 'quan-ly-san-pham', expanded: false },
-      { text: 'Quản lý số lượng', path: 'quan-ly-so-luong', expanded: false },
+    text: 'Quản lý sản phẩm ', icon: 'fa fa-list', path: '', expanded: false, children: [
+      { text: 'Sản phẩm', path: 'quan-ly-san-pham', expanded: false },
+      { text: 'Chi tiết số lượng sản phẩm', path: 'quan-ly-so-luong', expanded: false },
       {
-        text: 'Quản lý size',
+        text: 'Kích cỡ sản phẩm',
         path: 'quan-ly-size',
         expanded: false,
       },
       {
-        text: 'Quản lý danh mục sản phẩm',
+        text: 'Danh mục sản phẩm',
         path: 'quan-ly-danh-muc-san-pham',
         expanded: false,
       },
       {
-        text: 'Quản lý màu sắc',
+        text: 'Màu sắc sản phẩm',
         path: 'quan-ly-thuoc-tinh',
         expanded: false,
       },
-    
+
     ]
   },
   {
@@ -37,7 +37,7 @@ export const items = [
     ]
 
   },
-  
+
   { text: 'Quản lý tài khoản', icon: 'fa fa-users', path: 'quan-ly-tai-khoan', expanded: false },
   { text: 'Quản khách hàng ', icon: 'fa fa-users', path: 'quan-ly-khach-hang', expanded: false },
   { text: 'Quản lý đơn hàng', icon: 'fa fa-check-square', path: 'quan-ly-don-hang', expanded: false },

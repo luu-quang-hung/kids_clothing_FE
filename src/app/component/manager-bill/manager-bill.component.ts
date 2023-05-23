@@ -27,6 +27,7 @@ export class ManagerBillComponent implements OnInit {
   public Bill: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
   public listStatus: Array<{ id: any, name: string }> = [
     {
+
       id: 0,
       name: "CHUA_XAC_NHAN"
     },
@@ -80,7 +81,7 @@ export class ManagerBillComponent implements OnInit {
   ngOnInitdropdow(event: Event): void {
     this.Bill.name =  (event.target as HTMLSelectElement).value;
     this.Bill.isManager = true;
-    this.Bill.Controller = "BillManagerController"; 
+    this.Bill.Controller = "BillManagerController";
     this.Readdropdow();
     this.message.receivedDataAfterUpadte().subscribe((rs)=>{
       this.Bill.loading = true;
@@ -94,7 +95,7 @@ export class ManagerBillComponent implements OnInit {
 
     this.Bill.payment =  (event.target as HTMLSelectElement).value;
     this.Bill.isManager = true;
-    this.Bill.Controller = "BillManagerController"; 
+    this.Bill.Controller = "BillManagerController";
     this.Readpayment();
     this.message.receivedDataAfterUpadte().subscribe((rs)=>{
       this.Bill.loading = true;
@@ -115,12 +116,13 @@ export class ManagerBillComponent implements OnInit {
     }  if(this.Status == undefined){
       this.Status = ""
     }
+
     if(this.Method === "Trạng Thái"){
     this.Method = ""
   }  if(this.Status === "Phương Thức"){
     this.Status = ""
   }
-  
+
     this.Bill.date = this.startDate
     console.log( this.Bill.date);
     this.Bill.dateto = this.endDate
@@ -129,9 +131,9 @@ export class ManagerBillComponent implements OnInit {
     console.log(  this.Bill.status);
     this.Bill.payment = this.Method;
     console.log(  this.Bill.payment);
-  
+
     this.Bill.isManager = true;
-    this.Bill.Controller = "BillManagerController"; 
+    this.Bill.Controller = "BillManagerController";
     this.Readcombobox();
     this.message.receivedDataAfterUpadte().subscribe((rs)=>{
       this.Bill.loading = true;
@@ -170,7 +172,7 @@ export class ManagerBillComponent implements OnInit {
         this.Bill.Notification.notificationError('');
       }
     }
-  )   
+  )
   }
 
   Readpayment(): void{
@@ -186,7 +188,7 @@ export class ManagerBillComponent implements OnInit {
         this.Bill.Notification.notificationError('');
       }
     }
-  )   
+  )
   }
 
   Readcombobox(): void{
@@ -202,7 +204,7 @@ export class ManagerBillComponent implements OnInit {
         this.Bill.Notification.notificationError('');
       }
     }
-  )   
+  )
   }
 
   Update(grid: any): void {
@@ -231,6 +233,6 @@ export class ManagerBillComponent implements OnInit {
   }
 
 
-  
+
 
 }

@@ -21,25 +21,39 @@ export class ManagerProductComponent implements OnInit {
   public opened = false;
   public hiddenColumns: string[] = [];
   public gridData: Array<any> = [];
-  public method: any;
+  public dropData: Array<any> = [];
   public loading = false;
+  public minprice : any | undefined
+  public maxprice:any| undefined
+  public nameCate:any|undefined
   count = 0;
   public state: State = {
+
     filter: undefined,
     skip: 0,
     take: 10,
     sort: [],
   };
   constructor(private message: MessageService, public http: HttpClient, private windowService: WindowService, private dialogService: DialogService,
-    private notificationService: NotificationService, private formBuilder: FormBuilder) { }
-
+  private notificationService: NotificationService, private formBuilder: FormBuilder) { }
   public api: ApiService = new ApiService(this.http, this.windowService, this.dialogService, this.notificationService, this.message, this.formBuilder);
 
   ngOnInitsearch(name: any ): void {
+    this.minprice = this.minprice == undefined ? "" : this.minprice;
+    this.maxprice = this.maxprice == undefined ? "" : this.maxprice;
+    this.nameCate = this.nameCate == undefined ? "" : this.nameCate;
 
+    name = name == undefined ? "" : name;
     this.api.isManager = true;
     this.api.Controller = "ProductManagerController";
     this.api.name = name;
+    this.api.minPrice = this.minprice;
+    this.api.nameCate = this.nameCate
+    console.log(this.api.minPrice);
+    this.api.maxPrice = this.maxprice;
+    console.log(this.api.maxPrice);
+    this.api.nameCate = this.nameCate;
+    console.log("vào rồi");
     this.api.Readserch.Execute().subscribe((res) => {
       this.gridData = res.data;
       this.api.dataSource = res.data;
@@ -75,8 +89,74 @@ export class ManagerProductComponent implements OnInit {
       }
     });
   }
+  ngOnitFindCate():void{
+    this.api.isManager = true;
+    this.api.Controller = "CategoryDetailManagerController";
+    this.api.loading = true;
+    this.count = this.dropData.length;
+    this.api.Read.Execute().subscribe((rs) => {
+      this.api.dataSource = rs.data;
+      this.dropData = rs.data;
+      this.api.loading = false
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+      this.api.loading = false
+    })
+    this.message.receivedDataAfterUpadte().subscribe((res) => {
+      if (res.status) {
+        this.dropData = res.data;
+      }
+    })
+  }
+  Read(): void{
+    this.api.Read.Execute().subscribe((res) => {
+      this.dropData = res.data;
+      this.api.dataSource = res.data;
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+    })
+  }
+  onDropClick(event: Event):void{
 
+    this.api.isManager = true;
+    this.api.Controller = "CategoryDetailManagerController";
+    this.api.loading = true;
+    this.api.name = (event.target as HTMLSelectElement).value;
+    this.count = this.gridData.length;
+    this.api.ReadserchCateDetail.Execute().subscribe((rs) => {
+      this.api.dataSource = rs.data;
+      this.gridData = rs.data;
+      this.api.loading = false
+    }, (error) => {
+      if (error.status == 500) {
+        let id = encodeURIComponent('Bạn không có quyền vào trang đó').replace(/'/g, "%27").replace(/"/g, "%22")
+        window.location.href = "/login/" + id;
+      } else {
+        this.api.Notification.notificationError('');
+      }
+      this.api.loading = false
+    })
+    this.message.receivedDataAfterUpadte().subscribe((res) => {
+      if (res.status) {
+        this.gridData = res.data;
+      }
+    })
+    console.log((event.target as HTMLSelectElement).value);
+
+  }
   ngOnInit(): void {
+    this.ngOnitFindCate();
+
     this.api.isManager = true;
     this.api.Controller = "ProductManagerController";
     this.api.OpenWindow.Width = 1200;
